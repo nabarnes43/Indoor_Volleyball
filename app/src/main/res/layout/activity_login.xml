@@ -6,33 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Password"
+        android:inputType="textMultiLine"
+        android:password="true"
+        app:layout_constraintBottom_toTopOf="@id/btLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etUsername" />
 
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="Main Activity"
+        android:hint="Username"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/etPassword"
         tools:layout_editor_absoluteY="117dp" />
 
     <Button
-        android:id="@+id/btLogOut"
+        android:id="@+id/btLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+        android:layout_marginBottom="400dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
+        tools:layout_editor_absoluteY="316dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
