@@ -18,6 +18,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.util.Set;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = "SignInActivity";
@@ -31,7 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText etAge;
     private EditText etCity;
     private EditText etZipCode;
-    private Button btSignUp;
 
 
 
@@ -72,25 +73,25 @@ public class SignUpActivity extends AppCompatActivity {
                 String name = etName.getText().toString();
                 String email = etEmail.getText().toString();
                 String phone = etPhone.getText().toString();
-                //String address = etAddress.getText().toString();
-                //int age = Integer.parseInt(etAge.getText().toString());
-               // String city = etCity.getText().toString();
-                //String zipCode = etZipCode.getText().toString();
+                String address = etAddress.getText().toString();
+                int age = Integer.parseInt(etAge.getText().toString());
+                String city = etCity.getText().toString();
+                String zipCode = etZipCode.getText().toString();
 
 
                     // Create the ParseUser
                     ParseUser user = new ParseUser();
-                    // Set core properties
+                    //Set core properties
                     user.setUsername(username);
                     user.setPassword(password);
                     //custom properties
                     user.put("email", email);
                     user.put("name", name);
                     user.put("phoneNumber", phone);
-                   // user.put("age", age);
-                    //user.put("address", address);
-                   // user.put("city", city);
-                    //user.put("zipCode", zipCode);
+                    user.put("age", age);
+                    user.put("address", address);
+                    user.put("city", city);
+                    user.put("zipCode", zipCode);
 
 
                     // Invoke signUpInBackground
@@ -99,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity {
                             if (e == null) {
                                 // Hooray! Let them use the app now.
                                 goLoginActivity();
-                                Toast.makeText(SignUpActivity.this, "Account Created. Please Log in.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpActivity.this, "Account Created. Logging In.", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 Log.e(TAG, "Signup failed "+ e);
