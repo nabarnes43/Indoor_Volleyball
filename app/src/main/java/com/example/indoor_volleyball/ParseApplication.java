@@ -2,13 +2,18 @@ package com.example.indoor_volleyball;
 
 import android.app.Application;
 
+import com.example.indoor_volleyball.Models.Event;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class ParseApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //Register parse models
+        ParseObject.registerSubclass(Event.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("enjJd2FD8l9X9Pal17iw6ZUZ57HnhhXnuQsGjU1Q")

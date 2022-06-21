@@ -9,9 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.databinding.ActivityLoginBinding;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(view);
 
+        queryPost();
 
         binding.btLogOut.setOnClickListener(v -> ParseUser.logOutInBackground(e -> {
 
@@ -43,6 +50,26 @@ public class MainActivity extends AppCompatActivity {
             goToLoginActivity();
             Toast.makeText(MainActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
         }));
+
+    }
+
+    private void queryPost() {
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+
+        query.whereEqualTo("creator", ParseUser.getCurrentUser());
+        // Execute the find asynchronously
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> itemList, ParseException e) {
+                if (e == null) {
+                    // Access the array of results here
+                    String details = itemList.get(0).getDetails();
+                    Toast.makeText(MainActivity.this, details, Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
+            }
+        });
 
     }
 

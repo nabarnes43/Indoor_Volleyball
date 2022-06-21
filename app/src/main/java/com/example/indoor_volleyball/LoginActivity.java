@@ -24,9 +24,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
-    private EditText etUsername;
-    private EditText etPassword;
-    private Button btLoginSignUp;
+    //private EditText etUsername;
+    //private EditText etPassword;
 
 
 
@@ -37,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser()!=null) {
             goMainActivity();
         }
-
+        //TODO add cut out all my excess code relating to the bindings in both login and sign up.
         // inflating our xml layout in our activity main binding
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
 
@@ -48,16 +47,16 @@ public class LoginActivity extends AppCompatActivity {
         // Content view for our layout.
         setContentView(view);
 
-        etPassword = binding.etPassword;
-        etUsername = binding.etUsername;
+        //etPassword = binding.etPassword;
+        //etUsername = binding.etUsername;
 
         // calling button and setting on click listener for our button.
         // we have called our button with its id and set on click listener on it.
         binding.btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
+                String username = binding.etUsername.getText().toString();
+                String password = binding.etPassword.getText().toString();
 
                 if(username.isEmpty()||password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please enter something", Toast.LENGTH_SHORT).show();
@@ -79,8 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                etPassword.setText("");
-                etUsername.setText("");
+                binding.etPassword.setText("");
+                binding.etUsername.setText("");
                 if (e!= null) {
                     //TODO better error handeling
                     Toast.makeText(LoginActivity.this,"Login Failed.\n Try Again!", Toast.LENGTH_SHORT).show();
