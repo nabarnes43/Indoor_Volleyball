@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private EditText etUsername;
     private EditText etPassword;
-    private Button btLogin;
+    private Button btLoginSignUp;
 
 
 
@@ -50,21 +50,27 @@ public class LoginActivity extends AppCompatActivity {
 
         etPassword = binding.etPassword;
         etUsername = binding.etUsername;
-        btLogin = binding.btLogin;
 
         // calling button and setting on click listener for our button.
         // we have called our button with its id and set on click listener on it.
         binding.btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = binding.etUsername.getText().toString();
-                String password = binding.etPassword.getText().toString();
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
 
                 if(username.isEmpty()||password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please enter something", Toast.LENGTH_SHORT).show();
                 } else {
                     loginUser(username,password);
                 }
+            }
+        });
+
+        binding.btLoginSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToSignUpActivity();
             }
         });
     }
@@ -90,6 +96,11 @@ public class LoginActivity extends AppCompatActivity {
          Intent i = new Intent(this, MainActivity.class);
          startActivity(i);
          finish();
+    }
+
+    private void goToSignUpActivity() {
+        Intent i = new Intent(this, SignUpActivity.class);
+        startActivity(i);
     }
 
 
