@@ -85,7 +85,7 @@ Organizes and simplifies everything surrounding finding and paying for  Indoor V
 
 ### [BONUS] Interactive Prototype
 
-## Schema 
+## Schema
 [This section will be completed in Unit 9]
 ### Models
 [Add table of models]
@@ -98,3 +98,5 @@ Organizes and simplifies everything surrounding finding and paying for  Indoor V
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+### Test Pull Requests
