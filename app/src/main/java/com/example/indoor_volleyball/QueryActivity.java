@@ -24,6 +24,7 @@ public class QueryActivity extends AppCompatActivity {
     private static final String TAG = "QueryActivity";
     private ActivityQueryBinding binding;
     List<Gym> allGyms;
+    List<Gym> gymsFollowed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +83,7 @@ public class QueryActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
 
 
 
