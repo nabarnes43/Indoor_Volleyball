@@ -80,6 +80,9 @@ Organizes and simplifies everything surrounding finding and paying for  Indoor V
 [Add picture of your hand sketched wireframes in this section]
 <img src="https://github.com/nabarnes43/Indoor_Volleyball/files/8920785/FBU.Notes.pdf" width=600>
 ![FBU Notes (1)](https://user-images.githubusercontent.com/89264306/174122348-9ef4d728-a2f0-4213-81d0-e183b4414253.jpg)
+![Screen Shot 2022-06-23 at 5 09 26 PM](https://user-images.githubusercontent.com/89264306/175435269-711664f6-4f92-4b48-9a21-2ce3bfabce45.png)
+![FBU Notes-10 (1)](https://user-images.githubusercontent.com/89264306/175435302-4470d801-ef15-4313-b748-54b0618a70cf.jpg)
+![FBU Notes-11 (1)](https://user-images.githubusercontent.com/89264306/175435309-fc361989-e1ae-49a0-a5e3-1e677f6b43ab.jpg)
 
 ### [BONUS] Digital Wireframes & Mockups
 
