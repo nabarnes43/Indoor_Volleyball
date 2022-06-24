@@ -5,7 +5,10 @@ import android.content.Intent;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
+
+import java.util.Date;
 
 @ParseClassName("Event")
 public class Event extends ParseObject {
@@ -23,17 +26,15 @@ public class Event extends ParseObject {
     public static final String KEY_ENDTIME = "endTime";
     public static final String KEY_SKILLLEVEL = "skillLevel";
     public static final String KEY_DETAILS = "details";
-    public static final String KEY_QRCODE = "qrCode";
-    public static final String KEY_GYMID = "gymId";
+    public static final String KEY_TEAMROTATION = "teamRotation";
+    public static final String KEY_USERRELATION = "userRelation";
 
 
-
-
-    public ParseFile getEventCode() {
-        return getParseFile(KEY_EVENTCODE);
+    public String getEventCode() {
+        return getString(KEY_EVENTCODE);
     }
 
-    public void setEventCode(ParseFile eventCode) {
+    public void setEventCode(String eventCode) {
         put(KEY_EVENTCODE, eventCode);
     }
     //I don't know about this code
@@ -93,11 +94,11 @@ public class Event extends ParseObject {
     }
 
 
-    public String getDate() {
-        return getString(KEY_DATE);
+    public Date getDate() {
+        return getDate(KEY_DATE);
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         put(KEY_DATE, date);
     }
     public String getStartTime() {
@@ -131,23 +132,21 @@ public class Event extends ParseObject {
     public void setKeyDetails(String details) {
         put(KEY_DETAILS, details);
     }
-
-    public String getQrCode() {
-        return getString(KEY_QRCODE);
+    public String getTeamRotation() {
+        return getString(KEY_TEAMROTATION);
     }
 
-    public void setQrCode(String qrCode) {
-        put(KEY_QRCODE, qrCode);
+    public void setTeamRotation(String teamRotation) {
+        put(KEY_TEAMROTATION, teamRotation);
     }
 
-    public String getGymId() {
-        return getString(KEY_GYMID);
+    public ParseRelation getUserRelation() {
+        return getRelation(KEY_USERRELATION);
     }
 
-    public void setGymId(String gymId) {
-        put(KEY_GYMID, gymId);
+    public void setUserRelation(ParseRelation userRelation) {
+        put(KEY_USERRELATION,userRelation);
     }
-
 
 
 

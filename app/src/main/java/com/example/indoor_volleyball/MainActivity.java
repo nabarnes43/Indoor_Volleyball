@@ -22,7 +22,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
-    private Button btLogOut;
 
 
     @Override
@@ -35,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
 
         setContentView(view);
-
-        queryPost();
 
         binding.btLogOut.setOnClickListener(v -> ParseUser.logOutInBackground(e -> {
 
@@ -51,30 +48,21 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
         }));
 
-    }
 
-    private void queryPost() {
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-
-        query.whereEqualTo("creator", ParseUser.getCurrentUser());
-        // Execute the find asynchronously
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> itemList, ParseException e) {
-                if (e == null) {
-                    // Access the array of results here
-                    String details = itemList.get(0).getDetails();
-                    Toast.makeText(MainActivity.this, details, Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-            }
-        });
+        gotToQueryActivity();
 
     }
+
+
 
     private void goToLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void gotToQueryActivity() {
+        Intent i = new Intent(this, QueryActivity.class);
         startActivity(i);
         finish();
     }
