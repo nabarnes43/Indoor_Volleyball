@@ -55,6 +55,8 @@ public class QueryActivity extends AppCompatActivity {
         queryUserEventsAttending();
         queryUserEventsManaging();
         queryUserGyms();
+
+
         queryAllUsersAttendingEvent(allEvents.get(0));
         //Toast.makeText(QueryActivity.this, "Deatais: " + allEvents.get(0).getDetails(), Toast.LENGTH_SHORT).show();
 
