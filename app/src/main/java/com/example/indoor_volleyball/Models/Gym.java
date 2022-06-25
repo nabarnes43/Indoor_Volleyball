@@ -1,7 +1,9 @@
 package com.example.indoor_volleyball.Models;
 
 import android.content.Intent;
+import android.util.Log;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -14,6 +16,8 @@ import java.util.Date;
 @ParseClassName("Gym")
 public class Gym extends ParseObject {
 
+    public static final String TAG ="GYM";
+
     public static final String KEY_NAME = "name";
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_OPENTIME = "openTime";
@@ -22,10 +26,15 @@ public class Gym extends ParseObject {
     public static final String KEY_WEBSITEURL = "websiteUrl";
     public static final String KEY_RATING = "rating";
     public static final String KEY_LOCATION = "location";
-
+//TODO add the fetch if needed and try catch to all getters in case of parse bullshit.
 
     public String getName() {
-        return getString(KEY_NAME);
+        try {
+            return fetchIfNeeded().getString(KEY_NAME);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with gym name" + e);
+        }
+        return "";
     }
 
     public void setName(String name) {
