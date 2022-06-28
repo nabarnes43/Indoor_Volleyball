@@ -1,7 +1,9 @@
 package com.example.indoor_volleyball.Models;
 
 import android.content.Intent;
+import android.util.Log;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
@@ -12,6 +14,7 @@ import java.util.Date;
 
 @ParseClassName("Event")
 public class Event extends ParseObject {
+    public static final String TAG = "EVENT";
     // Ensure that your subclass has a public default constructor
     public static final String KEY_EVENTCODE = "eventCode";
     public static final String KEY_GYM = "gym";
@@ -38,8 +41,8 @@ public class Event extends ParseObject {
         put(KEY_EVENTCODE, eventCode);
     }
     //I don't know about this code
-    public ParseObject getGym() {
-        return getParseObject(KEY_GYM);
+    public Gym getGym() {
+        return (Gym) getParseObject(KEY_GYM);
     }
 
     public void setGym (ParseObject gym) {
