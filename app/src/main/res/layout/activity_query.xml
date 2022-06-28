@@ -73,9 +73,10 @@
         android:text="All Gyms"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/svAllGyms"
+        app:layout_constraintHorizontal_bias="0.622"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintVertical_bias="0.137" />
 
     <ScrollView
         android:id="@+id/svAllGyms"
@@ -105,9 +106,10 @@
         android:id="@+id/btAllEvents"
         android:layout_width="108dp"
         android:layout_height="53dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="All Events"
         app:layout_constraintEnd_toStartOf="@+id/svAllEvents"
+        app:layout_constraintHorizontal_bias="0.608"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btAllGymsList" />
 
@@ -119,7 +121,7 @@
         android:layout_marginTop="8dp"
         android:text="Events Attending"
         app:layout_constraintEnd_toStartOf="@+id/svUserAttending"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btAllEvents" />
 
@@ -127,9 +129,10 @@
         android:id="@+id/btUserManaging"
         android:layout_width="123dp"
         android:layout_height="53dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="Events Managing"
         app:layout_constraintEnd_toStartOf="@+id/svUserManging"
+        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btUserAttending" />
 
@@ -139,17 +142,16 @@
         android:layout_height="62dp"
         android:layout_marginTop="16dp"
         android:text="All Users Attending"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/svUsersAttending"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btUserManaging"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btUserManaging" />
 
     <ScrollView
         android:id="@+id/svAllEvents"
         android:layout_width="253dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/svAllGyms">
@@ -170,8 +172,8 @@
         android:id="@+id/svUserAttending"
         android:layout_width="250dp"
         android:layout_height="41dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/svAllEvents">
 
@@ -191,8 +193,8 @@
         android:id="@+id/svUserManging"
         android:layout_width="249dp"
         android:layout_height="53dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/svUserAttending">
 
@@ -214,12 +216,10 @@
         android:id="@+id/svUsersAttending"
         android:layout_width="252dp"
         android:layout_height="52dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/svUserManging"
-        app:layout_constraintVertical_bias="0.01">
+        app:layout_constraintTop_toBottomOf="@+id/svUserManging">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -232,5 +232,105 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btEventsAtGym"
+        android:layout_width="127dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Events at gym"
+        app:layout_constraintEnd_toStartOf="@+id/svEventsAtGym"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btUsersAttendingEvent" />
+
+    <ScrollView
+        android:id="@+id/svAllGymsWithinDistance"
+        android:layout_width="247dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svAllGymsByDistance"
+        app:layout_constraintVertical_bias="0.121">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAllGymsWithinDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/svAllGymsByDistance"
+        android:layout_width="250dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svEventsAtGym">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAllGymsByDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btAllGymsWithinDistance"
+        android:layout_width="154dp"
+        android:layout_height="70dp"
+        android:text="All gyms within distance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/svAllGymsWithinDistance"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btAllGymsByDistance"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ScrollView
+        android:id="@+id/svEventsAtGym"
+        android:layout_width="251dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svUsersAttending">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvEventsAtGym"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btAllGymsByDistance"
+        android:layout_width="141dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="8dp"
+        android:text="All gyms by distance"
+        app:layout_constraintEnd_toStartOf="@+id/svAllGymsByDistance"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btEventsAtGym" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
