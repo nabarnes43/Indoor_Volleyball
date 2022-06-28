@@ -30,6 +30,7 @@ public class QueryActivity extends AppCompatActivity {
     private ActivityQueryBinding binding;
     List<Gym> allGyms;
     List<Gym> allGymsByDistance;
+    List<Gym> allGymsWithinDistance;
     List<Gym> gymsFollowed;
     List<Event> allEvents;
     List<Event> userAttending;
@@ -44,6 +45,7 @@ public class QueryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_query);
         allGyms = new ArrayList<>();
         allGymsByDistance = new ArrayList<>();
+        allGymsWithinDistance = new ArrayList<>();
         gymsFollowed = new ArrayList<>();
         allEvents = new ArrayList<>();
         userAttending = new ArrayList<>();
@@ -73,6 +75,7 @@ public class QueryActivity extends AppCompatActivity {
         queryAllUsersAttendingEvent(allEvents.get(1));
         queryEventsAtGym(allGyms.get(0));
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
+        allGymsWithinDistanceOfUser(ParseUser.getCurrentUser().getParseGeoPoint("longLat"), 10.0);
 
 
         binding.btLogOut.setOnClickListener(v -> ParseUser.logOutInBackground(e -> {
@@ -112,6 +115,34 @@ public class QueryActivity extends AppCompatActivity {
                     String original_text = binding.tvAllGyms.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
                     binding.tvAllGyms.setText(original_text);
+                }
+            }
+        });
+
+        binding.btAllGymsByDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Gym gym: allGymsByDistance) {
+                    String gymName = gym.getName();
+                    int gymRating = gym.getRating();
+                    ParseGeoPoint gymLocation = gym.getLocation();
+                    String original_text = binding.tvAllGymsByDistance.getText().toString();
+                    original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
+                    binding.tvAllGymsByDistance.setText(original_text);
+                }
+            }
+        });
+
+        binding.btAllGymsWithinDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Gym gym: allGymsWithinDistance) {
+                    String gymName = gym.getName();
+                    int gymRating = gym.getRating();
+                    ParseGeoPoint gymLocation = gym.getLocation();
+                    String original_text = binding.tvAllGymsWithinDistance.getText().toString();
+                    original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
+                    binding.tvAllGymsWithinDistance.setText(original_text);
                 }
             }
         });
@@ -181,6 +212,25 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
 
+        binding.btEventsAtGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Event event : eventsAtGym) {
+                    Gym gym = event.getGym();
+                    String gymName =  gym.getName();
+                    String eventDescription = event.getDetails();
+                    ParseGeoPoint gymLocation = gym.getLocation();
+                    String startTime = event.getStartTime();
+                    String endTime = event.getEndTime();
+                    String original_text = binding.tvEventsAtGym.getText().toString();
+                    original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
+                    binding.tvEventsAtGym.setText(original_text);
+                }
+            }
+        });
+
+
+
 
     }
 
@@ -193,12 +243,57 @@ public class QueryActivity extends AppCompatActivity {
         ParseQuery<Gym> query = ParseQuery.getQuery(Gym.class);
         allGyms.addAll(query.find());
     }
+    //Gets a list of all the gyms in order of distance from the user.
+    private void allGymsByDistance(ParseGeoPoint userLocation) {
+        ParseQuery<Gym> query = new ParseQuery<>("Gym");
+        query.whereNear("location", userLocation);
+        query.findInBackground(new FindCallback<Gym>() {
+            @Override
+            public void done(List<Gym> gymList, ParseException e) {
+                if (e == null) {
+                    allGymsByDistance.addAll(gymList);
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+    //Gets a list of all the gyms within a given distance of the user.
+    private void allGymsWithinDistanceOfUser(ParseGeoPoint userLocation, Double miles) {
+        ParseQuery<Gym> query = new ParseQuery<>("Gym");
+        query.whereWithinKilometers("location", new ParseGeoPoint(userLocation), miles * 1.60934);
+        query.findInBackground(new FindCallback<Gym>() {
+            @Override
+            public void done(List<Gym> gymList, ParseException e) {
+                if (e == null) {
+                    allGymsWithinDistance.addAll(gymList);
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
     //Get a list of all events
     private void queryAllEvents() throws ParseException {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include("gym");
         //Use this when you are getting null pointers. The nulls mean find in background is to slow.
         allEvents.addAll(query.find());
+    }
+    //Get a list of all the events at the given gym.
+    private void queryEventsAtGym(Gym gym) {
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("gym", gym);
+        eventQuery.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> eventList, ParseException e) {
+                if (e == null) {
+                    eventsAtGym.addAll(eventList);
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
     //Gets a list of all the gyms that the user follows.
     private void queryUserGyms(){
@@ -257,41 +352,9 @@ public class QueryActivity extends AppCompatActivity {
         finish();
     }
     //Gets a list of all the events at a gym.
-    private void queryEventsAtGym(Gym gym) {
-        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("gym", gym);
-        eventQuery.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> eventList, ParseException e) {
-                if (e == null) {
-                    eventsAtGym.addAll(eventList);
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-                for (Event event : eventsAtGym) {
-                    //Toast.makeText(QueryActivity.this, "Details :" + event.getDetails(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-//TODO Make these button clicks also add by distance query
-    private void allGymsByDistance(ParseGeoPoint userLocation) {
-        ParseQuery<Gym> query = new ParseQuery<>("Gym");
-        query.whereNear("location", userLocation);
-        query.findInBackground(new FindCallback<Gym>() {
-            @Override
-            public void done(List<Gym> gymList, ParseException e) {
-                if (e == null) {
-                    allGymsByDistance.addAll(gymList);
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-                for (Gym gym : allGymsByDistance) {
-                    Toast.makeText(QueryActivity.this, "Name :" + gym.getName(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
+
+
+
 
 
 
