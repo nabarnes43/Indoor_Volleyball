@@ -42,7 +42,6 @@ public class QueryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_query);
         allGyms = new ArrayList<>();
         allGymsByDistance = new ArrayList<>();
         allGymsWithinDistance = new ArrayList<>();
