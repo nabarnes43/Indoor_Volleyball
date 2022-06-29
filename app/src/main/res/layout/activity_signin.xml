@@ -1,126 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="169dp"
-        android:layout_height="74dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Name"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etAge"
-        android:layout_width="163dp"
-        android:layout_height="75dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Age"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startMargin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_begin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="356dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Email"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endMargin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_end="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etAddress"
-        android:layout_width="360dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="376dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Address"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="30dp" />
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:autofillHints="name"
+            android:hint="Name"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etCity"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="296dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="City"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="32dp" />
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:gravity="start|top"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etName" />
 
-    <EditText
-        android:id="@+id/etZipCode"
-        android:layout_width="174dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="192dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Zip Code"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:hint="Phone"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="@id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
-    <EditText
-        android:id="@+id/etPhone"
-        android:layout_width="163dp"
-        android:layout_height="86dp"
-        android:layout_marginTop="192dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Phone"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="30dp" />
+        <EditText
+            android:id="@+id/etAge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Age"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@id/startMargin"
+            app:layout_constraintTop_toBottomOf="@id/etPhone" />
 
-    <Button
-        android:id="@+id/btSignUp"
-        android:layout_width="215dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="596dp"
-        android:text="SignUp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="88dp" />
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:hint="Street Address"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etAge" />
 
-    <EditText
-        android:id="@+id/etSignUpUsername"
-        android:layout_width="357dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="460dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Username"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="32dp" />
+        <EditText
+            android:id="@+id/etCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:hint="City"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etAddress" />
 
-    <EditText
-        android:id="@+id/etSignUpPassword"
-        android:layout_width="357dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="532dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Password"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="30dp" />
+        <EditText
+            android:id="@+id/etZipCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:hint="Zip Code"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etCity" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/etSignUpUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:autofillHints="username"
+            android:hint="Username"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etZipCode" />
+
+        <EditText
+            android:id="@+id/etSignUpPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:gravity="start|top"
+            android:hint="Password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etSignUpUsername" />
+
+        <Button
+            android:id="@+id/btSignUp"
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:text="SignUp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/endMargin"
+            app:layout_constraintStart_toStartOf="@+id/startMargin"
+            app:layout_constraintTop_toBottomOf="@+id/etSignUpPassword" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
