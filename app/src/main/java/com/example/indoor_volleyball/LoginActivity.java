@@ -81,11 +81,11 @@ public class LoginActivity extends AppCompatActivity {
                 binding.etPassword.setText("");
                 binding.etUsername.setText("");
                 if (e!= null) {
-                    //TODO better error handeling
+                    //TODO better error handling
                     Toast.makeText(LoginActivity.this,"Login Failed.\n Try Again!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(LoginActivity.this,"Sucess!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"Success!", Toast.LENGTH_SHORT).show();
                 goMainActivity() ;
             }
         });

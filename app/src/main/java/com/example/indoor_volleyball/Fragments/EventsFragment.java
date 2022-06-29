@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.CreateEventActivity;
 import com.example.indoor_volleyball.MainActivity;
 import com.example.indoor_volleyball.QueryActivity;
 import com.example.indoor_volleyball.R;
@@ -63,7 +64,7 @@ public class EventsFragment extends Fragment {
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), QueryActivity.class);
+                Intent i = new Intent(getContext(), CreateEventActivity.class);
                 EventCreator.launch(null);
             }
         });
@@ -75,7 +76,7 @@ public class EventsFragment extends Fragment {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
-            Intent i = new Intent(context, QueryActivity.class);
+            Intent i = new Intent(context, CreateEventActivity.class);
             return i;
         }
 
