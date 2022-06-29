@@ -51,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         // below line is to set
         // Content view for our layout.
         setContentView(view);
-
+        //TODO fix up these bindings.
         etSignUpPassword = binding.etSignUpPassword;
         etSignUpUsername = binding.etSignUpUsername;
         etName = binding.etName;

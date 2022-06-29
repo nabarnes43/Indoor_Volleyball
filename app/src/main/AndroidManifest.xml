@@ -18,19 +18,23 @@
         android:theme="@style/Theme.Indoor_Volleyball"
         tools:targetApi="31">
         <activity
+            android:name=".CreateEventActivity"
+            android:exported="false" />
+        <activity
             android:name=".QueryActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity android:name=".SignUpActivity" />
     </application>
 

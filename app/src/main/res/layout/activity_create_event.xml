@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateEventActivity">
+
+    <EditText
+        android:id="@+id/etStartTime"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Start TIme"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="79dp" />
+
+    <EditText
+        android:id="@+id/etEndTime"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="End Time"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="191dp"
+        tools:layout_editor_absoluteY="79dp" />
+
+    <EditText
+        android:id="@+id/editTextTextMultiLine3"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Max Players"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="191dp"
+        tools:layout_editor_absoluteY="151dp" />
+
+    <Spinner
+        android:id="@+id/spSkillLevel"
+        android:layout_width="47dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.324" />
+
+    <Spinner
+        android:id="@+id/spAllowPlusOnes"
+        android:layout_width="47dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.324" />
+
+    <Spinner
+        android:id="@+id/spAllowSpectators"
+        android:layout_width="47dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.324" />
+
+    <EditText
+        android:id="@+id/etMinCount"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Min Players"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <EditText
+        android:id="@+id/etGym"
+        android:layout_width="308dp"
+        android:layout_height="56dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Gym Name or Address"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="537dp" />
+
+    <EditText
+        android:id="@+id/etTeamRotation"
+        android:layout_width="299dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Team"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <EditText
+        android:id="@+id/etDetails"
+        android:layout_width="300dp"
+        android:layout_height="72dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Details About Event"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="289dp" />
+
+    <EditText
+        android:id="@+id/etEventCode"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Event Code"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.702"
+        tools:layout_editor_absoluteX="39dp" />
+
+    <TextView
+        android:id="@+id/tvCreateEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Create An Event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSkillLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skill Level"
+        tools:layout_editor_absoluteY="234dp" />
+
+    <TextView
+        android:id="@+id/tvAllowPlusOnes"
+        android:layout_width="64dp"
+        android:layout_height="35dp"
+        android:text="Allow Plus Ones"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+    <TextView
+        android:id="@+id/tvAllowSpectators"
+        android:layout_width="94dp"
+        android:layout_height="35dp"
+        android:text="Allow Spectators"
+        tools:layout_editor_absoluteX="231dp"
+        tools:layout_editor_absoluteY="229dp" />
+
+    <EditText
+        android:id="@+id/edDate"
+        android:layout_width="179dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.701"
+        tools:layout_editor_absoluteX="168dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

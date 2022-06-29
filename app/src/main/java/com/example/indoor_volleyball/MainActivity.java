@@ -1,55 +1,76 @@
 package com.example.indoor_volleyball;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.indoor_volleyball.Models.Event;
-import com.example.indoor_volleyball.databinding.ActivityLoginBinding;
+import com.example.indoor_volleyball.Fragments.EventsFragment;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
 
-//TODO delete all setContentView.
+    public void goToCreateEventFragment() {
+        // switch the fragment being displayed
+        binding.bottomNavigation.setSelectedItemId(R.id.events);
+        //profilefragment.user = (User) user;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         View view = binding.getRoot();
 
         setContentView(view);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        binding.btLogOut.setOnClickListener(v -> ParseUser.logOutInBackground(e -> {
-
-            if(e != null) {
-                Log.e(TAG, "Error signing out", e);
-                Toast.makeText(MainActivity.this, "Error signing out", Toast.LENGTH_SHORT).show();
-                return;
+        binding.btQueryActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotToQueryActivity();
             }
+        });
 
-            Log.i(TAG, "Sign out successful");
-            goToLoginActivity();
-            Toast.makeText(MainActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
-        }));
-
-
-        gotToQueryActivity();
+        binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.events:
+                        // do something here
+                        Toast.makeText(MainActivity.this, "EVENTS", Toast.LENGTH_SHORT).show();
+                        fragment = new EventsFragment();
+                        break;
+                    case R.id.find:
+                        // do something here
+                        Toast.makeText(MainActivity.this, "FIND", Toast.LENGTH_SHORT).show();
+                        fragment = new EventsFragment();
+                        break;
+                    case R.id.profile:
+                        // do something here
+                        Toast.makeText(MainActivity.this, "PROFILE", Toast.LENGTH_SHORT).show();
+                        fragment = new EventsFragment();
+                        break;
+                    default: return false;
+                }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
+            }
+        });
+        //Default
+        binding.bottomNavigation.setSelectedItemId(R.id.events);
 
     }
 
@@ -64,6 +85,5 @@ public class MainActivity extends AppCompatActivity {
     private void gotToQueryActivity() {
         Intent i = new Intent(this, QueryActivity.class);
         startActivity(i);
-        finish();
     }
 }

@@ -13,6 +13,11 @@ dependencyResolutionManagement {
         maven { url "https://jitpack.io" }
 
     }
+
 }
+
+
+
+
 rootProject.name = "Indoor_Volleyball"
 include ':app'
