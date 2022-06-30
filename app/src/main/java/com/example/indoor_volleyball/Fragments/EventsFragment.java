@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.indoor_volleyball.CreateEventActivity;
+import com.example.indoor_volleyball.LoginActivity;
 import com.example.indoor_volleyball.MainActivity;
 import com.example.indoor_volleyball.QueryActivity;
 import com.example.indoor_volleyball.R;
@@ -85,6 +86,7 @@ public class EventsFragment extends Fragment {
             return resultCode==Activity.RESULT_OK;
         }
     }
+
 
 
 

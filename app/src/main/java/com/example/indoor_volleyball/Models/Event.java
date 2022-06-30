@@ -24,7 +24,6 @@ public class Event extends ParseObject {
     public static final String KEY_MINCOUNT = "minCount";
     public static final String KEY_MAXCOUNT = "maxCount";
     public static final String KEY_WAITLIST = "waitList";
-    public static final String KEY_DATE = "date";
     public static final String KEY_STARTTIME = "startTime";
     public static final String KEY_ENDTIME = "endTime";
     public static final String KEY_SKILLLEVEL = "skillLevel";
@@ -97,27 +96,20 @@ public class Event extends ParseObject {
     }
 
 
-    public Date getDate() {
-        return getDate(KEY_DATE);
+    public Date getStartTime() {
+        return getDate(KEY_STARTTIME);
     }
 
-    public void setDate(Date date) {
-        put(KEY_DATE, date);
-    }
-    public String getStartTime() {
-        return getString(KEY_STARTTIME);
-    }
-
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         put(KEY_STARTTIME, startTime);
     }
 
-    public String getEndTime() {
-        return getString(KEY_ENDTIME);
+    public Date getEndTime() {
+        return getDate(KEY_ENDTIME);
     }
 
-    public void setEndTime(String endTime) {
-        put(KEY_ENDTIME, endTime);
+    public void setEndTime(Date endTime) {
+        put(KEY_STARTTIME, endTime);
     }
 
     public String getSkillLevel() {
@@ -132,7 +124,7 @@ public class Event extends ParseObject {
         return getString(KEY_DETAILS);
     }
 
-    public void setKeyDetails(String details) {
+    public void setDetails(String details) {
         put(KEY_DETAILS, details);
     }
     public String getTeamRotation() {

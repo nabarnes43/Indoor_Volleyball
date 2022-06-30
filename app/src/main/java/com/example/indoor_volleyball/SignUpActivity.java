@@ -51,33 +51,22 @@ public class SignUpActivity extends AppCompatActivity {
         // below line is to set
         // Content view for our layout.
         setContentView(view);
-        //TODO fix up these bindings.
-        etSignUpPassword = binding.etSignUpPassword;
-        etSignUpUsername = binding.etSignUpUsername;
-        etName = binding.etName;
-        etEmail = binding.etEmail;
-        etPhone = binding.etPhone;
-        etAddress = binding.etAddress;
-        etAge = binding.etAge;
-        etCity = binding.etCity;
-        etZipCode = binding.etZipCode;
-
+        //TODO input management.
 
         // calling button and setting on click listener for our button.
         // we have called our button with its id and set on click listener on it.
         binding.btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etSignUpUsername.getText().toString();
-                String password = etSignUpPassword.getText().toString();
-                String name = etName.getText().toString();
-                String email = etEmail.getText().toString();
-                String phone = etPhone.getText().toString();
-                String address = etAddress.getText().toString();
-                int age = Integer.parseInt(etAge.getText().toString());
-                String city = etCity.getText().toString();
-                String zipCode = etZipCode.getText().toString();
-
+                String username = binding.etSignUpUsername.getText().toString();
+                String password = binding.etSignUpPassword.getText().toString();
+                String name = binding.etName.getText().toString();
+                String email = binding.etEmail.getText().toString();
+                String phone = binding.etPhone.getText().toString();
+                String address = binding.etAddress.getText().toString();
+                int age = Integer.parseInt(binding.etAge.getText().toString());
+                String city = binding.etCity.getText().toString();
+                String zipCode = binding.etZipCode.getText().toString();
 
                     // Create the ParseUser
                     ParseUser user = new ParseUser();
