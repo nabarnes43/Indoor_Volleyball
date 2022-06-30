@@ -22,6 +22,7 @@ import com.parse.ParseUser;
 
 import java.security.spec.ECField;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class QueryActivity extends AppCompatActivity {
@@ -154,8 +155,8 @@ public class QueryActivity extends AppCompatActivity {
                     String gymName =  gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
-                    String startTime = event.getStartTime();
-                    String endTime = event.getEndTime();
+                    Date startTime = event.getStartTime();
+                    Date endTime = event.getEndTime();
                     String original_text = binding.tvAllEvents.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
                     binding.tvAllEvents.setText(original_text);
@@ -171,8 +172,8 @@ public class QueryActivity extends AppCompatActivity {
                     String gymName =  gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
-                    String startTime = event.getStartTime();
-                    String endTime = event.getEndTime();
+                    Date startTime = event.getStartTime();
+                    Date endTime = event.getEndTime();
                     String original_text = binding.tvUserAttending.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
                     binding.tvUserAttending.setText(original_text);
@@ -188,8 +189,8 @@ public class QueryActivity extends AppCompatActivity {
                     String gymName =  gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
-                    String startTime = event.getStartTime();
-                    String endTime = event.getEndTime();
+                    Date startTime = event.getStartTime();
+                    Date endTime = event.getEndTime();
                     String original_text = binding.tvUserManaging.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
                     binding.tvUserManaging.setText(original_text);
@@ -219,8 +220,8 @@ public class QueryActivity extends AppCompatActivity {
                     String gymName =  gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
-                    String startTime = event.getStartTime();
-                    String endTime = event.getEndTime();
+                    Date startTime = event.getStartTime();
+                    Date endTime = event.getEndTime();
                     String original_text = binding.tvEventsAtGym.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
                     binding.tvEventsAtGym.setText(original_text);

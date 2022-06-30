@@ -2,4 +2,14 @@
     <string name="app_name">Indoor_Volleyball</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="min_players">Min Players</string>
+    <string name="max_players">Max Players</string>
+    <string name="allow_plus_ones">Allow Plus Ones</string>
+    <string name="allow_spectators">Allow Spectators</string>
+    <string name="details_about_event">Details</string>
+    <string name="event_code">Event Code</string>
+    <string name="gym_pointer">Select A Gym</string>
+    <string name="rotation_rule">Rotation Rule</string>
 </resources>

@@ -2,22 +2,52 @@ package com.example.indoor_volleyball;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.Models.Event;
+import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.databinding.ActivityCreateEventBinding;
-import com.example.indoor_volleyball.databinding.ActivityQueryBinding;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
+    public static final String TAG ="CreateEventActivity";
+    Date startTime;
+    Date endTime;
+    String skillLevel;
+    Boolean allowPlusOnes;
+    Boolean allowSpectators;
+    Calendar date;
+    List<Gym> allGyms;
     ActivityCreateEventBinding binding;
+
+    private TextView DisplayDate;
+    private DatePickerDialog.OnDateSetListener DateSetListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        allGyms = new ArrayList<>();
 
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
 
@@ -25,17 +55,129 @@ public class CreateEventActivity extends AppCompatActivity {
 
         setContentView(view);
 
+
         skillLevel();
+
         allowPlusOnes();
         allowSpectators();
 
+        try {
+            queryAllGyms();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimePicker();
+                startTime = date.getTime();
+                binding.tvStartTime.setText(startTime.toString());
+            }
+        });
+
+        binding.tvEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimePicker();
+                endTime = date.getTime();
+                binding.tvEndTime.setText(endTime.toString());
+            }
+        });
+
+
+        binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int minPlayers = Integer.parseInt(binding.etMinPlayers.getText().toString());
+                int maxPlayers = Integer.parseInt(binding.etMaxPlayers.getText().toString());
+                String details = binding.etDetails.getText().toString();
+                String teamRotation = binding.etTeamRotation.getText().toString();
+                String eventCode = binding.etEventCode.getText().toString();
+
+                // Create the Event
+                Event event = new Event();
+                //properties
+                event.setStartTime(startTime);
+                event.setEndTime(endTime);
+                event.setMinCount(minPlayers);
+                event.setMaxCount(maxPlayers);
+                event.setSkillLevel(skillLevel);
+                event.setAllowPlusOnes(allowPlusOnes);
+                event.setAllowSpectators(allowSpectators);
+                event.setDetails(details);
+                event.setEventCode(eventCode);
+                event.setWaitList(0);
+                event.setGym(allGyms.get(1));
+                event.setCreator(ParseUser.getCurrentUser());
+                event.setTeamRotation(teamRotation);
+                String skill = skillLevel;
+                event.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Error while Saving", e);
+                            Toast.makeText(CreateEventActivity.this, "Error saving post", Toast.LENGTH_SHORT);
+                        }
+                    }
+                });
+                Log.i(TAG, "The save suceeded");
+
+
+//                user.signUpInBackground(new SignUpCallback() {
+//                    public void done(ParseException e) {
+//                        if (e == null) {
+//                            // Hooray! Let them use the app now.
+//                            goLoginActivity();
+//                            Toast.makeText(SignUpActivity.this, "Account Created. Logging In.", Toast.LENGTH_SHORT).show();
+//
+//                        } else {
+//                            Log.e(TAG, "Signup failed "+ e);
+//                            // Sign up didn't succeed. Look at the ParseException
+//                            // to figure out what went wrong
+//                        }
+//                    }
+//                });
+            }
+        });
+
 
     }
+
+    //Gets a list of all the gyms in the Database gets the info gym maps page.
+    private void queryAllGyms() throws ParseException {
+        ParseQuery<Gym> query = ParseQuery.getQuery(Gym.class);
+        allGyms.addAll(query.find());
+    }
+
+
+    public void showDateTimePicker() {
+        final Calendar currentDate = Calendar.getInstance();
+        date = Calendar.getInstance();
+        Date thisDate;
+        new DatePickerDialog(CreateEventActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                date.set(year, monthOfYear, dayOfMonth);
+                new TimePickerDialog(CreateEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        date.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        date.set(Calendar.MINUTE, minute);
+                        Log.v(TAG, "The choosen one " + date.getTime());
+                        Toast.makeText(CreateEventActivity.this, "The choosen one " + date.getTime(), Toast.LENGTH_SHORT).show();
+                    }
+                }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
+            }
+        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+    }
+
 
 
     private void skillLevel() {
         //create a list of items for the spinner.
         String[] items = new String[]{"AA", "A", "BB", "B", "C"};
+        final String[] selected = {""};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -44,18 +186,20 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.spSkillLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CreateEventActivity.this, (String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                skillLevel = parent.getItemAtPosition(position).toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
             }
         });
+
     }
 
     private void allowPlusOnes() {
         //create a list of items for the spinner.
         Boolean[] items = new Boolean[]{true, false};
+        final Boolean[] selected = {true};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<Boolean> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -64,7 +208,7 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.spAllowPlusOnes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CreateEventActivity.this,  parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                allowPlusOnes= (Boolean) parent.getItemAtPosition(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -76,6 +220,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private void allowSpectators() {
         //create a list of items for the spinner.
         Boolean[] items = new Boolean[]{true, false};
+        final Boolean[] selected = {true};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<Boolean> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -84,7 +229,7 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.spAllowSpectators.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CreateEventActivity.this,  parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                allowSpectators = (Boolean) parent.getItemAtPosition(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
