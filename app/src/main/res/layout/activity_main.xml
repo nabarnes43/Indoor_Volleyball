@@ -32,8 +32,8 @@
 
     <Button
         android:id="@+id/btQueryActivity"
-        android:layout_width="212dp"
-        android:layout_height="46dp"
+        android:layout_width="146dp"
+        android:layout_height="42dp"
         android:text="Go to query activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

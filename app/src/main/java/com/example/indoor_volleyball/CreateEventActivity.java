@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -38,11 +39,10 @@ public class CreateEventActivity extends AppCompatActivity {
     Boolean allowPlusOnes;
     Boolean allowSpectators;
     Calendar date;
+    Boolean startTimeTrue;
     List<Gym> allGyms;
     ActivityCreateEventBinding binding;
 
-    private TextView DisplayDate;
-    private DatePickerDialog.OnDateSetListener DateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +70,16 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startTimeTrue = true;
                 showDateTimePicker();
-                startTime = date.getTime();
-                binding.tvStartTime.setText(startTime.toString());
             }
         });
 
         binding.tvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startTimeTrue = false;
                 showDateTimePicker();
-                endTime = date.getTime();
-                binding.tvEndTime.setText(endTime.toString());
             }
         });
 
@@ -111,7 +109,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setGym(allGyms.get(1));
                 event.setCreator(ParseUser.getCurrentUser());
                 event.setTeamRotation(teamRotation);
-                String skill = skillLevel;
                 event.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -121,23 +118,11 @@ public class CreateEventActivity extends AppCompatActivity {
                         }
                     }
                 });
-                Log.i(TAG, "The save suceeded");
+                Log.i(TAG, "The save succeeded");
+                Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
 
 
-//                user.signUpInBackground(new SignUpCallback() {
-//                    public void done(ParseException e) {
-//                        if (e == null) {
-//                            // Hooray! Let them use the app now.
-//                            goLoginActivity();
-//                            Toast.makeText(SignUpActivity.this, "Account Created. Logging In.", Toast.LENGTH_SHORT).show();
-//
-//                        } else {
-//                            Log.e(TAG, "Signup failed "+ e);
-//                            // Sign up didn't succeed. Look at the ParseException
-//                            // to figure out what went wrong
-//                        }
-//                    }
-//                });
+                //goToMainActivity();
             }
         });
 
@@ -166,10 +151,19 @@ public class CreateEventActivity extends AppCompatActivity {
                         date.set(Calendar.MINUTE, minute);
                         Log.v(TAG, "The choosen one " + date.getTime());
                         Toast.makeText(CreateEventActivity.this, "The choosen one " + date.getTime(), Toast.LENGTH_SHORT).show();
+                        if(startTimeTrue) {
+                            startTime = date.getTime();
+                            Toast.makeText(CreateEventActivity.this, "Start Time" + startTime, Toast.LENGTH_SHORT).show();
+                            binding.tvStartTime.setText(startTime.toString());
+                        } else {
+                            endTime = date.getTime();
+                            binding.tvEndTime.setText(endTime.toString());
+                        }
                     }
                 }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
             }
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+
     }
 
 
@@ -208,8 +202,9 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.spAllowPlusOnes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                allowPlusOnes= (Boolean) parent.getItemAtPosition(position);
+                allowPlusOnes = (Boolean) parent.getItemAtPosition(position);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
@@ -238,5 +233,11 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+
+    private void goToMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
 
 }

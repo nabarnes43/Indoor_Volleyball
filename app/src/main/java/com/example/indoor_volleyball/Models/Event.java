@@ -39,7 +39,7 @@ public class Event extends ParseObject {
     public void setEventCode(String eventCode) {
         put(KEY_EVENTCODE, eventCode);
     }
-    //I don't know about this code
+
     public Gym getGym() {
         return (Gym) getParseObject(KEY_GYM);
     }
@@ -109,7 +109,7 @@ public class Event extends ParseObject {
     }
 
     public void setEndTime(Date endTime) {
-        put(KEY_STARTTIME, endTime);
+        put(KEY_ENDTIME, endTime);
     }
 
     public String getSkillLevel() {

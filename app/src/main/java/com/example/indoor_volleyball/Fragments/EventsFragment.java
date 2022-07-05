@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.indoor_volleyball.CreateEventActivity;
+import com.example.indoor_volleyball.CreateGymActivity;
 import com.example.indoor_volleyball.LoginActivity;
 import com.example.indoor_volleyball.MainActivity;
 import com.example.indoor_volleyball.QueryActivity;
@@ -32,6 +33,14 @@ import com.example.indoor_volleyball.databinding.FragmentEventsBinding;
 public class EventsFragment extends Fragment {
     private FragmentEventsBinding binding;
     ActivityResultLauncher<Void> EventCreator = registerForActivityResult(new CreateEvent(),
+            new ActivityResultCallback<Boolean>() {
+                @Override
+                public void onActivityResult(Boolean success) {
+                    //TODO refresh list.
+                }
+            });
+
+    ActivityResultLauncher<Void> GymCreator = registerForActivityResult(new CreateGym(),
             new ActivityResultCallback<Boolean>() {
                 @Override
                 public void onActivityResult(Boolean success) {
@@ -70,6 +79,16 @@ public class EventsFragment extends Fragment {
             }
         });
 
+        binding.btCreateGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), CreateGymActivity.class);
+                GymCreator.launch(null);
+            }
+        });
+
+
+
     }
 
 
@@ -83,9 +102,24 @@ public class EventsFragment extends Fragment {
 
         @Override
         public Boolean parseResult(int resultCode, @Nullable Intent result) {
-            return resultCode==Activity.RESULT_OK;
+            return resultCode == Activity.RESULT_OK;
         }
     }
+
+    public class CreateGym extends ActivityResultContract<Void,Boolean> {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, Void input) {
+            Intent i = new Intent(context, CreateGymActivity.class);
+            return i;
+        }
+
+        @Override
+        public Boolean parseResult(int resultCode, @Nullable Intent result) {
+            return resultCode == Activity.RESULT_OK;
+        }
+    }
+
 
 
 
