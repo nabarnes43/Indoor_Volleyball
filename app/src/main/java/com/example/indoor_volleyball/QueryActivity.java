@@ -1,5 +1,7 @@
 package com.example.indoor_volleyball;
 
+import static org.junit.Assert.assertEquals;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,8 +22,12 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.junit.Test;
+
 import java.security.spec.ECField;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -30,14 +36,15 @@ public class QueryActivity extends AppCompatActivity {
     private static final String TAG = "QueryActivity";
     private ActivityQueryBinding binding;
     List<Gym> allGyms;
+    Event nextEvent;
     List<Gym> allGymsByDistance;
     List<Gym> allGymsWithinDistance;
     List<Gym> gymsFollowed;
     List<Event> allEvents;
     List<Event> userAttending;
     List<Event> userManaging;
+    List<Event> eventsAtGymSortedByDateDescending;
     List<ParseUser> allUsersAttendingEvent;
-    List<Event> eventsAtGym;
 
 
     @Override
@@ -51,7 +58,7 @@ public class QueryActivity extends AppCompatActivity {
         userAttending = new ArrayList<>();
         userManaging = new ArrayList<>();
         allUsersAttendingEvent = new ArrayList<>();
-        eventsAtGym = new ArrayList<>();
+        eventsAtGymSortedByDateDescending = new ArrayList<>();
 
         binding = ActivityQueryBinding.inflate(getLayoutInflater());
 
@@ -74,6 +81,7 @@ public class QueryActivity extends AppCompatActivity {
         queryUserGyms();
         queryAllUsersAttendingEvent(allEvents.get(1));
         queryEventsAtGym(allGyms.get(0));
+        queryNextEventAtGym(allGyms.get(0));
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
         allGymsWithinDistanceOfUser(ParseUser.getCurrentUser().getParseGeoPoint("longLat"), 10.0);
 
@@ -215,7 +223,7 @@ public class QueryActivity extends AppCompatActivity {
         binding.btEventsAtGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Event event : eventsAtGym) {
+                for (Event event : eventsAtGymSortedByDateDescending) {
                     Gym gym = event.getGym();
                     String gymName =  gym.getName();
                     String eventDescription = event.getDetails();
@@ -228,6 +236,8 @@ public class QueryActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
 
 
@@ -280,7 +290,7 @@ public class QueryActivity extends AppCompatActivity {
         //Use this when you are getting null pointers. The nulls mean find in background is to slow.
         allEvents.addAll(query.find());
     }
-    //Get a list of all the events at the given gym.
+    //Get a list of all the events at the given gym sorted by Date Descending.
     private void queryEventsAtGym(Gym gym) {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
@@ -288,13 +298,61 @@ public class QueryActivity extends AppCompatActivity {
             @Override
             public void done(List<Event> eventList, ParseException e) {
                 if (e == null) {
-                    eventsAtGym.addAll(eventList);
+
+                    Collections.sort(eventList, new Comparator<Event>() {
+                        public int compare(Event o1, Event o2) {
+                            return o1.getStartTime().compareTo(o2.getStartTime());
+                        }
+                    });
+                    eventsAtGymSortedByDateDescending.addAll(eventList);
                 } else {
                     Log.d("item", "Error: " + e.getMessage());
                 }
             }
         });
     }
+
+    //Get the most the next event scheduled at given gym.
+    private void queryNextEventAtGym(Gym gym) {
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("gym", gym);
+        eventQuery.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> eventList, ParseException e) {
+                if (e == null) {
+
+                    Collections.sort(eventList, new Comparator<Event>() {
+                        public int compare(Event o1, Event o2) {
+                            return o1.getStartTime().compareTo(o2.getStartTime());
+                        }
+                    });
+                    nextEvent = eventList.get(0);
+                    Toast.makeText(QueryActivity.this, nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+
+//    @Test
+//    public void givenEventList_SortEventList_thenCheckSortedListDescV1() {
+//
+//        Collections.sort(eventsAtGym, new Comparator<Event>() {
+//            public int compare(Event event1, Event event2) {
+//                return event2.getStartTime().compareTo(event1.getStartTime());
+//            }
+//        });
+//
+//        assertEquals(eventsAtGym, eventsAtGymSortedByDateDecending);
+//        for (Event event: eventsAtGymSortedByDateDecending) {
+//            Toast.makeText(this, event.getGym().getName()+ " Event details " + event.getDetails(), Toast.LENGTH_SHORT).show();
+//
+//        }
+//    }
+
+
     //Gets a list of all the gyms that the user follows.
     private void queryUserGyms(){
         ParseUser user = ParseUser.getCurrentUser();

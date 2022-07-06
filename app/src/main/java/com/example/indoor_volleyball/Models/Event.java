@@ -13,7 +13,7 @@ import com.parse.ParseUser;
 import java.util.Date;
 
 @ParseClassName("Event")
-public class Event extends ParseObject {
+public class Event extends ParseObject{
     public static final String TAG = "EVENT";
     // Ensure that your subclass has a public default constructor
     public static final String KEY_EVENTCODE = "eventCode";

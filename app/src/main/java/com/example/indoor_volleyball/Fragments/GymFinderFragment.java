@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.GymAdapter;
+import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
+import com.example.indoor_volleyball.QueryActivity;
 import com.example.indoor_volleyball.R;
 
 
@@ -38,6 +40,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -47,6 +51,7 @@ public class GymFinderFragment extends Fragment {
     private GymAdapter adapter;
     private RecyclerView rvGyms;
     List<Gym> allGymsByDistance;
+    List<Event> nextEventList;
 
     public GymFinderFragment() {
         // Required empty public constructor
@@ -67,7 +72,8 @@ public class GymFinderFragment extends Fragment {
         //0. Create layout for one row in the list
         //1. Create the adapter
         allGymsByDistance = new ArrayList<>();
-        adapter = new GymAdapter(getContext(), allGymsByDistance);
+        nextEventList = new ArrayList<>();
+        adapter = new GymAdapter(getContext(), allGymsByDistance, nextEventList);
         //2. Create the data source
         //3. Set the adapter on the recycler view
         rvGyms.setAdapter(adapter);
@@ -102,6 +108,8 @@ public class GymFinderFragment extends Fragment {
         // `client` here is an instance of Android Async HTTP
         adapter.clear();
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
+
+
     }
 
     //Gets a list of all the gyms in order of distance from the user.
@@ -112,15 +120,38 @@ public class GymFinderFragment extends Fragment {
             @Override
             public void done(List<Gym> gymList, ParseException e) {
                 if (e == null) {
-                    allGymsByDistance.addAll(gymList);
-                    for (Gym gym:allGymsByDistance) {
+                    for (Gym gym:gymList) {
                         Toast.makeText(getContext(), gym.getName(), Toast.LENGTH_SHORT).show();
+                        queryNextEventAtGym(gym);
                     }
+                    allGymsByDistance.addAll(gymList);
                 } else {
                     Log.d("item", "Error: " + e.getMessage());
                 }
 
                 adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    //Get the most the next event scheduled at given gym.
+    private void queryNextEventAtGym(Gym gym) {
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("gym", gym);
+        eventQuery.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> eventList, ParseException e) {
+                if (e == null) {
+
+                    Collections.sort(eventList, new Comparator<Event>() {
+                        public int compare(Event o1, Event o2) {
+                            return o1.getStartTime().compareTo(o2.getStartTime());
+                        }
+                    });
+a                    nextEventList.add(eventList.get(0));
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
             }
         });
     }
