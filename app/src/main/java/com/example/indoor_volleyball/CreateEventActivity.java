@@ -32,23 +32,26 @@ import java.util.Date;
 import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
-    public static final String TAG ="CreateEventActivity";
+    public static final String TAG = "CreateEventActivity";
+    //TODO make everything private.
     Date startTime;
     Date endTime;
+    Gym thisGym;
     String skillLevel;
     Boolean allowPlusOnes;
     Boolean allowSpectators;
     Calendar date;
+    //TODO if it is user visible put it in the strings resource file.
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("M-dd-yyyy hh:mm:ss a");
     Boolean startTimeTrue;
     List<Gym> allGyms;
     ActivityCreateEventBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-
+        thisGym = getIntent().getParcelableExtra("Gym");
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
 
         View view = binding.getRoot();
@@ -106,7 +109,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setDetails(details);
                 event.setEventCode(eventCode);
                 event.setWaitList(0);
-                event.setGym(allGyms.get(1));
+                event.setGym(thisGym);
                 event.setCreator(ParseUser.getCurrentUser());
                 event.setTeamRotation(teamRotation);
                 event.saveInBackground(new SaveCallback() {
@@ -120,9 +123,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 });
                 Log.i(TAG, "The save succeeded");
                 Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
-
-
-                //goToMainActivity();
             }
         });
 
@@ -151,13 +151,13 @@ public class CreateEventActivity extends AppCompatActivity {
                         date.set(Calendar.MINUTE, minute);
                         Log.v(TAG, "The choosen one " + date.getTime());
                         Toast.makeText(CreateEventActivity.this, "The choosen one " + date.getTime(), Toast.LENGTH_SHORT).show();
-                        if(startTimeTrue) {
+                        if (startTimeTrue) {
                             startTime = date.getTime();
-                            Toast.makeText(CreateEventActivity.this, "Start Time" + startTime, Toast.LENGTH_SHORT).show();
-                            binding.tvStartTime.setText(startTime.toString());
+                            Toast.makeText(CreateEventActivity.this, "Start Time" + date, Toast.LENGTH_SHORT).show();
+                            binding.tvStartTime.setText(dateFormat.format(date.getTime()));
                         } else {
                             endTime = date.getTime();
-                            binding.tvEndTime.setText(endTime.toString());
+                            binding.tvEndTime.setText(dateFormat.format(date.getTime()));
                         }
                     }
                 }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
@@ -165,8 +165,6 @@ public class CreateEventActivity extends AppCompatActivity {
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
 
     }
-
-
 
     private void skillLevel() {
         //create a list of items for the spinner.
@@ -182,6 +180,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 skillLevel = parent.getItemAtPosition(position).toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
@@ -226,6 +225,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 allowSpectators = (Boolean) parent.getItemAtPosition(position);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub

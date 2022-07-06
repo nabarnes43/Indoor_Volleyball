@@ -96,7 +96,7 @@ public class QueryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (Gym gym: gymsFollowed) {
                     String gymName = gym.getName();
-                    int gymRating = gym.getRating();
+                    Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvGymsFollowed.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
@@ -110,7 +110,7 @@ public class QueryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (Gym gym: allGyms) {
                     String gymName = gym.getName();
-                    int gymRating = gym.getRating();
+                    Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvAllGyms.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
@@ -124,7 +124,7 @@ public class QueryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (Gym gym: allGymsByDistance) {
                     String gymName = gym.getName();
-                    int gymRating = gym.getRating();
+                    Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvAllGymsByDistance.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
@@ -138,7 +138,7 @@ public class QueryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (Gym gym: allGymsWithinDistance) {
                     String gymName = gym.getName();
-                    int gymRating = gym.getRating();
+                    Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvAllGymsWithinDistance.getText().toString();
                     original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
