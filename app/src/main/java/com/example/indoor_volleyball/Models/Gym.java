@@ -12,6 +12,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
+import org.parceler.Parcel;
 
 import java.io.Serializable;
 import java.util.ArrayList;

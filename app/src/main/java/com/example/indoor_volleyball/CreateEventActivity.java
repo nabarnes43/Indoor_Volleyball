@@ -25,6 +25,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +39,7 @@ public class CreateEventActivity extends AppCompatActivity {
     Date startTime;
     Date endTime;
     Gym thisGym;
+    String thisGymId;
     Event nextEvent;
     String skillLevel;
     Boolean allowPlusOnes;
@@ -52,24 +55,21 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-        thisGym = getIntent().getParcelableExtra("Gym");
+        thisGymId =  Parcels.unwrap(getIntent().getParcelableExtra("gymId"));
+
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
 
         View view = binding.getRoot();
 
         setContentView(view);
 
+        queryGym(thisGymId);
 
         skillLevel();
 
         allowPlusOnes();
         allowSpectators();
 
-        try {
-            queryAllGyms();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +134,25 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
 
+    }
+
+
+
+
+    private void queryGym(String gymId) {
+        ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
+
+        // The query will search for a ParseObject, given its objectId.
+        // When the query finishes running, it will invoke the GetCallback
+        // with either the object, or the exception thrown
+        gymQuery.getInBackground(gymId, (gym, e) -> {
+            if (e == null) {
+                thisGym = gym;
+            } else {
+                // something went wrong
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void queryNextEventAtGym(Gym gym) throws ParseException {

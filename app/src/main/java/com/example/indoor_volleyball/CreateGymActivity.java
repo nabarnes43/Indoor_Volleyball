@@ -25,6 +25,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
+import org.parceler.Parcels;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -100,7 +101,11 @@ public class CreateGymActivity extends AppCompatActivity {
             binding.btCreateGym.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    createGym(place);
+                    try {
+                        createGym(place);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -113,7 +118,7 @@ public class CreateGymActivity extends AppCompatActivity {
         }
     }
 
-    private void createGym(Place place) {
+    private void createGym(Place place) throws ParseException {
         Gym gym = new Gym();
         gym.setName(place.getName());
         //Converting from ArrayList to Json Array.
@@ -128,15 +133,17 @@ public class CreateGymActivity extends AppCompatActivity {
         gym.setRating(place.getRating());
         gym.setWebsiteUrl(place.getWebsiteUri().toString());
 
-        gym.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while Saving", e);
-                    Toast.makeText(CreateGymActivity.this, "Error saving post", Toast.LENGTH_SHORT);
-                }
-            }
-        });
+        gym.save();
+
+//        gym.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (e != null) {
+//                    Log.e(TAG, "Error while Saving", e);
+//                    Toast.makeText(CreateGymActivity.this, "Error saving post", Toast.LENGTH_SHORT);
+//                }
+//            }
+//        });
         Log.i(TAG, "The save succeeded");
         Toast.makeText(CreateGymActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
         goToCreateEvent(gym);
@@ -145,9 +152,9 @@ public class CreateGymActivity extends AppCompatActivity {
 
 
     private void goToCreateEvent(Gym gym) {
-
+        String gymId = gym.getObjectId();
         Intent i = new Intent(this, CreateEventActivity.class);
-        i.putExtra("Gym", gym);
+        i.putExtra("gymId", Parcels.wrap(gymId));
         startActivity(i);
 
     }
