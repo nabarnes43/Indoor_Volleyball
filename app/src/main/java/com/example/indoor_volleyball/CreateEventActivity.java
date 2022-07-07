@@ -37,6 +37,7 @@ public class CreateEventActivity extends AppCompatActivity {
     Date startTime;
     Date endTime;
     Gym thisGym;
+    Event nextEvent;
     String skillLevel;
     Boolean allowPlusOnes;
     Boolean allowSpectators;
@@ -112,21 +113,37 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setGym(thisGym);
                 event.setCreator(ParseUser.getCurrentUser());
                 event.setTeamRotation(teamRotation);
-                event.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Error while Saving", e);
-                            Toast.makeText(CreateEventActivity.this, "Error saving post", Toast.LENGTH_SHORT);
-                        }
+
+                try {
+
+                    event.save();
+                    Log.i(TAG, "The save succeeded");
+                    Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
+                    try {
+                        queryNextEventAtGym(thisGym);
+                    } catch (ParseException z) {
+                        z.printStackTrace();
                     }
-                });
-                Log.i(TAG, "The save succeeded");
-                Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                thisGym.setNextEvent(nextEvent);
+                thisGym.saveInBackground();
+                Toast.makeText(CreateEventActivity.this, thisGym.getNextEvent().getDetails() + "Start time " + thisGym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
             }
         });
 
 
+    }
+
+    private void queryNextEventAtGym(Gym gym) throws ParseException {
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("gym", gym);
+        eventQuery.orderByAscending("startTime");
+        eventQuery.setLimit(1);
+        List<Event> nextEventList = new ArrayList<>();
+        nextEventList.addAll(eventQuery.find());
+        nextEvent = nextEventList.get(0);
     }
 
     //Gets a list of all the gyms in the Database gets the info gym maps page.

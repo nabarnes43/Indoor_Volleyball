@@ -27,12 +27,12 @@ import java.util.List;
 public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     private Context context;
     private List<Gym> gyms;
-    private List<Event> nextEventList;
 
-    public GymAdapter(Context context, List<Gym> gyms, List<Event> nextEventList) {
+
+    public GymAdapter(Context context, List<Gym> gyms) {
         this.context = context;
         this.gyms = gyms;
-        this.nextEventList = nextEventList;
+
     }
 
 
@@ -52,9 +52,8 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Gym gym = gyms.get(position);
         //Every gym needs an event
-        Event event = nextEventList.get(position);
         holder.rootView.setTag(gym);
-        holder.bind(gym, event);
+        holder.bind(gym);
     }
 
 
@@ -96,10 +95,10 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 
 
 
-        public void bind(Gym gym, Event event) {
+        public void bind(Gym gym) {
             // Bind the post data to the view elements
             tvGymName.setText(gym.getName());
-            tvEventDateDescription.setText("Date/Time: " + event.getStartTime()+ "  " + event.getEndTime()+ " Details: " + event.getDetails());
+            tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime()+ "  " + gym.getNextEvent().getEndTime()+ " Details: " + gym.getNextEvent().getDetails());
             rbGymRating.setRating(gym.getRating().floatValue());
 
 

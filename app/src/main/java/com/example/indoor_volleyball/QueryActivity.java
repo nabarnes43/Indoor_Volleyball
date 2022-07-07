@@ -81,7 +81,11 @@ public class QueryActivity extends AppCompatActivity {
         queryUserGyms();
         queryAllUsersAttendingEvent(allEvents.get(1));
         queryEventsAtGym(allGyms.get(0));
-        queryNextEventAtGym(allGyms.get(0));
+        try {
+            queryNextEventAtGym(allGyms.get(0));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
         allGymsWithinDistanceOfUser(ParseUser.getCurrentUser().getParseGeoPoint("longLat"), 10.0);
 
@@ -312,27 +316,39 @@ public class QueryActivity extends AppCompatActivity {
         });
     }
 
-    //Get the most the next event scheduled at given gym.
-    private void queryNextEventAtGym(Gym gym) {
+//    //Get the most the next event scheduled at given gym.
+//    private void queryNextEventAtGym(Gym gym) {
+//        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
+//        eventQuery.whereEqualTo("gym", gym);
+//        eventQuery.findInBackground(new FindCallback<Event>() {
+//            @Override
+//            public void done(List<Event> eventList, ParseException e) {
+//                if (e == null) {
+//
+//                    Collections.sort(eventList, new Comparator<Event>() {
+//                        public int compare(Event o1, Event o2) {
+//                            return o1.getStartTime().compareTo(o2.getStartTime());
+//                        }
+//                    });
+//                    nextEvent = eventList.get(0);
+//                    Toast.makeText(QueryActivity.this, nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Log.d("item", "Error: " + e.getMessage());
+//                }
+//            }
+//        });
+//    }
+
+    private void queryNextEventAtGym(Gym gym) throws ParseException {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
-        eventQuery.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> eventList, ParseException e) {
-                if (e == null) {
-
-                    Collections.sort(eventList, new Comparator<Event>() {
-                        public int compare(Event o1, Event o2) {
-                            return o1.getStartTime().compareTo(o2.getStartTime());
-                        }
-                    });
-                    nextEvent = eventList.get(0);
-                    Toast.makeText(QueryActivity.this, nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-            }
-        });
+        eventQuery.orderByAscending("startTime");
+        eventQuery.setLimit(1);
+        List<Event> nextEventList = new ArrayList<>();
+        nextEventList.addAll(eventQuery.find());
+        //nextEvent = nextEventList.get(0);
+        gym.setNextEvent(nextEventList.get(0));
+        Toast.makeText(this, gym.getNextEvent().getDetails() + "Start time " + gym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
     }
 
 

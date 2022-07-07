@@ -31,6 +31,7 @@ public class Gym extends ParseObject {
     public static final String KEY_WEBSITEURL = "websiteUrl";
     public static final String KEY_RATING = "rating";
     public static final String KEY_LOCATION = "location";
+    public static final String KEY_NEXTEVET = "nextEvent";
 //TODO add the fetch if needed and try catch to all getters in case of parse bullshit.
 
     public String getName() {
@@ -94,6 +95,16 @@ public class Gym extends ParseObject {
     public void setLocation(ParseGeoPoint location) {
         put(KEY_LOCATION, location);
     }
+
+    public Event getNextEvent() {
+        return (Event) getParseObject(KEY_NEXTEVET);
+    }
+
+    public void setNextEvent(Event nextEvent) {
+        put(KEY_NEXTEVET, nextEvent);
+    }
+
+
 
 
 }

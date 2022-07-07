@@ -82,7 +82,7 @@ public class CreateGymActivity extends AppCompatActivity {
             binding.tvName.setText(String.format("Locality name: " + place.getName()));
 
             binding.tvLocation.setText(String.valueOf(place.getLatLng()));
-
+            //TODO need code for if any of this information doesn't exist!
             binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
 
             binding.tvBusinessStatus.setText("Business Status " + place.getBusinessStatus());
@@ -141,6 +141,8 @@ public class CreateGymActivity extends AppCompatActivity {
         Toast.makeText(CreateGymActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
         goToCreateEvent(gym);
     }
+
+
 
     private void goToCreateEvent(Gym gym) {
 
