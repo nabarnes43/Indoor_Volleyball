@@ -57,6 +57,7 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //Set up all the views
 
+
     }
 
 

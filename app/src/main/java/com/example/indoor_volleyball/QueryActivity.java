@@ -86,6 +86,7 @@ public class QueryActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        queryUsersGymsByDistance(ParseUser.getCurrentUser());
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
         allGymsWithinDistanceOfUser(ParseUser.getCurrentUser().getParseGeoPoint("longLat"), 10.0);
 
@@ -272,7 +273,7 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
     }
-    //Gets a list of all the gyms within a given distance of the user.
+    //Gets a list of all the gyms within a given distance of the user. TODO within miles
     private void allGymsWithinDistanceOfUser(ParseGeoPoint userLocation, Double miles) {
         ParseQuery<Gym> query = new ParseQuery<>("Gym");
         query.whereWithinKilometers("location", new ParseGeoPoint(userLocation), miles * 1.60934);
@@ -348,7 +349,8 @@ public class QueryActivity extends AppCompatActivity {
         nextEventList.addAll(eventQuery.find());
         //nextEvent = nextEventList.get(0);
         gym.setNextEvent(nextEventList.get(0));
-        Toast.makeText(this, gym.getNextEvent().getDetails() + "Start time " + gym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
+        //
+        // Toast.makeText(this, gym.getNextEvent().getDetails() + "Start time " + gym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -419,6 +421,23 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Get a list of gyms that the user follows.
+    private void queryUsersGymsByDistance(ParseUser user) {
+        ParseGeoPoint userLocation = user.getParseGeoPoint("longLat");
+        ParseQuery<Gym> query = new ParseQuery<>("Gym");
+        query.whereEqualTo("usersFollowing", user);
+        query.whereNear("location", userLocation);
+        query.findInBackground(new FindCallback<Gym>() {
+            @Override
+            public void done(List<Gym> gymList, ParseException e) {
+                for (Gym gym : gymList ) {
+                    Toast.makeText(QueryActivity.this, "Gym name: " + gym.getName(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     //Logout User
     private void goToLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);

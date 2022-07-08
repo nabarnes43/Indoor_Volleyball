@@ -2,7 +2,6 @@ package com.example.indoor_volleyball.Adapters;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +10,23 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-
-import org.parceler.Parcels;
 
 import java.util.Date;
 import java.util.List;
 
-public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
+public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHolder> {
     private Context context;
     private List<Gym> gyms;
 
 
-    public GymAdapter(Context context, List<Gym> gyms) {
+    public UserGymAdapter(Context context, List<Gym> gyms) {
         this.context = context;
         this.gyms = gyms;
 
@@ -104,10 +98,10 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 
         public void bind(Gym gym) throws ParseException {
             // Bind the post data to the view elements
-            Event nextEvent = (Event) gym.getNextEvent();
-            String eventDetails = "";
-            Date startTime = null;
-            Date endTime = null;
+           Event nextEvent = (Event) gym.getNextEvent();
+           String eventDetails = "";
+           Date startTime = null;
+           Date endTime = null;
             try {
                 //TODO add this code to events class for cleanliness.
                 eventDetails = nextEvent.fetchIfNeeded().getString("details");

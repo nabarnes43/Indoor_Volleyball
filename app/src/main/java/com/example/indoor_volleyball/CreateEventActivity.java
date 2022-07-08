@@ -129,7 +129,11 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
                 thisGym.setNextEvent(nextEvent);
                 thisGym.saveInBackground();
-                Toast.makeText(CreateEventActivity.this, thisGym.getNextEvent().getDetails() + "Start time " + thisGym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
+                try {
+                    Toast.makeText(CreateEventActivity.this, thisGym.getNextEvent().getDetails() + "Start time " + thisGym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

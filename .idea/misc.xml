@@ -11,7 +11,7 @@
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_create_event.xml" value="0.646875" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.9" />
-        <entry key="app/src/main/res/layout/fragment_gym_finder.xml" value="0.3570057581573896" />
+        <entry key="app/src/main/res/layout/fragment_gym_finder.xml" value="0.9" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.9661458333333334" />
         <entry key="app/src/main/res/layout/item_gym.xml" value="0.9651041666666667" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.9" />

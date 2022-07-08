@@ -32,7 +32,7 @@ public class Gym extends ParseObject {
     public static final String KEY_WEBSITEURL = "websiteUrl";
     public static final String KEY_RATING = "rating";
     public static final String KEY_LOCATION = "location";
-    public static final String KEY_NEXTEVET = "nextEvent";
+    public static final String KEY_NEXTEVENT = "nextEvent";
 //TODO add the fetch if needed and try catch to all getters in case of parse bullshit.
 
     public String getName() {
@@ -97,12 +97,12 @@ public class Gym extends ParseObject {
         put(KEY_LOCATION, location);
     }
 
-    public Event getNextEvent() {
-        return (Event) getParseObject(KEY_NEXTEVET);
+    public Event getNextEvent() throws ParseException {
+        return (Event) fetchIfNeeded().getParseObject(KEY_NEXTEVENT);
     }
 
     public void setNextEvent(Event nextEvent) {
-        put(KEY_NEXTEVET, nextEvent);
+        put(KEY_NEXTEVENT, nextEvent);
     }
 
 
