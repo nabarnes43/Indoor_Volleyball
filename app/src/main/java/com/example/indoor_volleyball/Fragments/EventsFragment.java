@@ -32,28 +32,10 @@ import com.example.indoor_volleyball.databinding.FragmentEventsBinding;
 
 public class EventsFragment extends Fragment {
     private FragmentEventsBinding binding;
-    ActivityResultLauncher<Void> EventCreator = registerForActivityResult(new CreateEvent(),
-            new ActivityResultCallback<Boolean>() {
-                @Override
-                public void onActivityResult(Boolean success) {
-                    //TODO refresh list.
-                }
-            });
-
-    ActivityResultLauncher<Void> GymCreator = registerForActivityResult(new CreateGym(),
-            new ActivityResultCallback<Boolean>() {
-                @Override
-                public void onActivityResult(Boolean success) {
-                    //TODO refresh list.
-                }
-            });
 
     public EventsFragment() {
         // Required empty public constructor
     }
-
-
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,64 +46,9 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Set up all the views
-
-        binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), CreateEventActivity.class);
-                EventCreator.launch(null);
-            }
-        });
-
-        binding.btCreateGym.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), CreateGymActivity.class);
-                GymCreator.launch(null);
-            }
-        });
-
-
-
     }
-
-
-    public class CreateEvent extends ActivityResultContract<Void,Boolean> {
-        @NonNull
-        @Override
-        public Intent createIntent(@NonNull Context context, Void input) {
-            Intent i = new Intent(context, CreateEventActivity.class);
-            return i;
-        }
-
-        @Override
-        public Boolean parseResult(int resultCode, @Nullable Intent result) {
-            return resultCode == Activity.RESULT_OK;
-        }
-    }
-
-    public class CreateGym extends ActivityResultContract<Void,Boolean> {
-        @NonNull
-        @Override
-        public Intent createIntent(@NonNull Context context, Void input) {
-            Intent i = new Intent(context, CreateGymActivity.class);
-            return i;
-        }
-
-        @Override
-        public Boolean parseResult(int resultCode, @Nullable Intent result) {
-            return resultCode == Activity.RESULT_OK;
-        }
-    }
-
-
-
-
-
 }

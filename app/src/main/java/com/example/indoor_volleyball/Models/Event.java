@@ -15,7 +15,6 @@ import java.util.Date;
 @ParseClassName("Event")
 public class Event extends ParseObject {
     public static final String TAG = "EVENT";
-    // Ensure that your subclass has a public default constructor
     public static final String KEY_EVENTCODE = "eventCode";
     public static final String KEY_GYM = "gym";
     public static final String KEY_CREATOR = "creator";
@@ -31,7 +30,6 @@ public class Event extends ParseObject {
     public static final String KEY_TEAMROTATION = "teamRotation";
     public static final String KEY_USERRELATION = "userRelation";
 
-
     public String getEventCode() {
         return getString(KEY_EVENTCODE);
     }
@@ -44,7 +42,7 @@ public class Event extends ParseObject {
         return (Gym) getParseObject(KEY_GYM);
     }
 
-    public void setGym (ParseObject gym) {
+    public void setGym(ParseObject gym) {
         put(KEY_GYM, gym);
     }
 
@@ -79,6 +77,7 @@ public class Event extends ParseObject {
     public void setMinCount(int minCount) {
         put(KEY_MINCOUNT, minCount);
     }
+
     public Number getMaxCount() {
         return getNumber(KEY_MAXCOUNT);
     }
@@ -95,9 +94,13 @@ public class Event extends ParseObject {
         put(KEY_WAITLIST, waitList);
     }
 
-
     public Date getStartTime() {
-        return getDate(KEY_STARTTIME);
+        try {
+            return fetchIfNeeded().getDate(KEY_STARTTIME);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with Start Time" + e);
+        }
+        return null;
     }
 
     public void setStartTime(Date startTime) {
@@ -105,7 +108,12 @@ public class Event extends ParseObject {
     }
 
     public Date getEndTime() {
-        return getDate(KEY_ENDTIME);
+        try {
+            return fetchIfNeeded().getDate(KEY_ENDTIME);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with End Time" + e);
+        }
+        return null;
     }
 
     public void setEndTime(Date endTime) {
@@ -121,12 +129,18 @@ public class Event extends ParseObject {
     }
 
     public String getDetails() {
-        return getString(KEY_DETAILS);
+        try {
+            return fetchIfNeeded().getString(KEY_DETAILS);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with event details" + e);
+        }
+        return "";
     }
 
     public void setDetails(String details) {
         put(KEY_DETAILS, details);
     }
+
     public String getTeamRotation() {
         return getString(KEY_TEAMROTATION);
     }
@@ -140,9 +154,7 @@ public class Event extends ParseObject {
     }
 
     public void setUserRelation(ParseRelation userRelation) {
-        put(KEY_USERRELATION,userRelation);
+        put(KEY_USERRELATION, userRelation);
     }
-
-
 
 }

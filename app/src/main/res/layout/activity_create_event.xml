@@ -92,16 +92,6 @@
             app:layout_constraintStart_toEndOf="@+id/tvAllowSpectators"
             app:layout_constraintTop_toTopOf="@+id/tvAllowSpectators" />
 
-        <EditText
-            android:id="@+id/etGym"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/gym_pointer"
-            android:inputType="textPostalAddress"
-            app:layout_constraintBottom_toTopOf="@+id/btCreateEvent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/etTeamRotation"
@@ -110,7 +100,7 @@
             android:hint="@string/rotation_rule"
             android:inputType="textMultiLine"
             android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/etGym"
+            app:layout_constraintBottom_toTopOf="@+id/btCreateEvent"
             tools:layout_editor_absoluteX="36dp" />
 
         <EditText

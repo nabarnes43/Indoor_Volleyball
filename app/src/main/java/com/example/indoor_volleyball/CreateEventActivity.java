@@ -25,6 +25,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,40 +34,34 @@ import java.util.Date;
 import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
-    public static final String TAG ="CreateEventActivity";
-    Date startTime;
-    Date endTime;
-    String skillLevel;
-    Boolean allowPlusOnes;
-    Boolean allowSpectators;
-    Calendar date;
+    public static final String TAG = "CreateEventActivity";
+    private Date startTime;
+    private Date endTime;
+    private Gym thisGym;
+    private String thisGymId;
+    private Event nextEvent;
+    private String skillLevel;
+    private Boolean allowPlusOnes;
+    private Boolean allowSpectators;
+    private Calendar date;
+    //TODO if it is user visible put it in the strings resource file.
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("M-dd-yyyy hh:mm:ss a");
     Boolean startTimeTrue;
     List<Gym> allGyms;
     ActivityCreateEventBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-
+        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra("gymId"));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
-
         View view = binding.getRoot();
-
         setContentView(view);
-
-
+        queryGym(thisGymId);
         skillLevel();
-
         allowPlusOnes();
         allowSpectators();
-
-        try {
-            queryAllGyms();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +79,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,10 +87,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String details = binding.etDetails.getText().toString();
                 String teamRotation = binding.etTeamRotation.getText().toString();
                 String eventCode = binding.etEventCode.getText().toString();
-
-                // Create the Event
                 Event event = new Event();
-                //properties
                 event.setStartTime(startTime);
                 event.setEndTime(endTime);
                 event.setMinCount(minPlayers);
@@ -106,40 +98,59 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setDetails(details);
                 event.setEventCode(eventCode);
                 event.setWaitList(0);
-                event.setGym(allGyms.get(1));
+                event.setGym(thisGym);
                 event.setCreator(ParseUser.getCurrentUser());
                 event.setTeamRotation(teamRotation);
-                event.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Error while Saving", e);
-                            Toast.makeText(CreateEventActivity.this, "Error saving post", Toast.LENGTH_SHORT);
-                        }
+
+                try {
+                    event.save();
+                    Log.i(TAG, "The save succeeded");
+                    Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
+                    try {
+                        queryNextEventAtGym(thisGym);
+                    } catch (ParseException z) {
+                        z.printStackTrace();
                     }
-                });
-                Log.i(TAG, "The save succeeded");
-                Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
-
-
-                //goToMainActivity();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                thisGym.setNextEvent(nextEvent);
+                thisGym.saveInBackground();
+                try {
+                    Toast.makeText(CreateEventActivity.this, thisGym.getNextEvent().getDetails() + "Start time " + thisGym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
 
     }
 
-    //Gets a list of all the gyms in the Database gets the info gym maps page.
-    private void queryAllGyms() throws ParseException {
-        ParseQuery<Gym> query = ParseQuery.getQuery(Gym.class);
-        allGyms.addAll(query.find());
+    private void queryGym(String gymId) {
+        ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
+        gymQuery.getInBackground(gymId, (gym, e) -> {
+            if (e == null) {
+                thisGym = gym;
+            } else {
+                Log.e(TAG, e.getMessage());
+            }
+        });
     }
 
+    private void queryNextEventAtGym(Gym gym) throws ParseException {
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("gym", gym);
+        eventQuery.orderByAscending("startTime");
+        eventQuery.setLimit(1);
+        List<Event> nextEventList = new ArrayList<>();
+        nextEventList.addAll(eventQuery.find());
+        nextEvent = nextEventList.get(0);
+    }
 
     public void showDateTimePicker() {
         final Calendar currentDate = Calendar.getInstance();
         date = Calendar.getInstance();
-        Date thisDate;
         new DatePickerDialog(CreateEventActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -151,13 +162,13 @@ public class CreateEventActivity extends AppCompatActivity {
                         date.set(Calendar.MINUTE, minute);
                         Log.v(TAG, "The choosen one " + date.getTime());
                         Toast.makeText(CreateEventActivity.this, "The choosen one " + date.getTime(), Toast.LENGTH_SHORT).show();
-                        if(startTimeTrue) {
+                        if (startTimeTrue) {
                             startTime = date.getTime();
-                            Toast.makeText(CreateEventActivity.this, "Start Time" + startTime, Toast.LENGTH_SHORT).show();
-                            binding.tvStartTime.setText(startTime.toString());
+                            Toast.makeText(CreateEventActivity.this, "Start Time" + date, Toast.LENGTH_SHORT).show();
+                            binding.tvStartTime.setText(dateFormat.format(date.getTime()));
                         } else {
                             endTime = date.getTime();
-                            binding.tvEndTime.setText(endTime.toString());
+                            binding.tvEndTime.setText(dateFormat.format(date.getTime()));
                         }
                     }
                 }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
@@ -165,8 +176,6 @@ public class CreateEventActivity extends AppCompatActivity {
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
 
     }
-
-
 
     private void skillLevel() {
         //create a list of items for the spinner.
@@ -182,6 +191,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 skillLevel = parent.getItemAtPosition(position).toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
@@ -226,13 +236,13 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 allowSpectators = (Boolean) parent.getItemAtPosition(position);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
             }
         });
     }
-
 
     private void goToMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
