@@ -40,14 +40,11 @@ public class CreateGymActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityCreateGymBinding.inflate(getLayoutInflater());
-
         View view = binding.getRoot();
-
         setContentView(view);
-
         //Initialize Places
+        //TODO hide in secrets file.
         Places.initialize(getApplicationContext(), "AIzaSyAHKBaHxum5kdPy9qXg2vSbj57te127ScA");
 
         //Set edit text nonFocusable

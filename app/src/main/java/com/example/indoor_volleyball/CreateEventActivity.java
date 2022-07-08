@@ -35,16 +35,15 @@ import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
     public static final String TAG = "CreateEventActivity";
-    //TODO make everything private.
-    Date startTime;
-    Date endTime;
-    Gym thisGym;
-    String thisGymId;
-    Event nextEvent;
-    String skillLevel;
-    Boolean allowPlusOnes;
-    Boolean allowSpectators;
-    Calendar date;
+    private Date startTime;
+    private Date endTime;
+    private Gym thisGym;
+    private String thisGymId;
+    private Event nextEvent;
+    private String skillLevel;
+    private Boolean allowPlusOnes;
+    private Boolean allowSpectators;
+    private Calendar date;
     //TODO if it is user visible put it in the strings resource file.
     private SimpleDateFormat dateFormat = new SimpleDateFormat("M-dd-yyyy hh:mm:ss a");
     Boolean startTimeTrue;
@@ -55,21 +54,14 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-        thisGymId =  Parcels.unwrap(getIntent().getParcelableExtra("gymId"));
-
+        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra("gymId"));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
-
         View view = binding.getRoot();
-
         setContentView(view);
-
         queryGym(thisGymId);
-
         skillLevel();
-
         allowPlusOnes();
         allowSpectators();
-
 
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +79,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +87,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String details = binding.etDetails.getText().toString();
                 String teamRotation = binding.etTeamRotation.getText().toString();
                 String eventCode = binding.etEventCode.getText().toString();
-
-                // Create the Event
                 Event event = new Event();
-                //properties
                 event.setStartTime(startTime);
                 event.setEndTime(endTime);
                 event.setMinCount(minPlayers);
@@ -115,7 +103,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setTeamRotation(teamRotation);
 
                 try {
-
                     event.save();
                     Log.i(TAG, "The save succeeded");
                     Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
@@ -140,21 +127,13 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
-
-
-
     private void queryGym(String gymId) {
         ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
-
-        // The query will search for a ParseObject, given its objectId.
-        // When the query finishes running, it will invoke the GetCallback
-        // with either the object, or the exception thrown
         gymQuery.getInBackground(gymId, (gym, e) -> {
             if (e == null) {
                 thisGym = gym;
             } else {
-                // something went wrong
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, e.getMessage());
             }
         });
     }
@@ -169,17 +148,9 @@ public class CreateEventActivity extends AppCompatActivity {
         nextEvent = nextEventList.get(0);
     }
 
-    //Gets a list of all the gyms in the Database gets the info gym maps page.
-    private void queryAllGyms() throws ParseException {
-        ParseQuery<Gym> query = ParseQuery.getQuery(Gym.class);
-        allGyms.addAll(query.find());
-    }
-
-
     public void showDateTimePicker() {
         final Calendar currentDate = Calendar.getInstance();
         date = Calendar.getInstance();
-        Date thisDate;
         new DatePickerDialog(CreateEventActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -272,7 +243,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void goToMainActivity() {
         Intent i = new Intent(this, MainActivity.class);

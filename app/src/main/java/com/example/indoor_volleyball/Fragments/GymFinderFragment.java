@@ -39,7 +39,6 @@ import java.util.List;
 public class GymFinderFragment extends Fragment {
     public static final String TAG = "GYMFINDERBINDER";
     private FragmentGymFinderBinding binding;
-
     private SwipeRefreshLayout swipeContainer;
     private GymAdapter adapterAllGyms;
     private UserGymAdapter adapterUserGyms;
@@ -54,7 +53,6 @@ public class GymFinderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentGymFinderBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         return view;
@@ -74,7 +72,6 @@ public class GymFinderFragment extends Fragment {
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
 
         //TODO refresh listener.
-
 //        //swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 //        // Setup refresh listener which triggers new data loading
 //        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -92,7 +89,6 @@ public class GymFinderFragment extends Fragment {
 //                android.R.color.holo_orange_light,
 //                android.R.color.holo_red_light);
 
-
         binding.btAllGyms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,22 +104,17 @@ public class GymFinderFragment extends Fragment {
                 rvGyms.setAdapter(adapterUserGyms);
                 rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
                 fetchUserGymsAsync(0);
-
             }
         });
 
     }
 
     public void fetchAllGymsAsync(int i) {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
         adapterAllGyms.clear();
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
     }
 
     public void fetchUserGymsAsync(int i) {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
         adapterUserGyms.clear();
         queryUsersGymsByDistance(ParseUser.getCurrentUser());
     }
@@ -132,7 +123,6 @@ public class GymFinderFragment extends Fragment {
     private void allGymsByDistance(ParseGeoPoint userLocation) {
         ParseQuery<Gym> query = new ParseQuery<>("Gym");
         query.whereNear("location", userLocation);
-        //If stuff isn't loading use include the code will load faster.
         query.include("nextEvent");
         query.findInBackground(new FindCallback<Gym>() {
             @Override
@@ -142,7 +132,6 @@ public class GymFinderFragment extends Fragment {
                 } else {
                     Log.d("item", "Error: " + e.getMessage());
                 }
-
                 adapterAllGyms.notifyDataSetChanged();
             }
         });
@@ -160,45 +149,13 @@ public class GymFinderFragment extends Fragment {
         query.findInBackground(new FindCallback<Gym>() {
             @Override
             public void done(List<Gym> gymList, ParseException e) {
-                gymsFollowed.addAll(gymList);
+                if (e == null) {
+                    gymsFollowed.addAll(gymList);
+                } else {
+                    Log.d("item", "Error: " + e.getMessage());
+                }
                 adapterUserGyms.notifyDataSetChanged();
             }
-
         });
     }
-
-
-    //TODO DELETE WHEN DONE
-
-
-//    private void queryGyms() {
-//        // specify what type of data we want to query - Post.class
-//        ParseQuery<Gym> query = ParseQuery.getQuery(Gym.class);
-//        // include data referred by user key
-//        query.include(Post.KEY_USER);
-//        // limit query to latest 20 items
-//        query.setLimit(20);
-//        // order posts by creation date (newest first)
-//        query.addDescendingOrder("createdAt");
-//        // start an asynchronous call for posts
-//        query.findInBackground(new FindCallback<Post>() {
-//            @Override
-//            public void done(List<Post> posts, ParseException e) {
-//                // check for errors
-//                if (e != null) {
-//                    Log.e(TAG, "Issue with getting posts", e);
-//                    return;
-//                }
-//                // for debugging purposes let's print every post description to logcat
-//                for (Post post : posts) {
-//                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-//                }
-//
-//                // save received posts to list and notify adapter of new data
-//                allPosts.addAll(posts);
-//                adapter.notifyDataSetChanged();
-//                swipeContainer.setRefreshing(false);
-//            }
-//        });
-//    }
 }

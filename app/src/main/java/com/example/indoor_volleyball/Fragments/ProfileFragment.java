@@ -1,11 +1,14 @@
 package com.example.indoor_volleyball.Fragments;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -14,20 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.indoor_volleyball.CreateEventActivity;
 import com.example.indoor_volleyball.CreateGymActivity;
 import com.example.indoor_volleyball.LoginActivity;
-import com.example.indoor_volleyball.MainActivity;
 import com.example.indoor_volleyball.QueryActivity;
-import com.example.indoor_volleyball.R;
-import com.example.indoor_volleyball.databinding.ActivityMainBinding;
-import com.example.indoor_volleyball.databinding.FragmentEventsBinding;
 import com.example.indoor_volleyball.databinding.FragmentProfileBinding;
 import com.parse.ParseUser;
 
@@ -50,6 +43,7 @@ public class ProfileFragment extends Fragment {
                     //TODO refresh list.
                 }
             });
+
     ActivityResultLauncher<Void> Logout = registerForActivityResult(new Logout(),
             new ActivityResultCallback<Boolean>() {
                 @Override
@@ -66,31 +60,21 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
-
-
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         return view;
     }
 
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Set up all the views
-
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,13 +110,9 @@ public class ProfileFragment extends Fragment {
             Logout.launch(null);
             Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
         }));
-
-
     }
 
-
-
-    public class CreateEvent extends ActivityResultContract<Void,Boolean> {
+    public class CreateEvent extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -146,7 +126,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class CreateGym extends ActivityResultContract<Void,Boolean> {
+    public class CreateGym extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -160,7 +140,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class Logout extends ActivityResultContract<Void,Boolean> {
+    public class Logout extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -174,7 +154,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class Query extends ActivityResultContract<Void,Boolean> {
+    public class Query extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -187,9 +167,4 @@ public class ProfileFragment extends Fragment {
             return resultCode == Activity.RESULT_OK;
         }
     }
-
-
-
-
-
 }

@@ -25,26 +25,18 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
     private Context context;
     private List<Gym> gyms;
 
-
     public UserGymAdapter(Context context, List<Gym> gyms) {
         this.context = context;
         this.gyms = gyms;
-
     }
-
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
-        return new ViewHolder(view);    }
+        return new ViewHolder(view);
+    }
 
-
-
-    /*Whenever RecyclerView has to show an item to a user it will call onBindViewHolder with this item’s position and ViewHolder.
-    Here we should first get the post at this position. Then we can delegate binding to ViewHolder
-     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Gym gym = gyms.get(position);
@@ -57,13 +49,11 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
         }
     }
 
-
     @Override
     public int getItemCount() {
         return gyms.size();
     }
 
-    //TODO SWITCH TO BINDINGS!
     class ViewHolder extends RecyclerView.ViewHolder {
         final View rootView;
         private TextView tvGymName;
@@ -78,7 +68,7 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
             tvEventDateDescription = itemView.findViewById(R.id.tvEventDateDescription);
             rbGymRating = itemView.findViewById(R.id.rbGymRating);
             rootView = itemView;
-            //On click listener for item
+
             //TODO set up detail view.
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -94,30 +84,13 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
 //            });
         }
 
-
-
         public void bind(Gym gym) throws ParseException {
-            // Bind the post data to the view elements
-           Event nextEvent = (Event) gym.getNextEvent();
-           String eventDetails = "";
-           Date startTime = null;
-           Date endTime = null;
-            try {
-                //TODO add this code to events class for cleanliness.
-                eventDetails = nextEvent.fetchIfNeeded().getString("details");
-                startTime = nextEvent.fetchIfNeeded().getDate("startTime");
-                endTime = nextEvent.fetchIfNeeded().getDate("endTime");
-            } catch (ParseException e) {
-                Toast.makeText(context, "Error" + e.toString(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
+            Event nextEvent = (Event) gym.getNextEvent();
             tvGymName.setText(gym.getName());
-            tvEventDateDescription.setText("Date/Time: " + startTime + "  " + endTime+ " Details: " + eventDetails);
+            tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
             rbGymRating.setRating(gym.getRating().floatValue());
 
-
             //TODO add functionality to the clicks for gyn.
-
 //            tvGymName.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -126,16 +99,12 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
 //            });
 
             //TODO Image code
-
 //            ParseFile image = post.getImage();
 //            if (image != null) {
 //                Glide.with(context).load(image.getUrl()).into(ivImagePost);
 //            }
         }
-
-
     }
-
 
     // Clean all elements of the recycler
     public void clear() {
@@ -148,11 +117,6 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
         gyms.addAll(gymList);
         notifyDataSetChanged();
     }
-
-
-
-
-
 
 
 }
