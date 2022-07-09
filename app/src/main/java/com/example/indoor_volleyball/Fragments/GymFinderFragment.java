@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.GymAdapter;
+import com.example.indoor_volleyball.Adapters.PagerAdapter;
 import com.example.indoor_volleyball.Adapters.UserGymAdapter;
 import com.example.indoor_volleyball.Models.Gym;
 
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.example.indoor_volleyball.QueryActivity;
+import com.google.android.material.tabs.TabItem;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -62,14 +64,31 @@ public class GymFinderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //setContentView(R.layout.fragment_gym_finder);
-        rvGyms = binding.rvGyms;
-        allGymsByDistance = new ArrayList<>();
-        gymsFollowed = new ArrayList<>();
-        adapterAllGyms = new GymAdapter(getContext(), allGymsByDistance);
-        adapterUserGyms = new UserGymAdapter(getContext(), gymsFollowed);
-        rvGyms.setAdapter(adapterAllGyms);
-        rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
-        allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
+
+        TabItem tiAllGyms = binding.tiAllGyms;
+        TabItem tiYourGyms = binding.tiYourGyms;
+        TabItem tiMaps = binding.tiMapView;
+
+
+
+        PagerAdapter pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), binding.tlGymsList.getTabCount());
+
+        binding.vpGymList.setAdapter(pagerAdapter);
+
+
+//        rvGyms = binding.rvGyms;
+//        allGymsByDistance = new ArrayList<>();
+//        gymsFollowed = new ArrayList<>();
+//        adapterAllGyms = new GymAdapter(getContext(), allGymsByDistance);
+//        adapterUserGyms = new UserGymAdapter(getContext(), gymsFollowed);
+//        rvGyms.setAdapter(adapterAllGyms);
+//        rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
+//        allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
+
+
+
+
+
 
         //TODO refresh listener.
 //        //swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -88,74 +107,75 @@ public class GymFinderFragment extends Fragment {
 //                android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light,
 //                android.R.color.holo_red_light);
-
-        binding.btAllGyms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rvGyms.setAdapter(adapterAllGyms);
-                rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
-                fetchAllGymsAsync(0);
-            }
-        });
-
-        binding.btYourGyms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rvGyms.setAdapter(adapterUserGyms);
-                rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
-                fetchUserGymsAsync(0);
-            }
-        });
+//        //TODO change to tab bar and view pager.
+//        binding.btAllGyms.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rvGyms.setAdapter(adapterAllGyms);
+//                rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
+//                fetchAllGymsAsync(0);
+//            }
+//        });
+//
+//        binding.btYourGyms.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rvGyms.setAdapter(adapterUserGyms);
+//                rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
+//                fetchUserGymsAsync(0);
+//            }
+//        });
 
     }
 
-    public void fetchAllGymsAsync(int i) {
-        adapterAllGyms.clear();
-        allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
-    }
+//    public void fetchAllGymsAsync(int i) {
+//        adapterAllGyms.clear();
+//        allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
+//    }
+//
+//    public void fetchUserGymsAsync(int i) {
+//        adapterUserGyms.clear();
+//        queryUsersGymsByDistance(ParseUser.getCurrentUser());
+//    }
 
-    public void fetchUserGymsAsync(int i) {
-        adapterUserGyms.clear();
-        queryUsersGymsByDistance(ParseUser.getCurrentUser());
-    }
-
-    //Gets a list of all the gyms in order of distance from the user.
-    private void allGymsByDistance(ParseGeoPoint userLocation) {
-        ParseQuery<Gym> query = new ParseQuery<>("Gym");
-        query.whereNear("location", userLocation);
-        query.include("nextEvent");
-        query.findInBackground(new FindCallback<Gym>() {
-            @Override
-            public void done(List<Gym> gymList, ParseException e) {
-                if (e == null) {
-                    allGymsByDistance.addAll(gymList);
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-                adapterAllGyms.notifyDataSetChanged();
-            }
-        });
-    }
-
-    //Get a list of gyms that the user follows.
-    private void queryUsersGymsByDistance(ParseUser user) {
-        ParseGeoPoint userLocation = user.getParseGeoPoint("longLat");
-        ParseQuery<Gym> query = new ParseQuery<>("Gym");
-        query.whereEqualTo("usersFollowing", user);
-        query.whereNear("location", userLocation);
-        query.include("details");
-        query.include("startTime");
-        query.include("endTime");
-        query.findInBackground(new FindCallback<Gym>() {
-            @Override
-            public void done(List<Gym> gymList, ParseException e) {
-                if (e == null) {
-                    gymsFollowed.addAll(gymList);
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-                adapterUserGyms.notifyDataSetChanged();
-            }
-        });
-    }
+//    //Gets a list of all the gyms in order of distance from the user.
+//    private void allGymsByDistance(ParseGeoPoint userLocation) {
+//        ParseQuery<Gym> query = new ParseQuery<>("Gym");
+//        query.whereNear("location", userLocation);
+//        query.include("nextEvent");
+//        query.findInBackground(new FindCallback<Gym>() {
+//            @Override
+//            public void done(List<Gym> gymList, ParseException e) {
+//                if (e == null) {
+//                    allGymsByDistance.addAll(gymList);
+//                } else {
+//                    Log.d("item", "Error: " + e.getMessage());
+//                }
+//                adapterAllGyms.notifyDataSetChanged();
+//            }
+//        });
+//
+//    }
+//
+//    //Get a list of gyms that the user follows.
+//    private void queryUsersGymsByDistance(ParseUser user) {
+//        ParseGeoPoint userLocation = user.getParseGeoPoint("longLat");
+//        ParseQuery<Gym> query = new ParseQuery<>("Gym");
+//        query.whereEqualTo("usersFollowing", user);
+//        query.whereNear("location", userLocation);
+//        query.include("details");
+//        query.include("startTime");
+//        query.include("endTime");
+//        query.findInBackground(new FindCallback<Gym>() {
+//            @Override
+//            public void done(List<Gym> gymList, ParseException e) {
+//                if (e == null) {
+//                    gymsFollowed.addAll(gymList);
+//                } else {
+//                    Log.d("item", "Error: " + e.getMessage());
+//                }
+//                adapterUserGyms.notifyDataSetChanged();
+//            }
+//        });
+//    }
 }

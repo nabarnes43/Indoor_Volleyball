@@ -81,15 +81,30 @@ public class CreateGymActivity extends AppCompatActivity {
 
             binding.tvLocation.setText(String.valueOf(place.getLatLng()));
             //TODO need code for if any of this information doesn't exist!
-            binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
+            //TODO make a function takes string view.
 
+
+
+            if (place.getOpeningHours()!=null) {
+                binding.tvOpeningHours.setVisibility(View.VISIBLE);
+                binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
+            } else {
+                binding.tvOpeningHours.setVisibility(View.GONE);
+            }
+
+            if (place.getOpeningHours()!=null) {
+                binding.tvOpeningHours.setVisibility(View.VISIBLE);
+                binding.tvWebsiteUrI.setText("Website " + place.getWebsiteUri());
+            } else {
+                binding.tvOpeningHours.setVisibility(View.GONE);
+            }
+
+            //TODO check link Andrew left on pull request.
             binding.tvBusinessStatus.setText("Business Status " + place.getBusinessStatus());
-
+            setTextOrHide(place.getBusinessStatus(), binding.tvBusinessStatus, R.string.business_status);
             binding.tvPhoneNumber.setText("Phone Number " + place.getPhoneNumber());
 
             binding.tvRating.setText("Rating " + (place.getRating()));
-
-            binding.tvWebsiteUrI.setText("Website " + place.getWebsiteUri());
 
             binding.tvPlaceId.setText("Place Id " + place.getId());
 
@@ -112,6 +127,16 @@ public class CreateGymActivity extends AppCompatActivity {
             Status status = Autocomplete.getStatusFromIntent(data);
             //Display toast
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setTextOrHide(Object text, TextView view, int formatId) {
+        if (text != null) {
+            view.setVisibility(View.VISIBLE);
+            String formattedString = getString(formatId, text.toString());
+            view.setText(formattedString);
+        } else {
+            view.setVisibility(View.GONE);
         }
     }
 

@@ -7,35 +7,78 @@
     tools:context=".Fragments.GymFinderFragment">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvGyms"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvGyms"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/rvGyms"-->
+<!--        tools:layout_editor_absoluteY="70dp" />-->
 
+<!--    TODO Delete when done with tab bars.-->
+<!--    <Button-->
+<!--        android:id="@+id/btYourGyms"-->
+<!--        android:layout_width="67dp"-->
+<!--        android:layout_height="26dp"-->
+<!--        android:text="Your Gyms"-->
+<!--        android:textSize="5dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <Button
-        android:id="@+id/btYourGyms"
-        android:layout_width="67dp"
-        android:layout_height="26dp"
-        android:text="Your Gyms"
-        android:textSize="5dp"
+<!--    <Button-->
+<!--        android:id="@+id/btAllGyms"-->
+<!--        android:layout_width="66dp"-->
+<!--        android:layout_height="26dp"-->
+<!--        android:text="All Gyms"-->
+<!--        android:textSize="5dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btYourGyms"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="409dp"
+         android:id="@+id/tlGymsList"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="79dp">
 
-    <Button
-        android:id="@+id/btAllGyms"
-        android:layout_width="66dp"
-        android:layout_height="26dp"
-        android:text="All Gyms"
-        android:textSize="5dp"
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tiAllGyms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close Gyms" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tiYourGyms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Gyms" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tiMapView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Map View" />
+    </com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpGymList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btYourGyms"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tlGymsList" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
