@@ -48,29 +48,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="79dp">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tiAllGyms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Close Gyms" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tiYourGyms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your Gyms" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tiMapView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Map View" />
-    </com.google.android.material.tabs.TabLayout>
+        tools:layout_editor_absoluteY="79dp"/>
 
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vpGymList"
         android:layout_width="0dp"
         android:layout_height="0dp"

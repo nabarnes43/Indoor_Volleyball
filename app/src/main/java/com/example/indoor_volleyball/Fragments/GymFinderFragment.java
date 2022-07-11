@@ -21,11 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 
 import com.example.indoor_volleyball.QueryActivity;
 import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -60,20 +63,16 @@ public class GymFinderFragment extends Fragment {
         return view;
     }
 
+    //Sub-classes have get data method that's it.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setContentView(R.layout.fragment_gym_finder);
 
-        TabItem tiAllGyms = binding.tiAllGyms;
-        TabItem tiYourGyms = binding.tiYourGyms;
-        TabItem tiMaps = binding.tiMapView;
-
-
-
-        PagerAdapter pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), binding.tlGymsList.getTabCount());
-
+        PagerAdapter pagerAdapter = new PagerAdapter(this);
         binding.vpGymList.setAdapter(pagerAdapter);
+        TabLayout tlGymsList = binding.tlGymsList;
+        new TabLayoutMediator(tlGymsList, binding.vpGymList,
+                (tab, position) -> tab.setText(pagerAdapter.getTitle(position))).attach();
 
 
 //        rvGyms = binding.rvGyms;
@@ -86,11 +85,8 @@ public class GymFinderFragment extends Fragment {
 //        allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
 
 
-
-
-
-
         //TODO refresh listener.
+        // FIXME ggfdghjhf
 //        //swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 //        // Setup refresh listener which triggers new data loading
 //        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
