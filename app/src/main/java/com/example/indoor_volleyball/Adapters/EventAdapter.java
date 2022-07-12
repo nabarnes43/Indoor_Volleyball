@@ -46,7 +46,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new ViewHolder(ItemEventBinding.inflate(inflater));
+        return new EventAdapter.ViewHolder(ItemEventBinding.inflate(inflater, parent,false));
     }
 
     @Override
@@ -105,6 +105,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         events.clear();
         notifyDataSetChanged();
     }
+
+    //TODO ask andrew the difference between this and how I am doing it.
 
     // Add a list of items -- change to type used
     public void addAll(List<Event> eventList) {

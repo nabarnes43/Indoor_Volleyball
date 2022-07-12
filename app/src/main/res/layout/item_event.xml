@@ -10,6 +10,7 @@
         android:id="@+id/ivEventCreatorProfile"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:padding="@dimen/event_item_padding"
         app:layout_constraintEnd_toStartOf="@id/tvSkillLevelEvent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,19 +21,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Skill Level: "
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@id/tvDate"
         app:layout_constraintEnd_toStartOf="@id/tvMinMaxCount"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/ivEventCreatorProfile"
-
+        android:padding="@dimen/event_item_padding"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01" />
+        />
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="0dp"
+        android:textSize="16dp"
         android:layout_height="wrap_content"
         android:text="Start Time: End Time:"
+        android:padding="@dimen/event_item_padding"
         app:layout_constraintStart_toEndOf="@id/ivEventCreatorProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSkillLevelEvent"
@@ -42,7 +46,9 @@
         android:id="@+id/tvMinMaxCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="Min: Max: "
+        android:padding="@dimen/event_item_padding"
         app:layout_constraintBottom_toBottomOf="@id/tvSkillLevelEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

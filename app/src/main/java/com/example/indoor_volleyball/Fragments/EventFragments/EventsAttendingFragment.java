@@ -10,30 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.FragmentEventFinderBinding;
 import com.example.indoor_volleyball.databinding.FragmentEventsAttendingBinding;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 
-public class EventsAttendingFragment extends Fragment {
+public class EventsAttendingFragment extends EventListFragment {
     private FragmentEventsAttendingBinding binding;
 
     public EventsAttendingFragment() {
         // Required empty public constructor
     }
 
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentEventsAttendingBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected ParseQuery<Event> getEventQuery() {
+        ParseQuery<Event> query = super.getEventQuery();
+        query.whereEqualTo("userRelation", ParseUser.getCurrentUser());
+        return query;
     }
 }
