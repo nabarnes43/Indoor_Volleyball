@@ -1,4 +1,4 @@
-package com.example.indoor_volleyball;
+package com.example.indoor_volleyball.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,16 +6,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
+
 import com.example.indoor_volleyball.databinding.ActivityLoginBinding;
-import com.example.indoor_volleyball.databinding.ActivityMainBinding;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

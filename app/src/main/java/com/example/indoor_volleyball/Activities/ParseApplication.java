@@ -1,4 +1,4 @@
-package com.example.indoor_volleyball;
+package com.example.indoor_volleyball.Activities;
 
 import android.app.Application;
 

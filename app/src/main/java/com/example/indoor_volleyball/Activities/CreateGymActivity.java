@@ -1,11 +1,9 @@
-package com.example.indoor_volleyball;
+package com.example.indoor_volleyball.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Gym;
+import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateGymBinding;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -22,12 +21,10 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.parceler.Parcels;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,15 +78,30 @@ public class CreateGymActivity extends AppCompatActivity {
 
             binding.tvLocation.setText(String.valueOf(place.getLatLng()));
             //TODO need code for if any of this information doesn't exist!
-            binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
+            //TODO make a function takes string view.
 
+
+
+            if (place.getOpeningHours()!=null) {
+                binding.tvOpeningHours.setVisibility(View.VISIBLE);
+                binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
+            } else {
+                binding.tvOpeningHours.setVisibility(View.GONE);
+            }
+
+            if (place.getOpeningHours()!=null) {
+                binding.tvOpeningHours.setVisibility(View.VISIBLE);
+                binding.tvWebsiteUrI.setText("Website " + place.getWebsiteUri());
+            } else {
+                binding.tvOpeningHours.setVisibility(View.GONE);
+            }
+
+            //TODO check link Andrew left on pull request.
             binding.tvBusinessStatus.setText("Business Status " + place.getBusinessStatus());
-
+            setTextOrHide(place.getBusinessStatus(), binding.tvBusinessStatus, R.string.business_status);
             binding.tvPhoneNumber.setText("Phone Number " + place.getPhoneNumber());
 
             binding.tvRating.setText("Rating " + (place.getRating()));
-
-            binding.tvWebsiteUrI.setText("Website " + place.getWebsiteUri());
 
             binding.tvPlaceId.setText("Place Id " + place.getId());
 
@@ -112,6 +124,16 @@ public class CreateGymActivity extends AppCompatActivity {
             Status status = Autocomplete.getStatusFromIntent(data);
             //Display toast
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setTextOrHide(Object text, TextView view, int formatId) {
+        if (text != null) {
+            view.setVisibility(View.VISIBLE);
+            String formattedString = getString(formatId, text.toString());
+            view.setText(formattedString);
+        } else {
+            view.setVisibility(View.GONE);
         }
     }
 
