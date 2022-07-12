@@ -1,11 +1,9 @@
-package com.example.indoor_volleyball;
+package com.example.indoor_volleyball.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Gym;
+import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateGymBinding;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -22,12 +21,10 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.parceler.Parcels;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.indoor_volleyball;
+package com.example.indoor_volleyball.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,17 +7,20 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Fragments.EventsFragment;
 import com.example.indoor_volleyball.Fragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
+import com.example.indoor_volleyball.Models.Gym;
+import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -39,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(view);
         final FragmentManager fragmentManager = getSupportFragmentManager();
-
 
 
         binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
@@ -71,8 +73,12 @@ public class MainActivity extends AppCompatActivity {
         });
         //Default
         binding.bottomNavigation.setSelectedItemId(R.id.events);
+    }
 
-
+    public void goToGymDetails(Gym gym) {
+        Intent i = new Intent(this, GymDetailActivity.class);
+        i.putExtra("gym", Parcels.wrap(gym));
+        startActivity(i);
     }
 
 

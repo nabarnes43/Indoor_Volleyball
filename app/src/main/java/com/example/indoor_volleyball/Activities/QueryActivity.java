@@ -1,11 +1,10 @@
-package com.example.indoor_volleyball;
+package com.example.indoor_volleyball.Activities;
 
 import static org.junit.Assert.assertEquals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,16 +14,11 @@ import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.databinding.ActivityQueryBinding;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.junit.Test;
-
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

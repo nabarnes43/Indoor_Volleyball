@@ -16,28 +16,14 @@ import com.example.indoor_volleyball.Adapters.UserGymAdapter;
 import com.example.indoor_volleyball.Models.Gym;
 
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.widget.TableLayout;
-import android.widget.Toast;
 
-
-import com.example.indoor_volleyball.QueryActivity;
-import com.google.android.material.tabs.TabItem;
+import com.example.indoor_volleyball.databinding.FragmentGymFinderBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.example.indoor_volleyball.databinding.FragmentGymFinderBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -103,24 +89,7 @@ public class GymFinderFragment extends Fragment {
 //                android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light,
 //                android.R.color.holo_red_light);
-//        //TODO change to tab bar and view pager.
-//        binding.btAllGyms.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                rvGyms.setAdapter(adapterAllGyms);
-//                rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
-//                fetchAllGymsAsync(0);
-//            }
-//        });
-//
-//        binding.btYourGyms.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                rvGyms.setAdapter(adapterUserGyms);
-//                rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
-//                fetchUserGymsAsync(0);
-//            }
-//        });
+
 
     }
 

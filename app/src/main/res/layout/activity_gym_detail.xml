@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Details.GymDetailActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCreateEvent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:outlineAmbientShadowColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="@dimen/gymDetailsPadding"
+        />
+
+
+    <TextView
+        android:id="@+id/tvGymNameDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="35dp"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:text="YMCA Pablo Carlo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ivGymPhotoDetail"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/gymDetailsPadding"
+        android:textAlignment="center"/>
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/rbGymRatingDetail"
+        style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:layout_width="135dp"
+        android:layout_height="45dp"
+        android:numStars="5"
+        android:padding="@dimen/gymDetailsPadding"
+        android:rating="3"
+        android:stepSize=".5"
+        app:layout_constraintBottom_toBottomOf="@id/tvNextEvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNextEvent"
+        app:layout_constraintTop_toBottomOf="@id/ivGymPhotoDetail"
+        />
+
+    <ImageView
+        android:id="@+id/ivGymPhotoDetail"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGymNameDetail"
+        app:layout_constraintBottom_toTopOf="@id/tvNextEvent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvNextEvent"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:padding="@dimen/gymDetailsPadding"
+        android:text="Next Event: "
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@id/tvNextEventsDetail"
+        app:layout_constraintEnd_toStartOf="@id/rbGymRatingDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivGymPhotoDetail" />
+
+    <TextView
+        android:id="@+id/tvNextEventsDetail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Start Time: "
+        android:padding="@dimen/gymDetailsPadding"
+        app:layout_constraintBottom_toTopOf="@id/lvAllEvents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNextEvent" />
+
+    <ListView
+        android:id="@+id/lvAllEvents"
+        android:layout_width="415dp"
+        android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNextEventsDetail"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

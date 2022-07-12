@@ -6,7 +6,6 @@
     android:background="#FFFFFF"
     tools:context=".Fragments.YourGymsFragment">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGyms"
         android:layout_width="match_parent"

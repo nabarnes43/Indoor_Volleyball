@@ -17,10 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.indoor_volleyball.CreateEventActivity;
-import com.example.indoor_volleyball.CreateGymActivity;
-import com.example.indoor_volleyball.LoginActivity;
-import com.example.indoor_volleyball.QueryActivity;
+import com.example.indoor_volleyball.Activities.CreateEventActivity;
+import com.example.indoor_volleyball.Activities.CreateGymActivity;
+import com.example.indoor_volleyball.Activities.LoginActivity;
+import com.example.indoor_volleyball.Activities.QueryActivity;
 import com.example.indoor_volleyball.databinding.FragmentProfileBinding;
 import com.parse.ParseUser;
 

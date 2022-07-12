@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 
@@ -99,12 +100,12 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
             rbGymRating.setRating(gym.getRating().floatValue());
 
             //TODO add functionality to the clicks for gyn.
-//            tvGymName.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    ((MainActivity) context).goToProfileTab(post.getUser());
-//                }
-//            });
+            tvGymName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity) context).goToGymDetails(gym);
+                }
+            });
 
             //TODO Image code
 //            ParseFile image = post.getImage();

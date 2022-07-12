@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_create_event.xml" value="0.3187022900763359" />
         <entry key="app/src/main/res/layout/activity_create_gym.xml" value="0.6848609680741503" />
+        <entry key="app/src/main/res/layout/activity_gym_detail.xml" value="0.41893830703012913" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.5942708333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26042632066728455" />
         <entry key="app/src/main/res/layout/activity_query.xml" value="0.75" />
