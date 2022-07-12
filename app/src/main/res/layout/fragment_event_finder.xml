@@ -7,24 +7,22 @@
     tools:context=".Fragments.GymFragments.GymFinderFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:layout_width="409dp"
-         android:id="@+id/tlGymsList"
+        android:layout_width="0dp"
+        android:id="@+id/tlEventList"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="79dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vpGymList"
+        android:id="@+id/vpEventList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tlGymsList" />
+        app:layout_constraintTop_toBottomOf="@+id/tlEventList" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

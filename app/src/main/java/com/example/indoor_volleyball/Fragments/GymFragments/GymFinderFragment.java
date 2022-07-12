@@ -1,4 +1,4 @@
-package com.example.indoor_volleyball.Fragments;
+package com.example.indoor_volleyball.Fragments.GymFragments;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.GymAdapter;
-import com.example.indoor_volleyball.Adapters.PagerAdapter;
+import com.example.indoor_volleyball.Adapters.GymsPagerAdapter;
 import com.example.indoor_volleyball.Adapters.UserGymAdapter;
 import com.example.indoor_volleyball.Models.Gym;
 
@@ -54,11 +54,11 @@ public class GymFinderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        PagerAdapter pagerAdapter = new PagerAdapter(this);
-        binding.vpGymList.setAdapter(pagerAdapter);
+        GymsPagerAdapter gymsPagerAdapter = new GymsPagerAdapter(this);
+        binding.vpGymList.setAdapter(gymsPagerAdapter);
         TabLayout tlGymsList = binding.tlGymsList;
         new TabLayoutMediator(tlGymsList, binding.vpGymList,
-                (tab, position) -> tab.setText(pagerAdapter.getTitle(position))).attach();
+                (tab, position) -> tab.setText(gymsPagerAdapter.getTitle(position))).attach();
 
 
 //        rvGyms = binding.rvGyms;
@@ -72,7 +72,6 @@ public class GymFinderFragment extends Fragment {
 
 
         //TODO refresh listener.
-        // FIXME ggfdghjhf
 //        //swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 //        // Setup refresh listener which triggers new data loading
 //        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

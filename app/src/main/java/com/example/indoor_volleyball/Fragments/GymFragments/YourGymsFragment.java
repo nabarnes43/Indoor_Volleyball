@@ -1,4 +1,4 @@
-package com.example.indoor_volleyball.Fragments;
+package com.example.indoor_volleyball.Fragments.GymFragments;
 
 import android.os.Bundle;
 
@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,10 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.GymAdapter;
-import com.example.indoor_volleyball.Adapters.UserGymAdapter;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
-import com.example.indoor_volleyball.databinding.FragmentAllGymsBinding;
 import com.example.indoor_volleyball.databinding.FragmentGymFinderBinding;
 import com.example.indoor_volleyball.databinding.FragmentYourGymsBinding;
 import com.parse.FindCallback;
@@ -31,16 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AllGymsFragment extends Fragment {
+public class YourGymsFragment extends Fragment {
+    FragmentYourGymsBinding binding;
+    List<Gym> gymsFollowed;
+    GymAdapter adapterUserGyms;
+    RecyclerView rvGyms;
 
-    private FragmentYourGymsBinding binding;
-    private SwipeRefreshLayout swipeContainer;
-    private GymAdapter adapterAllGyms;
-    private UserGymAdapter adapterUserGyms;
-    private RecyclerView rvGyms;
-    List<Gym> allGymsByDistance;
 
-    public AllGymsFragment() {
+    public YourGymsFragment() {
         // Required empty public constructor
     }
 
@@ -49,46 +44,54 @@ public class AllGymsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         binding = FragmentYourGymsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        return view;    }
+        return view;
+        // Inflate the layout for this fragment
+        //return inflater.inflate(R.layout.fragment_your_gyms, container, false);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         rvGyms = binding.rvGyms;
-        allGymsByDistance = new ArrayList<>();
-        adapterAllGyms = new GymAdapter(getContext(), allGymsByDistance);
-        rvGyms.setAdapter(adapterAllGyms);
+        gymsFollowed = new ArrayList<>();
+        adapterUserGyms = new GymAdapter(getContext(), gymsFollowed);
+        rvGyms.setAdapter(adapterUserGyms);
         rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
-        fetchAllGymsAsync(0);
+        fetchUserGymsAsync(0);
     }
 
 
-    public void fetchAllGymsAsync(int i) {
-        adapterAllGyms.clear();
-        allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
+
+    public void fetchUserGymsAsync(int i) {
+        adapterUserGyms.clear();
+        queryUsersGymsByDistance(ParseUser.getCurrentUser());
     }
 
-    //Gets a list of all the gyms in order of distance from the user.
-    private void allGymsByDistance(ParseGeoPoint userLocation) {
+        //Get a list of gyms that the user follows.
+    private void queryUsersGymsByDistance(ParseUser user) {
+        ParseGeoPoint userLocation = user.getParseGeoPoint("longLat");
         ParseQuery<Gym> query = new ParseQuery<>("Gym");
+        query.whereEqualTo("usersFollowing", user);
         query.whereNear("location", userLocation);
-        query.include("nextEvent");
+        query.include("details");
+        query.include("startTime");
+        query.include("endTime");
         query.findInBackground(new FindCallback<Gym>() {
             @Override
             public void done(List<Gym> gymList, ParseException e) {
                 if (e == null) {
-                    allGymsByDistance.addAll(gymList);
+                    gymsFollowed.addAll(gymList);
                 } else {
                     Log.d("item", "Error: " + e.getMessage());
                 }
-                adapterAllGyms.notifyDataSetChanged();
+                adapterUserGyms.notifyDataSetChanged();
             }
         });
     }
+
 
 
 }

@@ -2,21 +2,16 @@ package com.example.indoor_volleyball.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.indoor_volleyball.Fragments.AllGymsFragment;
+import com.example.indoor_volleyball.Fragments.GymFragments.AllGymsFragment;
 import com.example.indoor_volleyball.Fragments.MapsFragment;
-import com.example.indoor_volleyball.Fragments.YourGymsFragment;
+import com.example.indoor_volleyball.Fragments.GymFragments.YourGymsFragment;
 
-public class PagerAdapter extends FragmentStateAdapter {
+public class GymsPagerAdapter extends FragmentStateAdapter {
 
-    private int numOfTabs;
 
-    public PagerAdapter(@NonNull Fragment gymFinderFragment) {
+    public GymsPagerAdapter(@NonNull Fragment gymFinderFragment) {
         super(gymFinderFragment);
     }
 

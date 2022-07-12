@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
-import com.example.indoor_volleyball.Fragments.EventsFragment;
-import com.example.indoor_volleyball.Fragments.GymFinderFragment;
+import com.example.indoor_volleyball.Fragments.EventFragments.EventFinderFragment;
+import com.example.indoor_volleyball.Fragments.GymFragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.events:
                         // do something here
                         Toast.makeText(MainActivity.this, "EVENTS", Toast.LENGTH_SHORT).show();
-                        fragment = new EventsFragment();
+                        fragment = new EventFinderFragment();
                         break;
                     case R.id.find:
                         // do something here

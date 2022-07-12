@@ -1,4 +1,4 @@
-package com.example.indoor_volleyball.Fragments;
+package com.example.indoor_volleyball.Fragments.EventFragments;
 
 import android.os.Bundle;
 
@@ -10,21 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.indoor_volleyball.databinding.FragmentEventsBinding;
+import com.example.indoor_volleyball.R;
+import com.example.indoor_volleyball.databinding.FragmentEventFinderBinding;
+import com.example.indoor_volleyball.databinding.FragmentEventsAttendingBinding;
 
 
-public class EventsFragment extends Fragment {
-    private FragmentEventsBinding binding;
+public class EventsAttendingFragment extends Fragment {
+    private FragmentEventsAttendingBinding binding;
 
-    public EventsFragment() {
+    public EventsAttendingFragment() {
         // Required empty public constructor
     }
 
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentEventsBinding.inflate(getLayoutInflater());
+        binding = FragmentEventsAttendingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         return view;
     }
@@ -32,6 +35,5 @@ public class EventsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Set up all the views
     }
 }
