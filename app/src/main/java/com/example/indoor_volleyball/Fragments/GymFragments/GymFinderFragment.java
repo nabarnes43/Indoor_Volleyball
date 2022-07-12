@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.GymAdapter;
 import com.example.indoor_volleyball.Adapters.GymsPagerAdapter;
-import com.example.indoor_volleyball.Adapters.UserGymAdapter;
 import com.example.indoor_volleyball.Models.Gym;
 
 
@@ -32,7 +31,6 @@ public class GymFinderFragment extends Fragment {
     private FragmentGymFinderBinding binding;
     private SwipeRefreshLayout swipeContainer;
     private GymAdapter adapterAllGyms;
-    private UserGymAdapter adapterUserGyms;
     private RecyclerView rvGyms;
     List<Gym> gymsFollowed;
     List<Gym> allGymsByDistance;

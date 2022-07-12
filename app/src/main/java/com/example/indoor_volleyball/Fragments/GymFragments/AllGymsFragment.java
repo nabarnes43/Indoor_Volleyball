@@ -15,11 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.GymAdapter;
-import com.example.indoor_volleyball.Adapters.UserGymAdapter;
 import com.example.indoor_volleyball.Models.Gym;
-import com.example.indoor_volleyball.R;
-import com.example.indoor_volleyball.databinding.FragmentAllGymsBinding;
-import com.example.indoor_volleyball.databinding.FragmentGymFinderBinding;
 import com.example.indoor_volleyball.databinding.FragmentYourGymsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -36,7 +32,6 @@ public class AllGymsFragment extends Fragment {
     private FragmentYourGymsBinding binding;
     private SwipeRefreshLayout swipeContainer;
     private GymAdapter adapterAllGyms;
-    private UserGymAdapter adapterUserGyms;
     private RecyclerView rvGyms;
     List<Gym> allGymsByDistance;
 

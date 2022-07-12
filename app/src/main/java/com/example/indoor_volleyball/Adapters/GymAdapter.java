@@ -22,6 +22,7 @@ import com.example.indoor_volleyball.Models.Gym;
 
 
 import com.example.indoor_volleyball.R;
+import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
@@ -34,6 +35,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     private Context context;
     private List<Gym> gyms;
 
+
     public GymAdapter(Context context, List<Gym> gyms) {
         this.context = context;
         this.gyms = gyms;
@@ -42,15 +44,16 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
-        return new ViewHolder(view);
+        //View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        return new ViewHolder(ItemGymBinding.inflate(inflater));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Gym gym = gyms.get(position);
         //Every gym needs an event
-        holder.rootView.setTag(gym);
         try {
             holder.bind(gym);
         } catch (ParseException e) {
@@ -64,19 +67,13 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final View rootView;
-        private TextView tvGymName;
-        private ImageView ivGymPhoto;
-        private TextView tvEventDateDescription;
-        private RatingBar rbGymRating;
+        ItemGymBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvGymName = itemView.findViewById(R.id.tvGymName);
-            ivGymPhoto = itemView.findViewById(R.id.ivGymPhoto);
-            tvEventDateDescription = itemView.findViewById(R.id.tvEventDateDescription);
-            rbGymRating = itemView.findViewById(R.id.rbGymRating);
-            rootView = itemView;
+
+        public ViewHolder(ItemGymBinding b) {
+            super(b.getRoot());
+            binding = b;
+
 
             //On click listener for item
             //TODO set up detail view.
@@ -92,15 +89,13 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 //                }
 //            });
         }
-
+        //TODO adding bindings made the formatting weird
         public void bind(Gym gym) throws ParseException {
             Event nextEvent = (Event) gym.getNextEvent();
-            tvGymName.setText(gym.getName());
-            tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
-            rbGymRating.setRating(gym.getRating().floatValue());
-
-            //TODO add functionality to the clicks for gyn.
-            tvGymName.setOnClickListener(new View.OnClickListener() {
+            binding.tvGymName.setText(gym.getName());
+            binding.tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
+            binding.rbGymRating.setRating(gym.getRating().floatValue());
+            binding.tvGymName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((MainActivity) context).goToGymDetails(gym);

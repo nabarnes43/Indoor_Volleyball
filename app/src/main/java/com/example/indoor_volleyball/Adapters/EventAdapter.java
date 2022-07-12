@@ -8,50 +8,52 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
+
+
 import com.example.indoor_volleyball.R;
 import com.parse.ParseException;
 
-import java.util.Date;
 import java.util.List;
 
-public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private Context context;
-    private List<Gym> gyms;
+    private List<Event> events;
 
-    public UserGymAdapter(Context context, List<Gym> gyms) {
+    public EventAdapter(Context context, List<Event> events) {
         this.context = context;
-        this.gyms = gyms;
+        this.events = events;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Gym gym = gyms.get(position);
+        Event event = events.get(position);
         //Every gym needs an event
-        holder.rootView.setTag(gym);
-        try {
-            holder.bind(gym);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        holder.rootView.setTag(event);
+//        try {
+//            holder.bind(event);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return gyms.size();
+        return events.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,6 +71,7 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
             rbGymRating = itemView.findViewById(R.id.rbGymRating);
             rootView = itemView;
 
+            //On click listener for item
             //TODO set up detail view.
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -79,7 +82,6 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
 //                        i.putExtra("post", Parcels.wrap(post));
 //                        context.startActivity(i);
 //                    }
-//
 //                }
 //            });
         }
@@ -91,12 +93,12 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
             rbGymRating.setRating(gym.getRating().floatValue());
 
             //TODO add functionality to the clicks for gyn.
-//            tvGymName.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    ((MainActivity) context).goToProfileTab(post.getUser());
-//                }
-//            });
+            tvGymName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity) context).goToGymDetails(gym);
+                }
+            });
 
             //TODO Image code
 //            ParseFile image = post.getImage();
@@ -106,17 +108,17 @@ public class UserGymAdapter extends RecyclerView.Adapter<UserGymAdapter.ViewHold
         }
     }
 
-    // Clean all elements of the recycler
-    public void clear() {
-        gyms.clear();
-        notifyDataSetChanged();
-    }
-
-    // Add a list of items -- change to type used
-    public void addAll(List<Gym> gymList) {
-        gyms.addAll(gymList);
-        notifyDataSetChanged();
-    }
+//    // Clean all elements of the recycler
+//    public void clear() {
+//        gyms.clear();
+//        notifyDataSetChanged();
+//    }
+//
+//    // Add a list of items -- change to type used
+//    public void addAll(List<Gym> gymList) {
+//        gyms.addAll(gymList);
+//        notifyDataSetChanged();
+//    }
 
 
 }
