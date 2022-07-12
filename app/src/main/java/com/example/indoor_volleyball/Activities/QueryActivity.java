@@ -297,7 +297,6 @@ public class QueryActivity extends AppCompatActivity {
             @Override
             public void done(List<Event> eventList, ParseException e) {
                 if (e == null) {
-
                     Collections.sort(eventList, new Comparator<Event>() {
                         public int compare(Event o1, Event o2) {
                             return o1.getStartTime().compareTo(o2.getStartTime());

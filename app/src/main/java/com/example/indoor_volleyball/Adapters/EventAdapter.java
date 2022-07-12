@@ -2,30 +2,40 @@ package com.example.indoor_volleyball.Adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 
 
 import com.example.indoor_volleyball.R;
+import com.example.indoor_volleyball.databinding.ItemEventBinding;
+import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 
+import org.parceler.Parcels;
+
+import java.util.Date;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private Context context;
     private List<Event> events;
+
 
     public EventAdapter(Context context, List<Event> events) {
         this.context = context;
@@ -35,20 +45,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
-        return new ViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        return new ViewHolder(ItemEventBinding.inflate(inflater));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Event event = events.get(position);
-        //Every gym needs an event
-        holder.rootView.setTag(event);
-//        try {
-//            holder.bind(event);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        holder.binding.getRoot().setTag(event);
+        try {
+            holder.bind(event);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -57,48 +66,31 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final View rootView;
-        private TextView tvGymName;
-        private ImageView ivGymPhoto;
-        private TextView tvEventDateDescription;
-        private RatingBar rbGymRating;
+        ItemEventBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvGymName = itemView.findViewById(R.id.tvGymName);
-            ivGymPhoto = itemView.findViewById(R.id.ivGymPhoto);
-            tvEventDateDescription = itemView.findViewById(R.id.tvEventDateDescription);
-            rbGymRating = itemView.findViewById(R.id.rbGymRating);
-            rootView = itemView;
 
-            //On click listener for item
-            //TODO set up detail view.
+
+
+        public ViewHolder(ItemEventBinding b) {
+            super(b.getRoot());
+            binding = b;
+//TODO event Detail View
+
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    final Post post = (Post) v.getTag();
-//                    if (post!=null) {
-//                        Intent i = new Intent(context, PostDetail.class );
-//                        i.putExtra("post", Parcels.wrap(post));
-//                        context.startActivity(i);
+//                    final Gym gym = (Gym) v.getTag();
+//                    if (gym!=null) {
+//                        ((MainActivity) context).goToGymDetails(gym);
 //                    }
 //                }
 //            });
         }
-
-        public void bind(Gym gym) throws ParseException {
-            Event nextEvent = (Event) gym.getNextEvent();
-            tvGymName.setText(gym.getName());
-            tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
-            rbGymRating.setRating(gym.getRating().floatValue());
-
-            //TODO add functionality to the clicks for gyn.
-            tvGymName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) context).goToGymDetails(gym);
-                }
-            });
+        //TODO string resource and date formatter.
+        public void bind(Event event) throws ParseException {
+            binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
+            binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
+            binding.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
 
             //TODO Image code
 //            ParseFile image = post.getImage();
@@ -108,17 +100,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
     }
 
-//    // Clean all elements of the recycler
-//    public void clear() {
-//        gyms.clear();
-//        notifyDataSetChanged();
-//    }
-//
-//    // Add a list of items -- change to type used
-//    public void addAll(List<Gym> gymList) {
-//        gyms.addAll(gymList);
-//        notifyDataSetChanged();
-//    }
+    // Clean all elements of the recycler
+    public void clear() {
+        events.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Event> eventList) {
+        events.addAll(eventList);
+        notifyDataSetChanged();
+    }
 
 
 }

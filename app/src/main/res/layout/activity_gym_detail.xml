@@ -22,16 +22,17 @@
         android:id="@+id/tvGymNameDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="35dp"
         android:layout_marginTop="8dp"
-        android:textStyle="bold"
+        android:padding="@dimen/gymDetailsPadding"
         android:text="YMCA Pablo Carlo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        android:textSize="35dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/ivGymPhotoDetail"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/gymDetailsPadding"
-        android:textAlignment="center"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/rbGymRatingDetail"
@@ -61,33 +62,22 @@ app:layout_constraintStart_toStartOf="parent"
     <TextView
         android:id="@+id/tvNextEvent"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:padding="@dimen/gymDetailsPadding"
         android:text="Next Event: "
         android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@id/tvNextEventsDetail"
         app:layout_constraintEnd_toStartOf="@id/rbGymRatingDetail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivGymPhotoDetail" />
 
-    <TextView
-        android:id="@+id/tvNextEventsDetail"
+
+
+    <include
+        layout="@layout/item_event"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Start Time: "
-        android:padding="@dimen/gymDetailsPadding"
-        app:layout_constraintBottom_toTopOf="@id/lvAllEvents"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNextEvent" />
-
-    <ListView
-        android:id="@+id/lvAllEvents"
-        android:layout_width="415dp"
-        android:layout_height="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNextEventsDetail"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

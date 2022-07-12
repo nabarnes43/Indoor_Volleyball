@@ -47,13 +47,14 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
         //View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new ViewHolder(ItemGymBinding.inflate(inflater));
+        return new ViewHolder(ItemGymBinding.inflate(inflater, parent,false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Gym gym = gyms.get(position);
         //Every gym needs an event
+        holder.binding.getRoot().setTag(gym);
         try {
             holder.bind(gym);
         } catch (ParseException e) {
@@ -74,33 +75,22 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
             super(b.getRoot());
             binding = b;
 
-
-            //On click listener for item
-            //TODO set up detail view.
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final Post post = (Post) v.getTag();
-//                    if (post!=null) {
-//                        Intent i = new Intent(context, PostDetail.class );
-//                        i.putExtra("post", Parcels.wrap(post));
-//                        context.startActivity(i);
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Gym gym = (Gym) v.getTag();
+                    if (gym!=null) {
+                        ((MainActivity) context).goToGymDetails(gym);
+                    }
+                }
+            });
         }
-        //TODO adding bindings made the formatting weird
+
         public void bind(Gym gym) throws ParseException {
             Event nextEvent = (Event) gym.getNextEvent();
             binding.tvGymName.setText(gym.getName());
             binding.tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
             binding.rbGymRating.setRating(gym.getRating().floatValue());
-            binding.tvGymName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) context).goToGymDetails(gym);
-                }
-            });
 
             //TODO Image code
 //            ParseFile image = post.getImage();
