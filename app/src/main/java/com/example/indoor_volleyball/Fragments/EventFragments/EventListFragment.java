@@ -74,10 +74,12 @@ public abstract class EventListFragment extends Fragment {
         return eventQuery;
     }
 
-
+//TODO orgaize by date
 
     private void queryUserEventsManaging() {
         ParseQuery<Event> eventQuery = getEventQuery();
+        eventQuery.orderByAscending("startTime");
+        eventQuery.include("creator");
         eventQuery.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> eventList, ParseException e) {

@@ -26,6 +26,7 @@ import com.example.indoor_volleyball.databinding.ItemEventBinding;
 import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -35,6 +36,7 @@ import java.util.List;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private Context context;
     private List<Event> events;
+    private int position;
 
 
     public EventAdapter(Context context, List<Event> events) {
@@ -74,17 +76,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public ViewHolder(ItemEventBinding b) {
             super(b.getRoot());
             binding = b;
-//TODO event Detail View
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final Gym gym = (Gym) v.getTag();
-//                    if (gym!=null) {
-//                        ((MainActivity) context).goToGymDetails(gym);
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Event event = (Event) v.getTag();
+                    if (event!=null) {
+                        String user = ParseUser.getCurrentUser().getUsername();
+                        String creator = event.getCreator().getUsername();
+                        Toast.makeText(context, "Creator " + event.getCreator().getUsername(), Toast.LENGTH_SHORT).show();
+                        if (user.equals(creator)) {
+                            ((MainActivity) context).goToEventDetailsCreating(event);
+                        } else {
+                            ((MainActivity) context).goToEventDetailsAttending(event);
+                        }
+                    }
+                }
+            });
         }
         //TODO string resource and date formatter.
         public void bind(Event event) throws ParseException {

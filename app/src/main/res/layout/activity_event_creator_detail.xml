@@ -86,10 +86,10 @@
             android:layout_height="@dimen/spinnerDim"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"
-
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvAllowSpectators"
+            app:layout_constraintStart_toEndOf="@+id/tvAllowSpectatorsDetail"
             app:layout_constraintTop_toTopOf="@+id/tvAllowSpectatorsDetail" />
 
 

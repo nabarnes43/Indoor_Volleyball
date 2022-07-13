@@ -18,6 +18,15 @@
         android:theme="@style/Theme.Indoor_Volleyball"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.EventsAtGymActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Details.EventCreatorDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Details.EventAttendingActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Details.GymDetailActivity"
             android:exported="false" />
         <activity

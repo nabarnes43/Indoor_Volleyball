@@ -1,7 +1,13 @@
 package com.example.indoor_volleyball.Fragments.GymFragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -10,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Adapters.GymAdapter;
 import com.example.indoor_volleyball.Adapters.GymsPagerAdapter;
+import com.example.indoor_volleyball.Fragments.ProfileFragment;
 import com.example.indoor_volleyball.Models.Gym;
 
 
@@ -34,6 +42,13 @@ public class GymFinderFragment extends Fragment {
     private RecyclerView rvGyms;
     List<Gym> gymsFollowed;
     List<Gym> allGymsByDistance;
+    ActivityResultLauncher<Void> GymCreator = registerForActivityResult(new CreateGym(),
+            new ActivityResultCallback<Boolean>() {
+                @Override
+                public void onActivityResult(Boolean success) {
+                    //TODO refresh list.
+                }
+            });
 
     public GymFinderFragment() {
         // Required empty public constructor
@@ -45,6 +60,7 @@ public class GymFinderFragment extends Fragment {
         binding = FragmentGymFinderBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         return view;
+
     }
 
     //Sub-classes have get data method that's it.
@@ -57,6 +73,15 @@ public class GymFinderFragment extends Fragment {
         TabLayout tlGymsList = binding.tlGymsList;
         new TabLayoutMediator(tlGymsList, binding.vpGymList,
                 (tab, position) -> tab.setText(gymsPagerAdapter.getTitle(position))).attach();
+
+
+        binding.fabCreateGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getContext(), CreateGymActivity.class);
+                    GymCreator.launch(null);
+                }
+        });
 
 
 //        rvGyms = binding.rvGyms;
@@ -88,6 +113,19 @@ public class GymFinderFragment extends Fragment {
 //                android.R.color.holo_red_light);
 
 
+    }
+    public class CreateGym extends ActivityResultContract<Void, Boolean> {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, Void input) {
+            Intent i = new Intent(context, CreateGymActivity.class);
+            return i;
+        }
+
+        @Override
+        public Boolean parseResult(int resultCode, @Nullable Intent result) {
+            return resultCode == Activity.RESULT_OK;
+        }
     }
 
 //    public void fetchAllGymsAsync(int i) {
@@ -140,4 +178,7 @@ public class GymFinderFragment extends Fragment {
 //            }
 //        });
 //    }
+
+
 }
+
