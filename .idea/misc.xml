@@ -23,12 +23,14 @@
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.9" />
         <entry key="app/src/main/res/layout/fragment_events_attending.xml" value="0.9661458333333334" />
         <entry key="app/src/main/res/layout/fragment_events_created.xml" value="0.5470249520153551" />
+        <entry key="app/src/main/res/layout/fragment_gym_detail_dialog_fraagment.xml" value="0.5786948176583493" />
         <entry key="app/src/main/res/layout/fragment_gym_finder.xml" value="1.0121401817251063" />
         <entry key="app/src/main/res/layout/fragment_gym_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.9661458333333334" />
         <entry key="app/src/main/res/layout/fragment_your_gyms.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_event.xml" value="0.9651041666666667" />
         <entry key="app/src/main/res/layout/item_gym.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/marker_gym_item.xml" value="0.579250720461095" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.9" />
         <entry key="app/src/main/res/menu/refresh.xml" value="0.9651041666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.5235" />
