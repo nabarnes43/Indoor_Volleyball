@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.indoor_volleyball.Fragments.GymFragments.AllGymsFragment;
-import com.example.indoor_volleyball.Fragments.MapsFragment;
 import com.example.indoor_volleyball.Fragments.GymFragments.YourGymsFragment;
 
 public class GymsPagerAdapter extends FragmentStateAdapter {
@@ -25,8 +24,6 @@ public class GymsPagerAdapter extends FragmentStateAdapter {
                 return new AllGymsFragment();
             case 1:
                 return new YourGymsFragment();
-            case 2:
-                return new MapsFragment();
             default:
                 throw new IllegalArgumentException("Method only supports 0, 1 and 2");
         }
@@ -34,7 +31,7 @@ public class GymsPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 
     //TODO use string resources before I commit.
@@ -44,10 +41,8 @@ public class GymsPagerAdapter extends FragmentStateAdapter {
                 return "All Gyms";
             case 1:
                 return "Your Gyms";
-            case 2:
-                return "Maps";
             default:
-                throw new IllegalArgumentException("Method only supports 0, 1 and 2");
+                throw new IllegalArgumentException("Method only supports 0 and 1");
         }
     }
 }

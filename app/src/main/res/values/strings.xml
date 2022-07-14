@@ -14,4 +14,6 @@
     <string name="rotation_rule">Rotation Rule</string>
     <string name="website_format">Website %1$s</string>
     <string name="business_status">Business %1$s</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="action_bar_primary">#FF866500</string>
 </resources>

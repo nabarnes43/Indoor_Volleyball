@@ -1,18 +1,26 @@
 package com.example.indoor_volleyball.Fragments.GymFragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Adapters.GymAdapter;
+import com.example.indoor_volleyball.MapsActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.databinding.FragmentGymListBinding;
 import com.parse.FindCallback;
@@ -21,8 +29,11 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public abstract class GymListFragment extends Fragment {
@@ -30,6 +41,14 @@ public abstract class GymListFragment extends Fragment {
     List<Gym> gymsFollowed;
     GymAdapter adapterUserGyms;
     RecyclerView rvGyms;
+
+    ActivityResultLauncher<Void> MapOpener = registerForActivityResult(new OpenMap(),
+            new ActivityResultCallback<Boolean>() {
+                @Override
+                public void onActivityResult(Boolean success) {
+                    //TODO refresh list.
+                }
+            });
 
     public GymListFragment() {
         // Required empty public constructor
@@ -55,6 +74,16 @@ public abstract class GymListFragment extends Fragment {
         rvGyms.setAdapter(adapterUserGyms);
         rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
         fetchUserGymsAsync();
+
+        binding.fabCreateGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), MapsActivity.class);
+                i.putExtra("gymList", Parcels.wrap(gymsFollowed));
+                MapOpener.launch(null);
+
+            }
+        });
     }
 
     protected ParseQuery<Gym> getGymQuery(ParseUser user) {
@@ -87,6 +116,20 @@ public abstract class GymListFragment extends Fragment {
                 adapterUserGyms.notifyDataSetChanged();
             }
         });
+    }
+
+    public class OpenMap extends ActivityResultContract<Void, Boolean> {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, Void input) {
+            Intent i = new Intent(context, MapsActivity.class);
+            return i;
+        }
+
+        @Override
+        public Boolean parseResult(int resultCode, @Nullable Intent result) {
+            return resultCode == Activity.RESULT_OK;
+        }
     }
 
 }

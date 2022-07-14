@@ -1,9 +1,13 @@
 package com.example.indoor_volleyball.Activities.Details;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
@@ -17,6 +21,8 @@ import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
+import java.util.Objects;
+
 public class GymDetailActivity extends AppCompatActivity {
     ActivityGymDetailBinding binding;
     public static final String TAG = "GymDetailActivity";
@@ -29,9 +35,10 @@ public class GymDetailActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+
+
         gym = Parcels.unwrap(getIntent().getParcelableExtra("gym"));
 
-        binding.tvGymNameDetail.setText(gym.getName());
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
         //TODO resource strings
 
@@ -41,7 +48,10 @@ public class GymDetailActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
+        getSupportActionBar().setTitle(gym.getName());
         binding.itmEventItem.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
         binding.itmEventItem.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
         binding.itmEventItem.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
@@ -60,6 +70,17 @@ public class GymDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void goToCreateEvent(Gym gym) {

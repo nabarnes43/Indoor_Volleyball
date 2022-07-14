@@ -6,9 +6,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.indoor_volleyball.Fragments.EventFragments.EventsAttendingFragment;
 import com.example.indoor_volleyball.Fragments.EventFragments.EventsCreatedFragment;
-import com.example.indoor_volleyball.Fragments.GymFragments.AllGymsFragment;
-import com.example.indoor_volleyball.Fragments.GymFragments.YourGymsFragment;
-import com.example.indoor_volleyball.Fragments.MapsFragment;
 
 public class EventsPagerAdapter extends FragmentStateAdapter {
 

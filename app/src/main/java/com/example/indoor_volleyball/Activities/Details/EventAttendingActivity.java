@@ -1,16 +1,22 @@
 package com.example.indoor_volleyball.Activities.Details;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Event;
+import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityAttendingEventBinding;
 import com.example.indoor_volleyball.databinding.ActivityEventCreatorDetailBinding;
 
 import org.parceler.Parcels;
+
+import java.util.Objects;
 
 public class EventAttendingActivity extends AppCompatActivity {
     ActivityAttendingEventBinding binding;
@@ -26,6 +32,10 @@ public class EventAttendingActivity extends AppCompatActivity {
 
         event = Parcels.unwrap(getIntent().getParcelableExtra("event"));
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
+        getSupportActionBar().setTitle(event.getGym().getName());
         binding.tvCreateEventAttend.setText("Creator: " + event.getCreator().getUsername());
         binding.tvStartTimeAttend.setText("Start Time " + event.getStartTime().toString());
         binding.tvEndTimeAttend.setText("End Time: " + event.getEndTime().toString());
@@ -39,5 +49,16 @@ public class EventAttendingActivity extends AppCompatActivity {
         binding.tvTeamRotationAttend.setText("Rotation rule: " + event.getTeamRotation());
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

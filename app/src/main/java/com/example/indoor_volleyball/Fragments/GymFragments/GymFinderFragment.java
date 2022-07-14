@@ -20,6 +20,7 @@ import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Adapters.GymAdapter;
 import com.example.indoor_volleyball.Adapters.GymsPagerAdapter;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
+import com.example.indoor_volleyball.MapsActivity;
 import com.example.indoor_volleyball.Models.Gym;
 
 
@@ -75,13 +76,6 @@ public class GymFinderFragment extends Fragment {
                 (tab, position) -> tab.setText(gymsPagerAdapter.getTitle(position))).attach();
 
 
-        binding.fabCreateGym.setOnClickListener(new View.OnClickListener() {
-            @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getContext(), CreateGymActivity.class);
-                    GymCreator.launch(null);
-                }
-        });
 
 
 //        rvGyms = binding.rvGyms;
@@ -127,6 +121,7 @@ public class GymFinderFragment extends Fragment {
             return resultCode == Activity.RESULT_OK;
         }
     }
+
 
 //    public void fetchAllGymsAsync(int i) {
 //        adapterAllGyms.clear();

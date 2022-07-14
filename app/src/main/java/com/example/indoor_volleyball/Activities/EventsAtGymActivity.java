@@ -10,15 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.indoor_volleyball.Adapters.EventAdapter;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
+import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityEventsAtGymBinding;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
 import com.example.indoor_volleyball.databinding.FragmentEventsCreatedBinding;
@@ -32,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class EventsAtGymActivity extends AppCompatActivity {
     ActivityEventsAtGymBinding binding;
@@ -50,7 +55,10 @@ public class EventsAtGymActivity extends AppCompatActivity {
         setContentView(view);
         gym = Parcels.unwrap(getIntent().getParcelableExtra("gym"));
 
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
+        getSupportActionBar().setTitle(gym.getName());
         rvEvents = binding.rvEventsAtGym;
         eventsCreated = new ArrayList<>();
         adapterEvents = new EventAdapter(this, eventsCreated);
@@ -64,6 +72,17 @@ public class EventsAtGymActivity extends AppCompatActivity {
                 goToCreateEvent(gym);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void fetchUserGymsAsync(int i) {
