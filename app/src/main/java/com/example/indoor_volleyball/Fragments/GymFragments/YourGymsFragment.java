@@ -10,6 +10,9 @@ public class YourGymsFragment extends GymListFragment {
     public YourGymsFragment() {
         // Required empty public constructor
     }
+    public YourGymsFragment(int position) {
+        this.position = position;
+    }
 
     @Override
     protected ParseQuery<Gym> getGymQuery(ParseUser user) {

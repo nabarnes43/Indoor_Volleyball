@@ -31,6 +31,7 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public abstract class GymListFragment extends Fragment {
     List<Gym> gymsFollowed;
     GymAdapter adapterUserGyms;
     RecyclerView rvGyms;
+    int position;
 
     ActivityResultLauncher<Void> MapOpener = registerForActivityResult(new OpenMap(),
             new ActivityResultCallback<Boolean>() {
@@ -54,6 +56,8 @@ public abstract class GymListFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,8 +65,6 @@ public abstract class GymListFragment extends Fragment {
         binding = FragmentGymListBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         return view;
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_your_gyms, container, false);
     }
 
     @Override
@@ -78,10 +80,7 @@ public abstract class GymListFragment extends Fragment {
         binding.fabCreateGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), MapsActivity.class);
-                i.putExtra("gymList", Parcels.wrap(gymsFollowed));
                 MapOpener.launch(null);
-
             }
         });
     }
@@ -122,7 +121,9 @@ public abstract class GymListFragment extends Fragment {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
-            Intent i = new Intent(context, MapsActivity.class);
+            Intent i = new Intent(getContext(), MapsActivity.class);
+            i.putExtra("gymList", Parcels.wrap(gymsFollowed));
+            i.putExtra("fragmentPosition", Parcels.wrap(position));
             return i;
         }
 

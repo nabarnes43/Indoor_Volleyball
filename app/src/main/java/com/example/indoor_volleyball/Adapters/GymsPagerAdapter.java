@@ -21,11 +21,11 @@ public class GymsPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new AllGymsFragment();
+                return new AllGymsFragment(position);
             case 1:
-                return new YourGymsFragment();
+                return new YourGymsFragment(position);
             default:
-                throw new IllegalArgumentException("Method only supports 0, 1 and 2");
+                throw new IllegalArgumentException("Method only supports 0 and 1");
         }
     }
 
