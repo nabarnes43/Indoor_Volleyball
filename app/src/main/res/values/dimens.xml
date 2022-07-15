@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spinnerDim">25dp</dimen>
+    <dimen name="gymDetailsPadding">8dp</dimen>
+    <dimen name="event_item_padding">4dp</dimen>
+</resources>

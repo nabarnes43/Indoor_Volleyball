@@ -3,11 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.indoor_volleyball">
 
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
-        android:name=".ParseApplication"
+        android:name=".Activities.ParseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,21 +21,77 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Indoor_Volleyball"
         tools:targetApi="31">
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}"
+
+            />
+
+
         <activity
-            android:name=".QueryActivity"
-            android:exported="false"/>
+            android:name=".MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codepath.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.EventsAtGymActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Details.EventCreatorDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
+            android:name=".Activities.Details.EventAttendingActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
+            android:name=".Activities.Details.GymDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
+            android:name=".Activities.CreateEventActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".Activities.CreateGymActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
+            android:name=".Activities.QueryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true"></activity>
-        <activity android:name=".SignUpActivity" />
+            android:name=".Activities.MainActivity"
+            android:exported="true" />
+        <activity android:name=".Activities.SignUpActivity" />
     </application>
 
 </manifest>

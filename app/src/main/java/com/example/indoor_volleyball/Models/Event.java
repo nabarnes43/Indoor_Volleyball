@@ -1,7 +1,9 @@
 package com.example.indoor_volleyball.Models;
 
 import android.content.Intent;
+import android.util.Log;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
@@ -12,7 +14,7 @@ import java.util.Date;
 
 @ParseClassName("Event")
 public class Event extends ParseObject {
-    // Ensure that your subclass has a public default constructor
+    public static final String TAG = "EVENT";
     public static final String KEY_EVENTCODE = "eventCode";
     public static final String KEY_GYM = "gym";
     public static final String KEY_CREATOR = "creator";
@@ -21,14 +23,12 @@ public class Event extends ParseObject {
     public static final String KEY_MINCOUNT = "minCount";
     public static final String KEY_MAXCOUNT = "maxCount";
     public static final String KEY_WAITLIST = "waitList";
-    public static final String KEY_DATE = "date";
     public static final String KEY_STARTTIME = "startTime";
     public static final String KEY_ENDTIME = "endTime";
     public static final String KEY_SKILLLEVEL = "skillLevel";
     public static final String KEY_DETAILS = "details";
     public static final String KEY_TEAMROTATION = "teamRotation";
     public static final String KEY_USERRELATION = "userRelation";
-
 
     public String getEventCode() {
         return getString(KEY_EVENTCODE);
@@ -37,12 +37,12 @@ public class Event extends ParseObject {
     public void setEventCode(String eventCode) {
         put(KEY_EVENTCODE, eventCode);
     }
-    //I don't know about this code
-    public ParseObject getGym() {
-        return getParseObject(KEY_GYM);
+
+    public Gym getGym() {
+        return (Gym) getParseObject(KEY_GYM);
     }
 
-    public void setGym (ParseObject gym) {
+    public void setGym(ParseObject gym) {
         put(KEY_GYM, gym);
     }
 
@@ -77,6 +77,7 @@ public class Event extends ParseObject {
     public void setMinCount(int minCount) {
         put(KEY_MINCOUNT, minCount);
     }
+
     public Number getMaxCount() {
         return getNumber(KEY_MAXCOUNT);
     }
@@ -93,27 +94,29 @@ public class Event extends ParseObject {
         put(KEY_WAITLIST, waitList);
     }
 
-
-    public Date getDate() {
-        return getDate(KEY_DATE);
+    public Date getStartTime() {
+        try {
+            return fetchIfNeeded().getDate(KEY_STARTTIME);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with Start Time" + e);
+        }
+        return null;
     }
 
-    public void setDate(Date date) {
-        put(KEY_DATE, date);
-    }
-    public String getStartTime() {
-        return getString(KEY_STARTTIME);
-    }
-
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         put(KEY_STARTTIME, startTime);
     }
 
-    public String getEndTime() {
-        return getString(KEY_ENDTIME);
+    public Date getEndTime() {
+        try {
+            return fetchIfNeeded().getDate(KEY_ENDTIME);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with End Time" + e);
+        }
+        return null;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         put(KEY_ENDTIME, endTime);
     }
 
@@ -126,12 +129,18 @@ public class Event extends ParseObject {
     }
 
     public String getDetails() {
-        return getString(KEY_DETAILS);
+        try {
+            return fetchIfNeeded().getString(KEY_DETAILS);
+        } catch (ParseException e) {
+            Log.e(TAG, "Error with event details" + e);
+        }
+        return "";
     }
 
-    public void setKeyDetails(String details) {
+    public void setDetails(String details) {
         put(KEY_DETAILS, details);
     }
+
     public String getTeamRotation() {
         return getString(KEY_TEAMROTATION);
     }
@@ -145,9 +154,7 @@ public class Event extends ParseObject {
     }
 
     public void setUserRelation(ParseRelation userRelation) {
-        put(KEY_USERRELATION,userRelation);
+        put(KEY_USERRELATION, userRelation);
     }
-
-
 
 }
