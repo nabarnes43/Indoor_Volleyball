@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.9661458333333334" />
         <entry key="app/src/main/res/layout/activity_query.xml" value="0.75" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fileprovider.xml" value="0.4864583333333333" />
         <entry key="app/src/main/res/layout/fragment_all_gyms.xml" value="0.5630208333333333" />
         <entry key="app/src/main/res/layout/fragment_create_event.xml" value="0.646875" />
         <entry key="app/src/main/res/layout/fragment_event_finder.xml" value="0.9661458333333334" />
@@ -26,7 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_gym_detail_dialog_fraagment.xml" value="0.5786948176583493" />
         <entry key="app/src/main/res/layout/fragment_gym_finder.xml" value="1.0121401817251063" />
         <entry key="app/src/main/res/layout/fragment_gym_list.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.9661458333333334" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5786948176583493" />
         <entry key="app/src/main/res/layout/fragment_your_gyms.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_event.xml" value="0.9651041666666667" />
         <entry key="app/src/main/res/layout/item_gym.xml" value="0.5" />
@@ -35,6 +36,7 @@
         <entry key="app/src/main/res/menu/refresh.xml" value="0.9651041666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.5235" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.5235" />
+        <entry key="app/src/main/res/xml/fileprovider.xml" value="0.4864583333333333" />
       </map>
     </option>
   </component>
