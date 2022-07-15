@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public abstract class GymListFragment extends Fragment {
     FragmentGymListBinding binding;
     List<Gym> gymsFollowed;
@@ -55,7 +54,6 @@ public abstract class GymListFragment extends Fragment {
     public GymListFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override

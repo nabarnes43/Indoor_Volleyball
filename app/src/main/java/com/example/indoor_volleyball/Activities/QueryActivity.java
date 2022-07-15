@@ -87,7 +87,7 @@ public class QueryActivity extends AppCompatActivity {
 
         binding.btLogOut.setOnClickListener(v -> ParseUser.logOutInBackground(e -> {
 
-            if(e != null) {
+            if (e != null) {
                 Log.e(TAG, "Error signing out", e);
                 Toast.makeText(QueryActivity.this, "Error signing out", Toast.LENGTH_SHORT).show();
                 return;
@@ -101,12 +101,12 @@ public class QueryActivity extends AppCompatActivity {
         binding.btGymsFollowed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Gym gym: gymsFollowed) {
+                for (Gym gym : gymsFollowed) {
                     String gymName = gym.getName();
                     Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvGymsFollowed.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Rating:" + gymRating + "\n Location :" + gymLocation + "\n\n";
                     binding.tvGymsFollowed.setText(original_text);
                 }
             }
@@ -115,12 +115,12 @@ public class QueryActivity extends AppCompatActivity {
         binding.btAllGymsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Gym gym: allGyms) {
+                for (Gym gym : allGyms) {
                     String gymName = gym.getName();
                     Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvAllGyms.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Rating:" + gymRating + "\n Location :" + gymLocation + "\n\n";
                     binding.tvAllGyms.setText(original_text);
                 }
             }
@@ -129,12 +129,12 @@ public class QueryActivity extends AppCompatActivity {
         binding.btAllGymsByDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Gym gym: allGymsByDistance) {
+                for (Gym gym : allGymsByDistance) {
                     String gymName = gym.getName();
                     Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvAllGymsByDistance.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Rating:" + gymRating + "\n Location :" + gymLocation + "\n\n";
                     binding.tvAllGymsByDistance.setText(original_text);
                 }
             }
@@ -143,12 +143,12 @@ public class QueryActivity extends AppCompatActivity {
         binding.btAllGymsWithinDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Gym gym: allGymsWithinDistance) {
+                for (Gym gym : allGymsWithinDistance) {
                     String gymName = gym.getName();
                     Number gymRating = gym.getRating();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     String original_text = binding.tvAllGymsWithinDistance.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Rating:" + gymRating+"\n Location :"+ gymLocation +"\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Rating:" + gymRating + "\n Location :" + gymLocation + "\n\n";
                     binding.tvAllGymsWithinDistance.setText(original_text);
                 }
             }
@@ -157,15 +157,15 @@ public class QueryActivity extends AppCompatActivity {
         binding.btAllEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Event event: allEvents) {
+                for (Event event : allEvents) {
                     Gym gym = event.getGym();
-                    String gymName =  gym.getName();
+                    String gymName = gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     Date startTime = event.getStartTime();
                     Date endTime = event.getEndTime();
                     String original_text = binding.tvAllEvents.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Details: " + eventDescription + "\n Location :" + gymLocation + "Time: " + startTime + "-" + endTime + "\n\n";
                     binding.tvAllEvents.setText(original_text);
                 }
             }
@@ -174,15 +174,15 @@ public class QueryActivity extends AppCompatActivity {
         binding.btUserAttending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Event event: userAttending) {
+                for (Event event : userAttending) {
                     Gym gym = event.getGym();
-                    String gymName =  gym.getName();
+                    String gymName = gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     Date startTime = event.getStartTime();
                     Date endTime = event.getEndTime();
                     String original_text = binding.tvUserAttending.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Details: " + eventDescription + "\n Location :" + gymLocation + "Time: " + startTime + "-" + endTime + "\n\n";
                     binding.tvUserAttending.setText(original_text);
                 }
             }
@@ -191,15 +191,15 @@ public class QueryActivity extends AppCompatActivity {
         binding.btUserManaging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Event event: userManaging) {
+                for (Event event : userManaging) {
                     Gym gym = event.getGym();
-                    String gymName =  gym.getName();
+                    String gymName = gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     Date startTime = event.getStartTime();
                     Date endTime = event.getEndTime();
                     String original_text = binding.tvUserManaging.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Details: " + eventDescription + "\n Location :" + gymLocation + "Time: " + startTime + "-" + endTime + "\n\n";
                     binding.tvUserManaging.setText(original_text);
                 }
             }
@@ -208,12 +208,12 @@ public class QueryActivity extends AppCompatActivity {
         binding.btUsersAttendingEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (ParseUser user: allUsersAttendingEvent) {
-                    String userName =  user.getString("name");
+                for (ParseUser user : allUsersAttendingEvent) {
+                    String userName = user.getString("name");
                     String userSkill = user.getString("skillLevel");
                     String phoneNumber = user.getString("phoneNumber");
                     String original_text = binding.tvUsersAttending.getText().toString();
-                    original_text = original_text + "Name: "+userName + "\n Skill Level: " + userSkill +"\n Phone Number :" + phoneNumber +"\n\n";
+                    original_text = original_text + "Name: " + userName + "\n Skill Level: " + userSkill + "\n Phone Number :" + phoneNumber + "\n\n";
                     binding.tvUsersAttending.setText(original_text);
                 }
             }
@@ -224,27 +224,20 @@ public class QueryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (Event event : eventsAtGymSortedByDateDescending) {
                     Gym gym = event.getGym();
-                    String gymName =  gym.getName();
+                    String gymName = gym.getName();
                     String eventDescription = event.getDetails();
                     ParseGeoPoint gymLocation = gym.getLocation();
                     Date startTime = event.getStartTime();
                     Date endTime = event.getEndTime();
                     String original_text = binding.tvEventsAtGym.getText().toString();
-                    original_text = original_text + "Name: "+gymName + "\n Details: " + eventDescription +"\n Location :" + gymLocation + "Time: " +startTime +"-" + endTime+ "\n\n";
+                    original_text = original_text + "Name: " + gymName + "\n Details: " + eventDescription + "\n Location :" + gymLocation + "Time: " + startTime + "-" + endTime + "\n\n";
                     binding.tvEventsAtGym.setText(original_text);
                 }
             }
         });
 
 
-
-
-
-
     }
-
-
-
 
 
     //Gets a list of all the gyms in the Database gets the info gym maps page.
@@ -252,6 +245,7 @@ public class QueryActivity extends AppCompatActivity {
         ParseQuery<Gym> query = ParseQuery.getQuery(Gym.class);
         allGyms.addAll(query.find());
     }
+
     //Gets a list of all the gyms in order of distance from the user.
     private void allGymsByDistance(ParseGeoPoint userLocation) {
         ParseQuery<Gym> query = new ParseQuery<>("Gym");
@@ -267,6 +261,7 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
     }
+
     //Gets a list of all the gyms within a given distance of the user. TODO within miles
     private void allGymsWithinDistanceOfUser(ParseGeoPoint userLocation, Double miles) {
         ParseQuery<Gym> query = new ParseQuery<>("Gym");
@@ -282,6 +277,7 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
     }
+
     //Get a list of all events
     private void queryAllEvents() throws ParseException {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
@@ -289,6 +285,7 @@ public class QueryActivity extends AppCompatActivity {
         //Use this when you are getting null pointers. The nulls mean find in background is to slow.
         allEvents.addAll(query.find());
     }
+
     //Get a list of all the events at the given gym sorted by Date Descending.
     private void queryEventsAtGym(Gym gym) {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
@@ -365,10 +362,11 @@ public class QueryActivity extends AppCompatActivity {
 
 
     //Gets a list of all the gyms that the user follows.
-    private void queryUserGyms(){
+    private void queryUserGyms() {
         ParseUser user = ParseUser.getCurrentUser();
         gymsFollowed.addAll(user.getList("gymsFollowed"));
     }
+
     //Gets a list of all the events that a user has added themselves to.
     private void queryUserEventsAttending() {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
@@ -384,6 +382,7 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
     }
+
     //Gets a list of all the events that a user is managing.
     private void queryUserEventsManaging() {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
@@ -399,6 +398,7 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
     }
+
     //Gets a list of all the users attending an event. Make sure that the relation goes both ways. If you call this and the user dos not have the event only the other way around it wont run.
     private void queryAllUsersAttendingEvent(Event event) {
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
@@ -424,7 +424,7 @@ public class QueryActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Gym>() {
             @Override
             public void done(List<Gym> gymList, ParseException e) {
-                for (Gym gym : gymList ) {
+                for (Gym gym : gymList) {
                     Toast.makeText(QueryActivity.this, "Gym name: " + gym.getName(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -438,15 +438,6 @@ public class QueryActivity extends AppCompatActivity {
         finish();
     }
     //Gets a list of all the events at a gym.
-
-
-
-
-
-
-
-
-
 
 
 }

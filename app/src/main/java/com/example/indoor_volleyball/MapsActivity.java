@@ -139,7 +139,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
                 color = BitmapDescriptorFactory.HUE_GREEN;
             }
-            gymMarkerColor(gymLocation,color, gym);
+            gymMarkerColor(gymLocation, color, gym);
         }
     }
 

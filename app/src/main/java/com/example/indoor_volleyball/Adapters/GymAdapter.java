@@ -47,7 +47,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
         //View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new ViewHolder(ItemGymBinding.inflate(inflater, parent,false));
+        return new ViewHolder(ItemGymBinding.inflate(inflater, parent, false));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     final Gym gym = (Gym) v.getTag();
-                    if (gym!=null) {
+                    if (gym != null) {
                         ((MainActivity) context).goToGymDetails(gym);
                     }
                 }

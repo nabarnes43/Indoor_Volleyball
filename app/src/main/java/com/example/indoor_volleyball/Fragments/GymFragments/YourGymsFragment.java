@@ -10,6 +10,7 @@ public class YourGymsFragment extends GymListFragment {
     public YourGymsFragment() {
         // Required empty public constructor
     }
+
     public YourGymsFragment(int position) {
         this.position = position;
     }
@@ -17,6 +18,7 @@ public class YourGymsFragment extends GymListFragment {
     @Override
     protected ParseQuery<Gym> getGymQuery(ParseUser user) {
         ParseQuery<Gym> query = super.getGymQuery(user);
+        //TODO should these be string resource files.
         query.whereEqualTo("usersFollowing", user);
         return query;
     }

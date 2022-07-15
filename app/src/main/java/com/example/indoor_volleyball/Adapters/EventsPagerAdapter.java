@@ -15,7 +15,6 @@ public class EventsPagerAdapter extends FragmentStateAdapter {
     }
 
 
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {

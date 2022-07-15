@@ -42,7 +42,6 @@ public abstract class EventListFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public abstract class EventListFragment extends Fragment {
         rvEvents.setAdapter(adapterEvents);
         fetchUserGymsAsync(0);
     }
-
 
 
     public void fetchUserGymsAsync(int i) {

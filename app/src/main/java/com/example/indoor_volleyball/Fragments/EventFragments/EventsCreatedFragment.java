@@ -40,7 +40,6 @@ public class EventsCreatedFragment extends EventListFragment {
     }
 
 
-
     @Override
     protected ParseQuery<Event> getEventQuery() {
         ParseQuery<Event> query = super.getEventQuery();

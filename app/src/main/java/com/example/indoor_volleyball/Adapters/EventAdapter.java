@@ -48,7 +48,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new EventAdapter.ViewHolder(ItemEventBinding.inflate(inflater, parent,false));
+        return new EventAdapter.ViewHolder(ItemEventBinding.inflate(inflater, parent, false));
     }
 
     @Override
@@ -71,8 +71,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         ItemEventBinding binding;
 
 
-
-
         public ViewHolder(ItemEventBinding b) {
             super(b.getRoot());
             binding = b;
@@ -81,7 +79,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     final Event event = (Event) v.getTag();
-                    if (event!=null) {
+                    if (event != null) {
                         String user = ParseUser.getCurrentUser().getUsername();
                         String creator = event.getCreator().getUsername();
                         Toast.makeText(context, "Creator " + event.getCreator().getUsername(), Toast.LENGTH_SHORT).show();
@@ -94,6 +92,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 }
             });
         }
+
         //TODO string resource and date formatter.
         public void bind(Event event) throws ParseException {
             binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());

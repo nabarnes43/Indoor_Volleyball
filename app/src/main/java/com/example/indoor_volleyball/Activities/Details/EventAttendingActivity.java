@@ -25,30 +25,36 @@ public class EventAttendingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityAttendingEventBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        event = Parcels.unwrap(getIntent().getParcelableExtra("event"));
-
+        event = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.event_parcel_tag)));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
         getSupportActionBar().setTitle(event.getGym().getName());
-        binding.tvCreateEventAttend.setText("Creator: " + event.getCreator().getUsername());
-        binding.tvStartTimeAttend.setText("Start Time " + event.getStartTime().toString());
-        binding.tvEndTimeAttend.setText("End Time: " + event.getEndTime().toString());
-        binding.tvMinPlayersAttend.setText("Min Players: "+ event.getMinCount().toString());
-        binding.tvMaxPlayersAttend.setText("Max Players: " + event.getMaxCount().toString());
-        binding.tvSkillLevelAttend.setText("Skill Level: " + event.getSkillLevel());
-        binding.tvAllowPlusOnesAttend.setText("Allow Plus Ones: " + event.getAllowPlusOnes());
-        binding.tvAllowSpectatorsAttend.setText("Allow Spectators " + event.getAllowSpectators());
-        binding.tvDetailsAttend.setText("Details: " + event.getDetails());
-        binding.tvEventCodeAttend.setText("Event Code: " + event.getEventCode());
-        binding.tvTeamRotationAttend.setText("Rotation rule: " + event.getTeamRotation());
-
-
+        String creatorText = getString(R.string.event_get_creator_text) + event.getCreator().getUsername();
+        String startTimeText = getString(R.string.event_get_start_time_text) + event.getStartTime().toString();
+        String endTimeText = getString(R.string.event_get_end_time_text) + event.getEndTime().toString();
+        String minPlayersText = getString(R.string.event_min_players_text) + event.getMinCount().toString();
+        String maxPlayersText = getString(R.string.event_get_max_players_text) + event.getMaxCount().toString();
+        String skillLevelText = getString(R.string.event_get_skill_level_text) + event.getSkillLevel();
+        String allowPlusOnesText = getString(R.string.event_get_allow_plus_ones_text) + event.getAllowPlusOnes();
+        String allowSpectatorsText = getString(R.string.event_get_allow_spectators_text) + event.getAllowSpectators();
+        String detailsText = getString(R.string.event_get_details_text) + event.getDetails();
+        String eventCodeText = getString(R.string.event_get_event_code_text) + event.getEventCode();
+        String rotationText = getString(R.string.event_get_rotation_text) + event.getTeamRotation();
+        binding.tvCreateEventAttend.setText(creatorText);
+        binding.tvStartTimeAttend.setText(startTimeText);
+        binding.tvEndTimeAttend.setText(endTimeText);
+        binding.tvMinPlayersAttend.setText(minPlayersText);
+        binding.tvMaxPlayersAttend.setText(maxPlayersText);
+        binding.tvSkillLevelAttend.setText(skillLevelText);
+        binding.tvAllowPlusOnesAttend.setText(allowPlusOnesText);
+        binding.tvAllowSpectatorsAttend.setText(allowSpectatorsText);
+        binding.tvDetailsAttend.setText(detailsText);
+        binding.tvEventCodeAttend.setText(eventCodeText);
+        binding.tvTeamRotationAttend.setText(rotationText);
     }
 
     @Override

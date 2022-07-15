@@ -44,6 +44,7 @@ public class EventsAtGymActivity extends AppCompatActivity {
     private RecyclerView rvEvents;
     private EventAdapter adapterEvents;
     Gym gym;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

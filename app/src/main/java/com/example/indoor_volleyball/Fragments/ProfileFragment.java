@@ -179,6 +179,7 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getContext(), "this Profile photo does not exist for user " + user.getUsername(), Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,7 +191,7 @@ public class ProfileFragment extends Fragment {
                 // Load the taken image into a preview
                 binding.ivProfilePhoto.setImageBitmap(takenImage);
                 Glide.with(requireContext()).load(takenImage).circleCrop().into(binding.ivProfilePhoto);
-                user.put("profilePhoto",  new ParseFile(photoFile));
+                user.put("profilePhoto", new ParseFile(photoFile));
                 user.saveInBackground();
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();

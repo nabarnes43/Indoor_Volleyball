@@ -36,9 +36,8 @@ public class EventCreatorDetailActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-//go to my location button to go to users location
-// Have map refresh when zooming in and out.
-//Display gyms your a member of in a different color.
+        //TODO go to my location button to go to users location
+
         eventId = Parcels.unwrap(getIntent().getParcelableExtra("eventId"));
         try {
             queryEvent(eventId);
@@ -49,17 +48,27 @@ public class EventCreatorDetailActivity extends AppCompatActivity {
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
         getSupportActionBar().setTitle(event.getGym().getName());
-        binding.tvCreateEventDetail.setText("Manage Event");
-        binding.tvStartTimeDetail.setHint("Start Time " + event.getStartTime().toString());
-        binding.tvEndTimeDetail.setHint("End Time: " + event.getEndTime().toString());
-        binding.etMinPlayersDetail.setHint("Min Players: "+ event.getMinCount().toString());
-        binding.etMaxPlayersDetail.setHint("Max Players: " + event.getMaxCount().toString());
-        binding.tvSkillLevelDetail.setText("Skill Level: " + event.getSkillLevel());
-        binding.tvAllowPlusOnesDetail.setText("Allow Plus Ones: " + event.getAllowPlusOnes());
-        binding.tvAllowSpectatorsDetail.setText("Allow Spectators " + event.getAllowSpectators());
-        binding.etDetailsDetail.setHint("Details: " + event.getDetails());
-        binding.etEventCodeDetail.setHint("Event Code: " + event.getEventCode());
-        binding.etTeamRotationDetail.setHint("Rotation rule: " + event.getTeamRotation());
+        String startTimeText = getString(R.string.event_get_start_time_text) + event.getStartTime().toString();
+        String endTimeText = getString(R.string.event_get_end_time_text) + event.getEndTime().toString();
+        String minPlayersText = getString(R.string.event_min_players_text) + event.getMinCount().toString();
+        String maxPlayersText = getString(R.string.event_get_max_players_text) + event.getMaxCount().toString();
+        String skillLevelText = getString(R.string.event_get_skill_level_text) + event.getSkillLevel();
+        String allowPlusOnesText = getString(R.string.event_get_allow_plus_ones_text) + event.getAllowPlusOnes();
+        String allowSpectatorsText = getString(R.string.event_get_allow_spectators_text) + event.getAllowSpectators();
+        String detailsText = getString(R.string.event_get_details_text) + event.getDetails();
+        String eventCodeText = getString(R.string.event_get_event_code_text) + event.getEventCode();
+        String rotationText = getString(R.string.event_get_rotation_text) + event.getTeamRotation();
+        binding.tvCreateEventDetail.setText(R.string.event_creator_manage_event_text);
+        binding.tvStartTimeDetail.setHint(startTimeText);
+        binding.tvEndTimeDetail.setHint(endTimeText);
+        binding.etMinPlayersDetail.setHint(minPlayersText);
+        binding.etMaxPlayersDetail.setHint(maxPlayersText);
+        binding.tvSkillLevelDetail.setText(skillLevelText);
+        binding.tvAllowPlusOnesDetail.setText(allowPlusOnesText);
+        binding.tvAllowSpectatorsDetail.setText(allowSpectatorsText);
+        binding.etDetailsDetail.setHint(detailsText);
+        binding.etEventCodeDetail.setHint(eventCodeText);
+        binding.etTeamRotationDetail.setHint(rotationText);
     }
 
     @Override
@@ -74,8 +83,7 @@ public class EventCreatorDetailActivity extends AppCompatActivity {
     }
 
     private void queryEvent(String eventId) throws ParseException {
-        ParseQuery<Event> eventQuery = ParseQuery.getQuery("Event");
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery(getString(R.string.event_query_class_name));
         event = eventQuery.get(eventId);
     }
-
 }

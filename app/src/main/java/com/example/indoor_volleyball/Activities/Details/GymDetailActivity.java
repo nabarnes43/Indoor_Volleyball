@@ -34,14 +34,9 @@ public class GymDetailActivity extends AppCompatActivity {
         binding = ActivityGymDetailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-
-
-        gym = Parcels.unwrap(getIntent().getParcelableExtra("gym"));
-
+        gym = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.gym_parcel_tag)));
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
         //TODO resource strings
-
         Event event = null;
         try {
             event = gym.getNextEvent();
@@ -52,17 +47,18 @@ public class GymDetailActivity extends AppCompatActivity {
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
         getSupportActionBar().setTitle(gym.getName());
-        binding.itmEventItem.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
-        binding.itmEventItem.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
-        binding.itmEventItem.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
-
+        String eventDateText = getString(R.string.event_get_start_time_text) + event.getStartTime() + " " + getString(R.string.event_get_end_time_text) + event.getEndTime();
+        String eventMinMaxCountText = getString(R.string.event_item_min_text) + event.getMinCount() + getString(R.string.event_item_max_text) + event.getMaxCount();
+        String eventSkillLevel = getString(R.string.event_get_skill_level_text) + event.getSkillLevel();
+        binding.itmEventItem.tvDate.setText(eventDateText);
+        binding.itmEventItem.tvMinMaxCount.setText(eventMinMaxCountText);
+        binding.itmEventItem.tvSkillLevelEvent.setText(eventSkillLevel);
         binding.fabCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCreateEvent(gym);
             }
         });
-
         binding.btViewMoreEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,18 +82,13 @@ public class GymDetailActivity extends AppCompatActivity {
     private void goToCreateEvent(Gym gym) {
         String gymId = gym.getObjectId();
         Intent i = new Intent(this, CreateEventActivity.class);
-        i.putExtra("gymId", Parcels.wrap(gymId));
+        i.putExtra(getString(R.string.gym_id_parcel_tag), Parcels.wrap(gymId));
         startActivity(i);
-
     }
 
     private void goToEventsAtGym(Gym gym) {
         Intent i = new Intent(this, EventsAtGymActivity.class);
-        i.putExtra("gym", Parcels.wrap(gym));
+        i.putExtra(getString(R.string.gym_parcel_tag), Parcels.wrap(gym));
         startActivity(i);
-
     }
-
-
-
 }
