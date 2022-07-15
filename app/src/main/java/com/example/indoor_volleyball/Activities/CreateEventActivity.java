@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
+import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateEventBinding;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -23,11 +24,13 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CreateEventActivity extends AppCompatActivity {
     public static final String TAG = "CreateEventActivity";
@@ -41,7 +44,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private Boolean allowSpectators;
     private Calendar date;
     //TODO if it is user visible put it in the strings resource file.
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("M-dd-yyyy hh:mm:ss a");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(getString(R.string.date_formatter_text), Locale.US);
     Boolean startTimeTrue;
     List<Gym> allGyms;
     ActivityCreateEventBinding binding;
@@ -50,7 +53,7 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra("gymId"));
+        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.gym_id_parcel_tag)));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -58,7 +61,6 @@ public class CreateEventActivity extends AppCompatActivity {
         skillLevel();
         allowPlusOnes();
         allowSpectators();
-
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +68,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 showDateTimePicker();
             }
         });
-
         binding.tvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +75,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 showDateTimePicker();
             }
         });
-
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,11 +97,10 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setGym(thisGym);
                 event.setCreator(ParseUser.getCurrentUser());
                 event.setTeamRotation(teamRotation);
-
                 try {
                     event.save();
-                    Log.i(TAG, "The save succeeded");
-                    Toast.makeText(CreateEventActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, getString(R.string.save_succeeded_text));
+                    Toast.makeText(CreateEventActivity.this, getString(R.string.save_succeeded_text), Toast.LENGTH_SHORT).show();
                     try {
                         queryNextEventAtGym(thisGym);
                     } catch (ParseException z) {
@@ -112,11 +111,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
                 thisGym.setNextEvent(nextEvent);
                 thisGym.saveInBackground();
-                try {
-                    Toast.makeText(CreateEventActivity.this, thisGym.getNextEvent().getDetails() + "Start time " + thisGym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -124,7 +118,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void queryGym(String gymId) {
-        ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
+        ParseQuery<Gym> gymQuery = ParseQuery.getQuery(getString(R.string.query_gym_text));
         gymQuery.getInBackground(gymId, (gym, e) -> {
             if (e == null) {
                 thisGym = gym;
@@ -156,11 +150,8 @@ public class CreateEventActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         date.set(Calendar.MINUTE, minute);
-                        Log.v(TAG, "The choosen one " + date.getTime());
-                        Toast.makeText(CreateEventActivity.this, "The choosen one " + date.getTime(), Toast.LENGTH_SHORT).show();
                         if (startTimeTrue) {
                             startTime = date.getTime();
-                            Toast.makeText(CreateEventActivity.this, "Start Time" + date, Toast.LENGTH_SHORT).show();
                             binding.tvStartTime.setText(dateFormat.format(date.getTime()));
                         } else {
                             endTime = date.getTime();
@@ -175,7 +166,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void skillLevel() {
         //create a list of items for the spinner.
-        String[] items = new String[]{"AA", "A", "BB", "B", "C"};
+        String[] items = new String[]{getString(R.string.aa_skill_level_text), getString(R.string.a_skill_level_text), getString(R.string.bb_skill_level_text), getString(R.string.b_skill_level_text), getString(R.string.c_skill_level_text)};
         final String[] selected = {""};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
@@ -187,13 +178,11 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 skillLevel = parent.getItemAtPosition(position).toString();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
             }
         });
-
     }
 
     private void allowPlusOnes() {
@@ -210,7 +199,6 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 allowPlusOnes = (Boolean) parent.getItemAtPosition(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
@@ -232,18 +220,10 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 allowSpectators = (Boolean) parent.getItemAtPosition(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
             }
         });
     }
-
-    private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
-    }
-
 }

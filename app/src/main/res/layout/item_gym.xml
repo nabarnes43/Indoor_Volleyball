@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:numStars="5"
         android:rating="3"
+        android:isIndicator="true"
         android:stepSize=".5"
         app:layout_constraintBottom_toTopOf="@id/tvEventDateDescription"
         app:layout_constraintEnd_toEndOf="parent"
