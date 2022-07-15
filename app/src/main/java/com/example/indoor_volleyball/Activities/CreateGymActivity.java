@@ -27,6 +27,7 @@ import org.parceler.Parcels;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 public class CreateGymActivity extends AppCompatActivity {
@@ -70,32 +71,26 @@ public class CreateGymActivity extends AppCompatActivity {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             //When success
             //Initialize Place
+            assert data != null;
             Place place = Autocomplete.getPlaceFromIntent(data);
-
             binding.etGymAddress.setText(place.getAddress());
-
-            binding.tvName.setText(String.format("Locality name: " + place.getName()));
-
+            binding.tvName.setText("Locality name: " + place.getName());
             binding.tvLocation.setText(String.valueOf(place.getLatLng()));
             //TODO need code for if any of this information doesn't exist!
             //TODO make a function takes string view.
-
-
-
-            if (place.getOpeningHours()!=null) {
+            if (place.getOpeningHours() != null) {
                 binding.tvOpeningHours.setVisibility(View.VISIBLE);
                 binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
             } else {
                 binding.tvOpeningHours.setVisibility(View.GONE);
             }
 
-            if (place.getOpeningHours()!=null) {
+            if (place.getOpeningHours() != null) {
                 binding.tvOpeningHours.setVisibility(View.VISIBLE);
                 binding.tvWebsiteUrI.setText("Website " + place.getWebsiteUri());
             } else {
                 binding.tvOpeningHours.setVisibility(View.GONE);
             }
-
             //TODO check link Andrew left on pull request.
             binding.tvBusinessStatus.setText("Business Status " + place.getBusinessStatus());
             setTextOrHide(place.getBusinessStatus(), binding.tvBusinessStatus, R.string.business_status);
@@ -141,43 +136,28 @@ public class CreateGymActivity extends AppCompatActivity {
         Gym gym = new Gym();
         gym.setName(place.getName());
         //Converting from ArrayList to Json Array.
-        JSONArray openingHours = new JSONArray(place.getOpeningHours().getWeekdayText());
+        JSONArray openingHours = new JSONArray(Objects.requireNonNull(place.getOpeningHours()).getWeekdayText());
         gym.setOpeningHours(openingHours);
         gym.setAddress(place.getAddress());
         gym.setPlaceId(place.getId());
         //Converting LatLng to Geo Point.
-        ParseGeoPoint gp = new ParseGeoPoint((place.getLatLng().latitude), (place.getLatLng().longitude));
+        ParseGeoPoint gp = new ParseGeoPoint((Objects.requireNonNull(place.getLatLng()).latitude), (place.getLatLng().longitude));
         gym.setLocation(gp);
         gym.setPhoneNumber(place.getPhoneNumber());
         gym.setRating(place.getRating());
-        gym.setWebsiteUrl(place.getWebsiteUri().toString());
-
+        gym.setWebsiteUrl(Objects.requireNonNull(place.getWebsiteUri()).toString());
         gym.save();
-
-//        gym.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e != null) {
-//                    Log.e(TAG, "Error while Saving", e);
-//                    Toast.makeText(CreateGymActivity.this, "Error saving post", Toast.LENGTH_SHORT);
-//                }
-//            }
-//        });
-        Log.i(TAG, "The save succeeded");
-        Toast.makeText(CreateGymActivity.this, "The save succeeded", Toast.LENGTH_SHORT).show();
+        Log.i(TAG, getString(R.string.save_succeeded_text));
+        Toast.makeText(CreateGymActivity.this, getString(R.string.save_succeeded_text), Toast.LENGTH_SHORT).show();
         goToCreateEvent(gym);
     }
-
-
-
+    //TODO need a purge that runs after create a event for gyms with 0 events cause code is dependent on gyms having at least one event.
     private void goToCreateEvent(Gym gym) {
         String gymId = gym.getObjectId();
         Intent i = new Intent(this, CreateEventActivity.class);
-        i.putExtra("gymId", Parcels.wrap(gymId));
+        i.putExtra(getString(R.string.gym_id_parcel_tag), Parcels.wrap(gymId));
         startActivity(i);
-
     }
-
 
 
 }

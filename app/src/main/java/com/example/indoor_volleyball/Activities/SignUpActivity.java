@@ -31,11 +31,9 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText etZipCode;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         // inflating our xml layout in our activity main binding
@@ -64,48 +62,45 @@ public class SignUpActivity extends AppCompatActivity {
                 String city = binding.etCity.getText().toString();
                 String zipCode = binding.etZipCode.getText().toString();
 
-                    // Create the ParseUser
-                    ParseUser user = new ParseUser();
-                    //Set core properties
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    //custom properties
-                    user.put("email", email);
-                    user.put("name", name);
-                    user.put("phoneNumber", phone);
-                    user.put("age", age);
-                    user.put("address", address);
-                    user.put("city", city);
-                    user.put("zipCode", zipCode);
+                // Create the ParseUser
+                ParseUser user = new ParseUser();
+                //Set core properties
+                user.setUsername(username);
+                user.setPassword(password);
+                //custom properties
+                user.put("email", email);
+                user.put("name", name);
+                user.put("phoneNumber", phone);
+                user.put("age", age);
+                user.put("address", address);
+                user.put("city", city);
+                user.put("zipCode", zipCode);
 
 
-                    // Invoke signUpInBackground
-                    user.signUpInBackground(new SignUpCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                // Hooray! Let them use the app now.
-                                goLoginActivity();
-                                Toast.makeText(SignUpActivity.this, "Account Created. Logging In.", Toast.LENGTH_SHORT).show();
+                // Invoke signUpInBackground
+                user.signUpInBackground(new SignUpCallback() {
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            // Hooray! Let them use the app now.
+                            goLoginActivity();
+                            Toast.makeText(SignUpActivity.this, "Account Created. Logging In.", Toast.LENGTH_SHORT).show();
 
-                            } else {
-                                Log.e(TAG, "Signup failed "+ e);
-                                // Sign up didn't succeed. Look at the ParseException
-                                // to figure out what went wrong
-                            }
+                        } else {
+                            Log.e(TAG, "Signup failed " + e);
+                            // Sign up didn't succeed. Look at the ParseException
+                            // to figure out what went wrong
                         }
-                    });
+                    }
+                });
             }
         });
     }
-
 
 
     private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
     }
-
-
 
 
 }

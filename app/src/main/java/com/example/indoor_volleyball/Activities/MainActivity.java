@@ -11,10 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
+import com.example.indoor_volleyball.Activities.Details.EventCreatorDetailActivity;
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
-import com.example.indoor_volleyball.Fragments.EventsFragment;
-import com.example.indoor_volleyball.Fragments.GymFinderFragment;
+import com.example.indoor_volleyball.Fragments.EventFragments.EventFinderFragment;
+import com.example.indoor_volleyball.Fragments.GymFragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
+import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
@@ -26,16 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
 
-    public void goToCreateEventFragment() {
-        // switch the fragment being displayed
-        binding.bottomNavigation.setSelectedItemId(R.id.events);
-        //profilefragment.user = (User) user;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getSupportActionBar().hide();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         View view = binding.getRoot();
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.events:
                         // do something here
                         Toast.makeText(MainActivity.this, "EVENTS", Toast.LENGTH_SHORT).show();
-                        fragment = new EventsFragment();
+                        fragment = new EventFinderFragment();
                         break;
                     case R.id.find:
                         // do something here
@@ -72,12 +69,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Default
-        binding.bottomNavigation.setSelectedItemId(R.id.events);
+        binding.bottomNavigation.setSelectedItemId(R.id.find);
     }
 
     public void goToGymDetails(Gym gym) {
         Intent i = new Intent(this, GymDetailActivity.class);
         i.putExtra("gym", Parcels.wrap(gym));
+        startActivity(i);
+    }
+
+    public void goToEventDetailsAttending(Event event) {
+        Intent i = new Intent(this, EventAttendingActivity.class);
+        i.putExtra("event", Parcels.wrap(event));
+        startActivity(i);
+    }
+
+    public void goToEventDetailsCreating(Event event) {
+        Intent i = new Intent(this, EventCreatorDetailActivity.class);
+        i.putExtra("eventId", Parcels.wrap(event.getObjectId()));
         startActivity(i);
     }
 

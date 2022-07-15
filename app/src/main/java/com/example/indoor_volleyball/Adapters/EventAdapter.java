@@ -22,41 +22,41 @@ import com.example.indoor_volleyball.Models.Gym;
 
 
 import com.example.indoor_volleyball.R;
+import com.example.indoor_volleyball.databinding.ItemEventBinding;
 import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
 import java.util.Date;
 import java.util.List;
 
-public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private Context context;
-    private List<Gym> gyms;
+    private List<Event> events;
+    private int position;
 
 
-    public GymAdapter(Context context, List<Gym> gyms) {
+    public EventAdapter(Context context, List<Event> events) {
         this.context = context;
-        this.gyms = gyms;
+        this.events = events;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
-
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new ViewHolder(ItemGymBinding.inflate(inflater, parent, false));
+        return new EventAdapter.ViewHolder(ItemEventBinding.inflate(inflater, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Gym gym = gyms.get(position);
-        //Every gym needs an event
-        holder.binding.getRoot().setTag(gym);
+        Event event = events.get(position);
+        holder.binding.getRoot().setTag(event);
         try {
-            holder.bind(gym);
+            holder.bind(event);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -64,33 +64,40 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return gyms.size();
+        return events.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ItemGymBinding binding;
+        ItemEventBinding binding;
 
 
-        public ViewHolder(ItemGymBinding b) {
+        public ViewHolder(ItemEventBinding b) {
             super(b.getRoot());
             binding = b;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Gym gym = (Gym) v.getTag();
-                    if (gym != null) {
-                        ((MainActivity) context).goToGymDetails(gym);
+                    final Event event = (Event) v.getTag();
+                    if (event != null) {
+                        String user = ParseUser.getCurrentUser().getUsername();
+                        String creator = event.getCreator().getUsername();
+                        Toast.makeText(context, "Creator " + event.getCreator().getUsername(), Toast.LENGTH_SHORT).show();
+                        if (user.equals(creator)) {
+                            ((MainActivity) context).goToEventDetailsCreating(event);
+                        } else {
+                            ((MainActivity) context).goToEventDetailsAttending(event);
+                        }
                     }
                 }
             });
         }
 
-        public void bind(Gym gym) throws ParseException {
-            Event nextEvent = (Event) gym.getNextEvent();
-            binding.tvGymName.setText(gym.getName());
-            binding.tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
-            binding.rbGymRating.setRating(gym.getRating().floatValue());
+        //TODO string resource and date formatter.
+        public void bind(Event event) throws ParseException {
+            binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
+            binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
+            binding.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
 
             //TODO Image code
 //            ParseFile image = post.getImage();
@@ -102,13 +109,15 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 
     // Clean all elements of the recycler
     public void clear() {
-        gyms.clear();
+        events.clear();
         notifyDataSetChanged();
     }
 
+    //TODO ask andrew the difference between this and how I am doing it.
+
     // Add a list of items -- change to type used
-    public void addAll(List<Gym> gymList) {
-        gyms.addAll(gymList);
+    public void addAll(List<Event> eventList) {
+        events.addAll(eventList);
         notifyDataSetChanged();
     }
 

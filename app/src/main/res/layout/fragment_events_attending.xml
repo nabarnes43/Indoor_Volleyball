@@ -3,15 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.MapsFragment">
+    tools:context=".Fragments.EventFragments.EventsAttendingFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#4CAF50"
-        android:text="Maps"
-        android:textColor="@color/white" />
+        android:background="#03A9F4"
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
