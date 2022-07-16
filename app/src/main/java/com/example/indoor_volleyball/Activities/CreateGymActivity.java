@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateGymBinding;
@@ -173,8 +174,7 @@ public class CreateGymActivity extends AppCompatActivity {
 
     private void goToCreateEvent(Gym gym) {
         String gymId = gym.getObjectId();
-        Intent i = new Intent(this, CreateEventActivity.class);
-        i.putExtra(getString(R.string.gym_id_parcel_tag), Parcels.wrap(gymId));
+        Intent i = CreateEventActivity.newIntent(this, gymId);
         startActivity(i);
     }
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Adapters.EventAdapter;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
@@ -44,6 +46,12 @@ public class EventsAtGymActivity extends AppCompatActivity {
     private RecyclerView rvEvents;
     private EventAdapter adapterEvents;
     Gym gym;
+    private static final String GYM_KEY = "gym";
+    public static Intent newIntent(Context context, Gym gym) {
+        Intent i = new Intent(context, EventsAtGymActivity.class);
+        i.putExtra(GYM_KEY, Parcels.wrap(gym));
+        return i;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +59,7 @@ public class EventsAtGymActivity extends AppCompatActivity {
         binding = ActivityEventsAtGymBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        gym = Parcels.unwrap(getIntent().getParcelableExtra("gym"));
+        gym = Parcels.unwrap(getIntent().getParcelableExtra(GYM_KEY));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
@@ -62,7 +70,6 @@ public class EventsAtGymActivity extends AppCompatActivity {
         rvEvents.setLayoutManager(new LinearLayoutManager(this));
         rvEvents.setAdapter(adapterEvents);
         fetchUserGymsAsync(0);
-
         binding.fabCreateEventAtGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,8 +120,6 @@ public class EventsAtGymActivity extends AppCompatActivity {
         startActivity(i);
 
     }
-
-
 }
 
 

@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
@@ -31,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CreateEventActivity extends AppCompatActivity {
     public static final String TAG = "CreateEventActivity";
@@ -43,7 +49,14 @@ public class CreateEventActivity extends AppCompatActivity {
     private Boolean allowPlusOnes;
     private Boolean allowSpectators;
     private Calendar date;
+    private static final String GYM_ID_KEY = "gymId";
+    public static Intent newIntent(Context context, String gymId) {
+        Intent i = new Intent(context, CreateEventActivity.class);
+        i.putExtra(GYM_ID_KEY, Parcels.wrap(gymId));
+        return i;
+    }
     //TODO if it is user visible put it in the strings resource file.
+    //Todo check boxes and spinner formatting.
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(("M-dd-yyyy hh:mm:ss a"), Locale.US);
     Boolean startTimeTrue;
     List<Gym> allGyms;
@@ -53,7 +66,7 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.gym_id_parcel_tag)));
+        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -61,6 +74,9 @@ public class CreateEventActivity extends AppCompatActivity {
         skillLevel();
         allowPlusOnes();
         allowSpectators();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,8 +130,17 @@ public class CreateEventActivity extends AppCompatActivity {
                 thisGym.saveInBackground();
             }
         });
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void queryGym(String gymId) {
@@ -123,6 +148,7 @@ public class CreateEventActivity extends AppCompatActivity {
         gymQuery.getInBackground(gymId, (gym, e) -> {
             if (e == null) {
                 thisGym = gym;
+                Objects.requireNonNull(getSupportActionBar()).setTitle(thisGym.getName());
             } else {
                 Log.e(TAG, e.getMessage());
             }

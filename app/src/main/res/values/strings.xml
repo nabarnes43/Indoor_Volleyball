@@ -57,4 +57,5 @@
     <string name="name_status">Name: %1$s</string>
     <string name="place_id_status">Place Id: %1$s</string>
     <string name="is_open_status">Is Open: %1$s</string>
+    <string name="create_an_event">Create An Event</string>
 </resources>

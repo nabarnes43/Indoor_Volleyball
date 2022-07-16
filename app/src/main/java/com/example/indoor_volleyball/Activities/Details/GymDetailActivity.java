@@ -97,14 +97,12 @@ public class GymDetailActivity extends AppCompatActivity {
 
     private void goToCreateEvent(Gym gym) {
         String gymId = gym.getObjectId();
-        Intent i = new Intent(this, CreateEventActivity.class);
-        i.putExtra(getString(R.string.gym_id_parcel_tag), Parcels.wrap(gymId));
+        Intent i = CreateEventActivity.newIntent(this, gymId);
         startActivity(i);
     }
 
     private void goToEventsAtGym(Gym gym) {
-        Intent i = new Intent(this, EventsAtGymActivity.class);
-        i.putExtra(getString(R.string.gym_parcel_tag), Parcels.wrap(gym));
+        Intent i = EventsAtGymActivity.newIntent(this, gym);
         startActivity(i);
     }
 }

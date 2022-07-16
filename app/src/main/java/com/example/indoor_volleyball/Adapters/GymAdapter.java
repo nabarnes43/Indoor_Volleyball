@@ -71,8 +71,6 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ItemGymBinding binding;
-
-
         public ViewHolder(ItemGymBinding b) {
             super(b.getRoot());
             binding = b;

@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
+import com.example.indoor_volleyball.Activities.Details.EventCreatorDetailActivity;
 import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
@@ -78,9 +80,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         String user = ParseUser.getCurrentUser().getUsername();
                         String creator = event.getCreator().getUsername();
                         if (user.equals(creator)) {
-                            ((MainActivity) context).goToEventDetailsCreating(event);
+                            goToEventDetailsCreating(v.getContext(), event);
                         } else {
-                            ((MainActivity) context).goToEventDetailsAttending(event);
+                            goToEventDetailsAttending(v.getContext(), event);
                         }
                     }
                 }
@@ -110,12 +112,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     //TODO ask andrew the difference between this and how I am doing it.
-
     // Add a list of items -- change to type used
     public void addAll(List<Event> eventList) {
         events.addAll(eventList);
         notifyDataSetChanged();
     }
+
+    public void goToEventDetailsAttending(Context context, Event event) {
+        Intent i = EventAttendingActivity.newIntent(context, event);
+        context.startActivity(i);
+    }
+
+    public void goToEventDetailsCreating(Context context, Event event) {
+        String eventId = event.getObjectId();
+        Intent i = EventCreatorDetailActivity.newIntent(context, eventId);
+        context.startActivity(i);
+    }
+
 
 
 }

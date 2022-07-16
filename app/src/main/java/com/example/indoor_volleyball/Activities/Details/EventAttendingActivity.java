@@ -1,5 +1,7 @@
 package com.example.indoor_volleyball.Activities.Details;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Event;
+import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityAttendingEventBinding;
 import com.example.indoor_volleyball.databinding.ActivityEventCreatorDetailBinding;
@@ -20,6 +23,12 @@ import java.util.Objects;
 
 public class EventAttendingActivity extends AppCompatActivity {
     ActivityAttendingEventBinding binding;
+    private static final String EVENT_KEY = "event";
+    public static Intent newIntent(Context context, Event event) {
+        Intent i = new Intent(context, EventAttendingActivity.class);
+        i.putExtra(EVENT_KEY, Parcels.wrap(event));
+        return i;
+    }
     Event event;
 
     @Override
@@ -28,7 +37,7 @@ public class EventAttendingActivity extends AppCompatActivity {
         binding = ActivityAttendingEventBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        event = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.event_parcel_tag)));
+        event = Parcels.unwrap(getIntent().getParcelableExtra(EVENT_KEY));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);

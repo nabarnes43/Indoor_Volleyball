@@ -71,24 +71,4 @@ public class MainActivity extends AppCompatActivity {
         //Default
         binding.bottomNavigation.setSelectedItemId(R.id.find);
     }
-
-    public void goToGymDetails(Gym gym) {
-        Intent i = new Intent(this, GymDetailActivity.class);
-        i.putExtra("gym", Parcels.wrap(gym));
-        startActivity(i);
-    }
-
-    public void goToEventDetailsAttending(Event event) {
-        Intent i = new Intent(this, EventAttendingActivity.class);
-        i.putExtra("event", Parcels.wrap(event));
-        startActivity(i);
-    }
-
-    public void goToEventDetailsCreating(Event event) {
-        Intent i = new Intent(this, EventCreatorDetailActivity.class);
-        i.putExtra("eventId", Parcels.wrap(event.getObjectId()));
-        startActivity(i);
-    }
-
-
 }

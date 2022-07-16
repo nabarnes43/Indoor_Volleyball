@@ -1,5 +1,7 @@
 package com.example.indoor_volleyball.Activities.Details;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -27,7 +29,12 @@ public class EventCreatorDetailActivity extends AppCompatActivity {
     ActivityEventCreatorDetailBinding binding;
     Event event;
     String eventId;
-
+    private static final String EVENT_ID_KEY = "eventId";
+    public static Intent newIntent(Context context, String eventId) {
+        Intent i = new Intent(context, EventCreatorDetailActivity.class);
+        i.putExtra(EVENT_ID_KEY, Parcels.wrap(eventId));
+        return i;
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +45,7 @@ public class EventCreatorDetailActivity extends AppCompatActivity {
 
         //TODO go to my location button to go to users location
 
-        eventId = Parcels.unwrap(getIntent().getParcelableExtra("eventId"));
+        eventId = Parcels.unwrap(getIntent().getParcelableExtra(EVENT_ID_KEY));
         try {
             queryEvent(eventId);
         } catch (ParseException e) {
