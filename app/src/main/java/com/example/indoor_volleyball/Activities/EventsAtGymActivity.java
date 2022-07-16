@@ -48,14 +48,10 @@ public class EventsAtGymActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityEventsAtGymBinding.inflate(getLayoutInflater());
-
         View view = binding.getRoot();
-
         setContentView(view);
         gym = Parcels.unwrap(getIntent().getParcelableExtra("gym"));
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);

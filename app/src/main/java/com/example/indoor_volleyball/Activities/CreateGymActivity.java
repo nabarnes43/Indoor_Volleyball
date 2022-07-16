@@ -1,6 +1,7 @@
 package com.example.indoor_volleyball.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,29 +14,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateGymBinding;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FetchPhotoRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 
 import org.json.JSONArray;
 import org.parceler.Parcels;
 
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Properties;
 
 
 public class CreateGymActivity extends AppCompatActivity {
     ActivityCreateGymBinding binding;
     public static final String TAG = "CreateGymActivity";
-
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,80 +50,55 @@ public class CreateGymActivity extends AppCompatActivity {
         binding = ActivityCreateGymBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        //Initialize Places
-        //TODO hide in secrets file.
-
         Places.initialize(getApplicationContext(), getString(R.string.google_maps_api_key));
-
-
-        //Set edit text nonFocusable
         binding.etGymAddress.setFocusable(false);
         binding.etGymAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Initialize place field list
-                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ID, Place.Field.PHONE_NUMBER, Place.Field.OPENING_HOURS, Place.Field.RATING, Place.Field.WEBSITE_URI, Place.Field.BUSINESS_STATUS, Place.Field.UTC_OFFSET);
-
+                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ID, Place.Field.PHONE_NUMBER, Place.Field.OPENING_HOURS, Place.Field.RATING, Place.Field.WEBSITE_URI, Place.Field.BUSINESS_STATUS, Place.Field.UTC_OFFSET, Place.Field.PHOTO_METADATAS);
                 //Create Intent
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(CreateGymActivity.this);
-
-                //Start activity result
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).setTypeFilter(TypeFilter.ESTABLISHMENT).build(CreateGymActivity.this);
+                //Start activity result I could not find the non depreciated.
                 startActivityForResult(intent, 100);
             }
         });
-
-
     }
-
-
+    //TODO if they try to create the same gym take them to the create event of that gym page.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            //When success
-            //Initialize Place
+            //When success Initialize Place
             assert data != null;
             Place place = Autocomplete.getPlaceFromIntent(data);
+            getGymPhoto(place);
             binding.etGymAddress.setText(place.getAddress());
-            binding.tvName.setText("Locality name: " + place.getName());
+            setTextOrHide(place.getName(), binding.tvName, R.string.name_status);
             binding.tvLocation.setText(String.valueOf(place.getLatLng()));
-            //TODO need code for if any of this information doesn't exist!
-            //TODO make a function takes string view.
+            setTextOrHide(place.getId(), binding.tvPlaceId, R.string.place_id_status);
             if (place.getOpeningHours() != null) {
                 binding.tvOpeningHours.setVisibility(View.VISIBLE);
-                binding.tvOpeningHours.setText("Opening Hours " + place.getOpeningHours().getWeekdayText());
+                setTextOrHide(place.getOpeningHours().getWeekdayText(), binding.tvOpeningHours, R.string.opening_hours_status);
             } else {
                 binding.tvOpeningHours.setVisibility(View.GONE);
             }
-
-            if (place.getOpeningHours() != null) {
-                binding.tvOpeningHours.setVisibility(View.VISIBLE);
-                binding.tvWebsiteUrI.setText("Website " + place.getWebsiteUri());
-            } else {
-                binding.tvOpeningHours.setVisibility(View.GONE);
-            }
-            //TODO check link Andrew left on pull request.
-            binding.tvBusinessStatus.setText("Business Status " + place.getBusinessStatus());
+            setTextOrHide(place.getWebsiteUri(), binding.tvWebsiteUrI, R.string.website_status);
             setTextOrHide(place.getBusinessStatus(), binding.tvBusinessStatus, R.string.business_status);
-            binding.tvPhoneNumber.setText("Phone Number " + place.getPhoneNumber());
-
-            binding.tvRating.setText("Rating " + (place.getRating()));
-
-            binding.tvPlaceId.setText("Place Id " + place.getId());
-
-            binding.tvIsOpen.setText("Is Open? " + place.isOpen());
-
+            setTextOrHide(place.getPhoneNumber(), binding.tvPhoneNumber, R.string.phone_number_status);
+            setTextOrHide(place.getRating(), binding.tvRating, R.string.rating_status);
+            setTextOrHide(place.isOpen(), binding.tvIsOpen, R.string.is_open_status);
             binding.btCreateGym.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
                         createGym(place);
-                    } catch (ParseException e) {
+                    } catch (ParseException | IOException e) {
                         e.printStackTrace();
+                        Toast.makeText(CreateGymActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             //When error
             //Initialize Status
@@ -136,7 +118,35 @@ public class CreateGymActivity extends AppCompatActivity {
         }
     }
 
-    private void createGym(Place place) throws ParseException {
+    private void getGymPhoto(Place place) {
+        PlacesClient placesClient = Places.createClient(this);
+        if (!(place.getPhotoMetadatas() == null)) {
+            PhotoMetadata metaDate = place.getPhotoMetadatas().get(0);
+            // Get the attribution text.
+            final String attributions = metaDate.getAttributions();
+            //Create a FetchPhotoRequest.
+            final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(metaDate)
+                    .setMaxWidth(250) // Optional.
+                    .setMaxHeight(250) // Optional.
+                    .build();
+            placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
+                bitmap = fetchPhotoResponse.getBitmap();
+                binding.ivGymPhotoSearch.setImageBitmap(bitmap);
+
+            }).addOnFailureListener((exception) -> {
+                if (exception instanceof ApiException) {
+                    final ApiException apiException = (ApiException) exception;
+                    Toast.makeText(this, getString(R.string.place_not_found), Toast.LENGTH_SHORT).show();
+                    final int statusCode = apiException.getStatusCode();
+                    // TODO: Handle error with given status code.
+                }
+            });
+        } else {
+            Toast.makeText(this, getString(R.string.location_has_no_image), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createGym(Place place) throws ParseException, IOException {
         Gym gym = new Gym();
         gym.setName(place.getName());
         //Converting from ArrayList to Json Array.
@@ -150,18 +160,21 @@ public class CreateGymActivity extends AppCompatActivity {
         gym.setPhoneNumber(place.getPhoneNumber());
         gym.setRating(place.getRating());
         gym.setWebsiteUrl(Objects.requireNonNull(place.getWebsiteUri()).toString());
+        //Converts Bitmap to file.
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        byte[] bitmapBytes = stream.toByteArray();
+        gym.setImage(new ParseFile("image", bitmapBytes));
         gym.save();
         Log.i(TAG, getString(R.string.save_succeeded_text));
         Toast.makeText(CreateGymActivity.this, getString(R.string.save_succeeded_text), Toast.LENGTH_SHORT).show();
         goToCreateEvent(gym);
     }
-    //TODO need a purge that runs after create a event for gyms with 0 events cause code is dependent on gyms having at least one event.
+
     private void goToCreateEvent(Gym gym) {
         String gymId = gym.getObjectId();
         Intent i = new Intent(this, CreateEventActivity.class);
         i.putExtra(getString(R.string.gym_id_parcel_tag), Parcels.wrap(gymId));
         startActivity(i);
     }
-
-
 }

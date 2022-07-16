@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
@@ -75,13 +76,12 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
         public ViewHolder(ItemGymBinding b) {
             super(b.getRoot());
             binding = b;
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Gym gym = (Gym) v.getTag();
                     if (gym != null) {
-                        ((MainActivity) context).goToGymDetails(gym);
+                        goToGymDetails(v.getContext(), gym);
                     }
                 }
             });
@@ -114,6 +114,11 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     public void addAll(List<Gym> gymList) {
         gyms.addAll(gymList);
         notifyDataSetChanged();
+    }
+
+    public void goToGymDetails(Context context, Gym gym) {
+        Intent i = GymDetailActivity.newIntent(context, gym);
+        context.startActivity(i);
     }
 
 

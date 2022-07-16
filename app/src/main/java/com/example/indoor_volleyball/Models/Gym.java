@@ -31,6 +31,8 @@ public class Gym extends ParseObject {
     public static final String KEY_RATING = "rating";
     public static final String KEY_LOCATION = "location";
     public static final String KEY_NEXTEVENT = "nextEvent";
+    public static final String KEY_IMAGE = "image";
+
 
     public String getName() {
         try {
@@ -103,6 +105,14 @@ public class Gym extends ParseObject {
 
     public void setNextEvent(Event nextEvent) {
         put(KEY_NEXTEVENT, nextEvent);
+    }
+
+    public ParseFile getImage() {
+        return getParseFile(KEY_IMAGE);
+    }
+
+    public void setImage(ParseFile image) {
+        put(KEY_IMAGE, image);
     }
 
 

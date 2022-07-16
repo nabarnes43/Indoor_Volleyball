@@ -87,6 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         } else {
                             Log.e(TAG, "Signup failed " + e);
+                            //TODO figure out account already exist exception and fall back to that.
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
                         }

@@ -3,6 +3,7 @@ package com.example.indoor_volleyball.Activities.Details;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -26,6 +27,12 @@ import java.util.Objects;
 
 public class GymDetailActivity extends AppCompatActivity {
     ActivityGymDetailBinding binding;
+    private static final String GYM_KEY = "gym";
+    public static Intent newIntent(Context context, Gym gym) {
+        Intent i = new Intent(context, GymDetailActivity.class);
+        i.putExtra(GYM_KEY, Parcels.wrap(gym));
+        return i;
+    }
     public static final String TAG = "GymDetailActivity";
     Gym gym;
 
@@ -35,7 +42,7 @@ public class GymDetailActivity extends AppCompatActivity {
         binding = ActivityGymDetailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        gym = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.gym_parcel_tag)));
+        gym = Parcels.unwrap(getIntent().getParcelableExtra(GYM_KEY));
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
         //TODO resource strings
         Event event = null;
@@ -47,7 +54,6 @@ public class GymDetailActivity extends AppCompatActivity {
         String eventDateText = "";
         String eventMinMaxCountText = "";
         String eventSkillLevel = "";
-
         if (event != null) {
             eventDateText = getString(R.string.event_get_start_time_text) + event.getStartTime() + " " + getString(R.string.event_get_end_time_text) + event.getEndTime();
             eventMinMaxCountText = getString(R.string.event_item_min_text) + event.getMinCount() + getString(R.string.event_item_max_text) + event.getMaxCount();

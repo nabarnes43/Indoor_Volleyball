@@ -36,16 +36,6 @@ import org.parceler.Parcels;
 
 public class GymDetailDialogFragment extends DialogFragment {
     FragmentGymDetailDialogFraagmentBinding binding;
-    Gym gym;
-    ActivityResultLauncher<Void> GymDetailOpener = registerForActivityResult(new GymDetailedActivity(),
-            new ActivityResultCallback<Boolean>() {
-                @Override
-                public void onActivityResult(Boolean success) {
-                    //TODO refresh list.
-                }
-            });
-
-
     public GymDetailDialogFragment() {
     }
 
@@ -68,6 +58,7 @@ public class GymDetailDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Gym gym;
         gym = getArguments().getParcelable("gym");
         binding.itmEventItem.tvGymName.setText(gym.getName());
         binding.itmEventItem.rbGymRating.setRating(gym.getRating().floatValue());
@@ -81,23 +72,9 @@ public class GymDetailDialogFragment extends DialogFragment {
         binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GymDetailOpener.launch(null);
+                Intent i = GymDetailActivity.newIntent(getContext(), gym);
+                startActivity(i);
             }
         });
-    }
-
-    public class GymDetailedActivity extends ActivityResultContract<Void, Boolean> {
-        @NonNull
-        @Override
-        public Intent createIntent(@NonNull Context context, Void input) {
-            Intent i = new Intent(getContext(), GymDetailActivity.class);
-            i.putExtra("gym", Parcels.wrap(gym));
-            return i;
-        }
-
-        @Override
-        public Boolean parseResult(int resultCode, @Nullable Intent result) {
-            return resultCode == Activity.RESULT_OK;
-        }
     }
 }

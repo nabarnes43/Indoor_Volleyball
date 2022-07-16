@@ -9,19 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <Button
-            android:id="@+id/btCreateGym"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create Gym"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvIsOpen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="wrap_content">
 
         <EditText
                 android:id="@+id/etGymAddress"
@@ -31,31 +19,42 @@
                 android:drawableLeft="@drawable/ic_baseline_location_on_24"
                 android:drawablePadding="16dp"
                 android:gravity="center_vertical"
-                android:hint="Enter Address"
-                android:padding="16dp"
-            app:layout_constraintTop_toTopOf="parent"
+                android:hint="@string/enter_address_gym_search"
+                android:padding="@dimen/padding_text_gym_create"
+                app:layout_constraintTop_toTopOf="parent"
             />
+
+        <ImageView
+            android:id="@+id/ivGymPhotoSearch"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etGymAddress"
+            app:layout_constraintBottom_toTopOf="@id/tvName"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="monospace"
-            android:padding="12dp"
-            android:textColor="@color/design_default_color_primary_dark"
+            android:layout_marginTop="@dimen/gym_create_text_margin"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:padding="@dimen/padding_text_gym_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etGymAddress" />
+            app:layout_constraintTop_toBottomOf="@id/ivGymPhotoSearch" />
 
         <TextView
             android:id="@+id/tvLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="12dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_marginTop="@dimen/gym_create_text_margin"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
@@ -64,21 +63,19 @@
             android:id="@+id/tvOpeningHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintTop_toBottomOf="@id/tvPlaceId"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteX="51dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/tvPlaceId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvLocation" />
 
@@ -86,8 +83,8 @@
             android:id="@+id/tvPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintTop_toBottomOf="@id/tvOpeningHours"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -96,8 +93,8 @@
             android:id="@+id/tvRating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintTop_toBottomOf="@id/tvPhoneNumber"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -106,8 +103,8 @@
             android:id="@+id/tvWebsiteUrI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintTop_toBottomOf="@id/tvRating"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -116,8 +113,8 @@
             android:id="@+id/tvBusinessStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintTop_toBottomOf="@id/tvWebsiteUrI"
             app:layout_constraintBottom_toTopOf="@id/btCreateGym"
             app:layout_constraintStart_toStartOf="parent"
@@ -127,15 +124,23 @@
             android:id="@+id/tvIsOpen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:padding="12dp"
-            android:textSize="24sp"
+            android:padding="@dimen/padding_text_gym_create"
+            android:textSize="@dimen/non_title_text_size_gym_create"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBusinessStatus"
             />
 
-
+        <Button
+            android:id="@+id/btCreateGym"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Gym"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBusinessStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 

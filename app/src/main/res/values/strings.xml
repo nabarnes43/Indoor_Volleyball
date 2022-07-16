@@ -12,8 +12,10 @@
     <string name="event_code">Event Code</string>
     <string name="gym_pointer">Select A Gym</string>
     <string name="rotation_rule">Rotation Rule</string>
-    <string name="website_format">Website %1$s</string>
-    <string name="business_status">Business %1$s</string>
+    <string name="website_format">Website: %1$s</string>
+    <string name="business_status">Business: %1$s</string>
+    <string name="phone_number_status">Phone Number: %1$s</string>
+
     <string name="title_activity_maps">MapsActivity</string>
     <string name="action_bar_primary">#FF866500</string>
     <string name="event_parcel_tag">event</string>
@@ -46,4 +48,13 @@
     <string name="open_map_view">Open Map View</string>
     <string name="no_events_at_gym">No Events At this Gym Currently</string>
     <string name="no_events">No Events</string>
+    <string name="enter_address_gym_search">Enter Address</string>
+    <string name="opening_hours_status">Hours: %1$s</string>
+    <string name="rating_status">Rating: %1$s</string>
+    <string name="website_status">Website: %1$s</string>
+    <string name="location_has_no_image">This Location Has No Image</string>
+    <string name="place_not_found">Place not found</string>
+    <string name="name_status">Name: %1$s</string>
+    <string name="place_id_status">Place Id: %1$s</string>
+    <string name="is_open_status">Is Open: %1$s</string>
 </resources>

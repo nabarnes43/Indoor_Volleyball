@@ -83,16 +83,17 @@ public abstract class GymListFragment extends Fragment {
         rvGyms.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                binding.fabGoToMap.show();
-                if (dy > 0 || dy < 0 && binding.fabCreateGym.isShown() && binding.fabGoToMap.isShown())
+                if (dy > 0 || dy < 0 && binding.fabCreateGym.isShown() && binding.fabGoToMap.isShown()) {
                     binding.fabCreateGym.hide();
                     binding.fabGoToMap.hide();
+                }
             }
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && recyclerView.canScrollVertically(1)) {
                     binding.fabGoToMap.show();
                     binding.fabCreateGym.show();
+                }
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });

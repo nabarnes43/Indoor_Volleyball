@@ -15,7 +15,7 @@
         android:hint="Name"
         android:inputType="textMultiLine"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
+        tools:layout_editor_absoluteX="12dp" />
 
     <EditText
         android:id="@+id/etAge"

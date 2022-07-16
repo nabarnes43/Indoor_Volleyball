@@ -68,6 +68,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 showDateTimePicker();
             }
         });
+        //TODO create error detection.
         binding.tvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

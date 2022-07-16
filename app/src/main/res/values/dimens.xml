@@ -3,4 +3,7 @@
     <dimen name="spinnerDim">25dp</dimen>
     <dimen name="gymDetailsPadding">8dp</dimen>
     <dimen name="event_item_padding">4dp</dimen>
+    <dimen name="gym_create_text_margin">12dp</dimen>
+    <dimen name="non_title_text_size_gym_create">20sp</dimen>
+    <dimen name="padding_text_gym_create">12dp</dimen>
 </resources>

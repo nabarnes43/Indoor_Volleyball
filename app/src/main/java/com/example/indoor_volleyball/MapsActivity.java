@@ -182,7 +182,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void saveCurrentUserLocation() {
+    private Location saveCurrentUserLocation() {
         // requesting permission to get user's location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
@@ -192,16 +192,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             // checking if the location is null
             if (location != null) {
                 // if it isn't, save it to Back4App Dashboard
-                currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                currentUser.put("longLat", currentUserLocation);
-                currentUser.saveInBackground();
+//                currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+//                ParseUser currentUser = ParseUser.getCurrentUser();
+//                currentUser.put("longLat", currentUserLocation);
+//                currentUser.saveInBackground();
                 showClosestGym(mMap);
                 Toast.makeText(this, "User current location: " + currentUserLocation, Toast.LENGTH_SHORT).show();
+                return location;
             } else {
                 Toast.makeText(this, "Error with location check settings!", Toast.LENGTH_SHORT).show();
             }
         }
+        //TODO get geopoint from zip code for fall back make the places call when user makes or edits their zipcode.
+        return null;
     }
 
     private ParseGeoPoint getCurrentUserLocation() {
@@ -257,9 +260,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         query.setLimit(1);
         query.findInBackground(new FindCallback<Gym>() {
             @Override
-            public void done(List<Gym> gymEvent, ParseException e) {
+            public void done(List<Gym> gymList, ParseException e) {
                 if (e == null) {
-                    Gym gym = gymEvent.get(0);
+                    Gym gym = gymList.get(0);
                     LatLng closestStoreLocation = new LatLng(gym.getParseGeoPoint("location").getLatitude(), gym.getParseGeoPoint("location").getLongitude());
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(closestStoreLocation)
