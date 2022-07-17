@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +42,6 @@ public abstract class EventListFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,11 +58,26 @@ public abstract class EventListFragment extends Fragment {
         adapterEvents = new EventAdapter(getContext(), eventsCreated);
         rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
         rvEvents.setAdapter(adapterEvents);
-        fetchUserGymsAsync(0);
+        fetchUserEventsAsync(0);
+        // Setup refresh listener which triggers new data loading
+        binding.swipeContainerEvents.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchUserEventsAsync(0);
+                binding.swipeContainerEvents.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        binding.swipeContainerEvents.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
-
-    public void fetchUserGymsAsync(int i) {
+    public void fetchUserEventsAsync(int i) {
         adapterEvents.clear();
         queryUserEventsManaging();
     }
@@ -71,8 +86,6 @@ public abstract class EventListFragment extends Fragment {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         return eventQuery;
     }
-
-//TODO orgaize by date
 
     private void queryUserEventsManaging() {
         ParseQuery<Event> eventQuery = getEventQuery();

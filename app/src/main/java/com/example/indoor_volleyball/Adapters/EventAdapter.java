@@ -93,15 +93,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         //TODO when no next event
         //TODO why no gyms for other users
         public void bind(Event event) throws ParseException {
-
             binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
             binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
             binding.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
-            //TODO Image code
-//            ParseFile image = post.getImage();
-//            if (image != null) {
-//                Glide.with(context).load(image.getUrl()).into(ivImagePost);
-//            }
+            ParseUser creator = event.getCreator();
+            ParseFile image = creator.getParseFile("profilePhoto");
+            if (image != null) {
+                Glide.with(context).load(image.getUrl()).circleCrop().into(binding.ivEventCreatorProfile);
+            }
         }
     }
 
@@ -112,7 +111,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     //TODO ask andrew the difference between this and how I am doing it.
-    // Add a list of items -- change to type used
     public void addAll(List<Event> eventList) {
         events.addAll(eventList);
         notifyDataSetChanged();

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.EventsAtGymActivity;
 import com.example.indoor_volleyball.Models.Event;
@@ -60,6 +61,9 @@ public class GymDetailActivity extends AppCompatActivity {
             eventSkillLevel = getString(R.string.event_get_skill_level_text) + event.getSkillLevel();
         } else {
             binding.btViewMoreEvents.setText(R.string.no_events);
+        }
+        if (gym.getImage() != null) {
+            Glide.with(this).load(gym.getImage().getUrl()).into(binding.ivGymPhotoDetail);
         }
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

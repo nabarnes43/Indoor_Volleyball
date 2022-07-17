@@ -95,10 +95,10 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
             binding.tvGymName.setText(gym.getName());
             binding.rbGymRating.setRating(gym.getRating().floatValue());
             //TODO Image code
-//            ParseFile image = post.getImage();
-//            if (image != null) {
-//                Glide.with(context).load(image.getUrl()).into(ivImagePost);
-//            }
+            ParseFile image = gym.getImage();
+            if (image != null) {
+                Glide.with(context).load(image.getUrl()).into(binding.ivGymPhoto);
+            }
         }
     }
 

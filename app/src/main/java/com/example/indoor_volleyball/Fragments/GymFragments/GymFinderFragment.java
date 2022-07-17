@@ -61,22 +61,6 @@ public class GymFinderFragment extends Fragment {
         new TabLayoutMediator(tlGymsList, binding.vpGymList,
                 (tab, position) -> tab.setText(gymsPagerAdapter.getTitle(position))).attach();
         //TODO refresh listener.
-//        //swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-//        // Setup refresh listener which triggers new data loading
-//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                // Your code to refresh the list here.
-//                // Make sure you call swipeContainer.setRefreshing(false)
-//                // once the network request has completed successfully.
-//                fetchTimelineAsync(0);
-//            }
-//        });
-//        // Configure the refreshing colors
-//        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_red_light);
     }
 }
 

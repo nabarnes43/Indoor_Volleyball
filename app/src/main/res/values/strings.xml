@@ -48,7 +48,7 @@
     <string name="open_map_view">Open Map View</string>
     <string name="no_events_at_gym">No Events At this Gym Currently</string>
     <string name="no_events">No Events</string>
-    <string name="enter_address_gym_search">Enter Address</string>
+    <string name="enter_address_gym_search">Enter Gym Address</string>
     <string name="opening_hours_status">Hours: %1$s</string>
     <string name="rating_status">Rating: %1$s</string>
     <string name="website_status">Website: %1$s</string>
