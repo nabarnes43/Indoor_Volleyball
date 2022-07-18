@@ -84,7 +84,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
                 }
             });
         }
-
+        //TODO Make Image be fitted.
         public void bind(Gym gym) throws ParseException {
             if (gym.getNextEvent() != null) {
                 binding.tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
@@ -94,7 +94,6 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
             }
             binding.tvGymName.setText(gym.getName());
             binding.rbGymRating.setRating(gym.getRating().floatValue());
-            //TODO Image code
             ParseFile image = gym.getImage();
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(binding.ivGymPhoto);

@@ -69,4 +69,9 @@
     <string name="password">Password:</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="profile_photo_new_user">Profile Photo New User</string>
+    <string name="volleyball">Volleyball.</string>
+    <string name="login">Login</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="you_have_no_events_coming_up">You Have No Events Coming Up</string>
+    <string name="you_are_not_currently_following_any_gyms">You Are Not Currently Following Any Gyms</string>
 </resources>

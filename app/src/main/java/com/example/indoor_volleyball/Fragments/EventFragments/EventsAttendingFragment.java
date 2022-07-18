@@ -13,13 +13,11 @@ import android.view.ViewGroup;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.FragmentEventFinderBinding;
-import com.example.indoor_volleyball.databinding.FragmentEventsAttendingBinding;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
 public class EventsAttendingFragment extends EventListFragment {
-    private FragmentEventsAttendingBinding binding;
 
     public EventsAttendingFragment() {
         // Required empty public constructor

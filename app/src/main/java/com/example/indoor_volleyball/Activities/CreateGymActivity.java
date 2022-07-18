@@ -151,12 +151,14 @@ public class CreateGymActivity extends AppCompatActivity {
         Gym gym = new Gym();
         gym.setName(place.getName());
         //Converting from ArrayList to Json Array.
-        JSONArray openingHours = new JSONArray(Objects.requireNonNull(place.getOpeningHours()).getWeekdayText());
-        gym.setOpeningHours(openingHours);
+        if (!(place.getOpeningHours() == null)) {
+            JSONArray openingHours = new JSONArray((place.getOpeningHours()).getWeekdayText());
+            gym.setOpeningHours(openingHours);
+        }
         gym.setAddress(place.getAddress());
         gym.setPlaceId(place.getId());
         //Converting LatLng to Geo Point.
-        ParseGeoPoint gp = new ParseGeoPoint((Objects.requireNonNull(place.getLatLng()).latitude), (place.getLatLng().longitude));
+        ParseGeoPoint gp = new ParseGeoPoint(((Objects.requireNonNull(place.getLatLng())).latitude), (place.getLatLng().longitude));
         gym.setLocation(gp);
         gym.setPhoneNumber(place.getPhoneNumber());
         gym.setRating(place.getRating());

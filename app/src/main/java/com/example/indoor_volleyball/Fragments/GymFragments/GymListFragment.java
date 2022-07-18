@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -74,6 +75,7 @@ public abstract class GymListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.tvGymEmpty.setVisibility(View.INVISIBLE);
         rvGyms = binding.rvGyms;
         gymsFollowed = new ArrayList<>();
         adapterUserGyms = new GymAdapter(getContext(), gymsFollowed);
@@ -151,8 +153,12 @@ public abstract class GymListFragment extends Fragment {
             public void done(List<Gym> gymList, ParseException e) {
                 if (e == null) {
                     gymsFollowed.addAll(gymList);
+                    if (gymList.isEmpty()) {
+                        binding.tvGymEmpty.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Log.d("item", "Error: " + e.getMessage());
+                    Toast.makeText(getContext(), "Error " + e, Toast.LENGTH_SHORT).show();
                 }
                 adapterUserGyms.notifyDataSetChanged();
             }

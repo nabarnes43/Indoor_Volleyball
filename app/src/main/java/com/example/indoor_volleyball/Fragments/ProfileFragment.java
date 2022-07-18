@@ -97,8 +97,6 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         displayUserInfo();
-
-
         binding.btTakePhotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +152,6 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
         photoFile = getPhotoFileUri(photoFileName);
-
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher

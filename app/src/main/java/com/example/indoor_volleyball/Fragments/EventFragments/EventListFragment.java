@@ -53,6 +53,7 @@ public abstract class EventListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.tvNoEvents.setVisibility(View.INVISIBLE);
         rvEvents = binding.rvEvents;
         eventsCreated = new ArrayList<>();
         adapterEvents = new EventAdapter(getContext(), eventsCreated);
@@ -96,6 +97,9 @@ public abstract class EventListFragment extends Fragment {
             public void done(List<Event> eventList, ParseException e) {
                 if (e == null) {
                     eventsCreated.addAll(eventList);
+                    if (eventList.isEmpty()) {
+                        binding.tvNoEvents.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Log.d("item", "Error: " + e.getMessage());
                 }

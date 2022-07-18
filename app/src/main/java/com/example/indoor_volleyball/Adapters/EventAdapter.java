@@ -90,8 +90,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
 
         //TODO string resource and date formatter.
-        //TODO when no next event
-        //TODO why no gyms for other users
+        //TODO why no gyms for other users: Need location to get gyms get it using zip
         public void bind(Event event) throws ParseException {
             binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
             binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());

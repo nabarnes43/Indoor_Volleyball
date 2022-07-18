@@ -8,6 +8,13 @@
     android:background="#FFFFFF"
     tools:context=".Fragments.EventFragments.EventFinderFragment">
 
+    <TextView
+        android:id="@+id/tvNoEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:text="@string/you_have_no_events_coming_up" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainerEvents"
@@ -18,6 +25,7 @@
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
