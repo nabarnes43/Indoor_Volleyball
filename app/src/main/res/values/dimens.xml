@@ -6,4 +6,6 @@
     <dimen name="gym_create_text_margin">12dp</dimen>
     <dimen name="non_title_text_size_gym_create">20sp</dimen>
     <dimen name="padding_text_gym_create">12dp</dimen>
+    <dimen name="text_size_sign_up">25sp</dimen>
+    <dimen name="margin_sign_up">8dp</dimen>
 </resources>

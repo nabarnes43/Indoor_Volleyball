@@ -60,7 +60,6 @@ public class GymFinderFragment extends Fragment {
         TabLayout tlGymsList = binding.tlGymsList;
         new TabLayoutMediator(tlGymsList, binding.vpGymList,
                 (tab, position) -> tab.setText(gymsPagerAdapter.getTitle(position))).attach();
-        //TODO refresh listener.
     }
 }
 

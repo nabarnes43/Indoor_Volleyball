@@ -80,7 +80,6 @@ public abstract class GymListFragment extends Fragment {
         rvGyms.setAdapter(adapterUserGyms);
         rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
         fetchUserGymsAsync();
-//TODO SCROLL NOT WORKING
         rvGyms.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -128,7 +127,6 @@ public abstract class GymListFragment extends Fragment {
                 android.R.color.holo_red_light);
     }
 
-    //TODO should I make these resources.
     protected ParseQuery<Gym> getGymQuery(ParseUser user) {
         ParseGeoPoint userLocation = user.getParseGeoPoint("longLat");
         ParseQuery<Gym> query = new ParseQuery<>("Gym");

@@ -18,7 +18,6 @@ public class YourGymsFragment extends GymListFragment {
     @Override
     protected ParseQuery<Gym> getGymQuery(ParseUser user) {
         ParseQuery<Gym> query = super.getGymQuery(user);
-        //TODO should these be string resource files.
         query.whereEqualTo("usersFollowing", user);
         return query;
     }

@@ -72,7 +72,8 @@ public class GymDetailDialogFragment extends DialogFragment {
         binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = GymDetailActivity.newIntent(getContext(), gym);
+                String gymId = gym.getObjectId();
+                Intent i = GymDetailActivity.newIntent(v.getContext(), gymId);
                 startActivity(i);
             }
         });

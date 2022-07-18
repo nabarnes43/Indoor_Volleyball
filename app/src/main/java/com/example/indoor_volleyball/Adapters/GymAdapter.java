@@ -115,7 +115,8 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     }
 
     public void goToGymDetails(Context context, Gym gym) {
-        Intent i = GymDetailActivity.newIntent(context, gym);
+        String gymId = gym.getObjectId();
+        Intent i = GymDetailActivity.newIntent(context, gymId);
         context.startActivity(i);
     }
 

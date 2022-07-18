@@ -58,4 +58,15 @@
     <string name="place_id_status">Place Id: %1$s</string>
     <string name="is_open_status">Is Open: %1$s</string>
     <string name="create_an_event">Create An Event</string>
+    <string name="view_more">View More</string>
+    <string name="gym_photo">Gym Photo</string>
+    <string name="follow_gym">Follow Gym</string>
+    <string name="name_sign_up">Name:</string>
+    <string name="email_sign_up">Email:</string>
+    <string name="phone_sign_up">Phone:</string>
+    <string name="zip_code_sign_up">Zip Code:</string>
+    <string name="username_sign_up">Username:</string>
+    <string name="password">Password:</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="profile_photo_new_user">Profile Photo New User</string>
 </resources>
