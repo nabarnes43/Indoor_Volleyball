@@ -6,8 +6,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
@@ -19,30 +23,32 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.indoor_volleyball.Fragments.EventFragments.EventFinderFragment;
 import com.example.indoor_volleyball.Fragments.GymFragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
+import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
 import com.example.indoor_volleyball.EventTodayReminderWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private static final String CHANNEL_ID = "My Notification";
+    public static final String TAGW = "Event Today";
+    private static final String CHANNEL_ID = "Events";
     private ActivityMainBinding binding;
+    private Event eventToday;
     public static LocationManager locationManager;
-    androidx.work.PeriodicWorkRequest uploadWorkRequest =
-            new androidx.work.PeriodicWorkRequest.Builder(EventTodayReminderWorker.class, 15, TimeUnit.MINUTES)
-                    .addTag("Notify Event Today")
-                    .build();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,36 +59,13 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        WorkManager
-                .getInstance(MainActivity.this)
-                .enqueue(uploadWorkRequest);
-
         final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_baseline_event_24)
-                .setContentTitle("My notification")
-                .setContentText("Much longer text that cannot fit one line...")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
+        PeriodicWorkRequest uploadWorkRequest =
+                new PeriodicWorkRequest.Builder(EventTodayReminderWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                        .addTag("Notify Event Today")
+                        .build();
         createNotificationChannel();
-
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1, builder.build());
-
-
-
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(TAGW, ExistingPeriodicWorkPolicy.KEEP, uploadWorkRequest);
         binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -106,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         });
         //Default
         binding.bottomNavigation.setSelectedItemId(R.id.find);
+
     }
 
     private void createNotificationChannel() {

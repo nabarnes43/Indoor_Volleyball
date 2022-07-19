@@ -92,6 +92,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
         //TODO date formatter to make the dates look better.
         public void bind(Gym gym) throws ParseException {
             if (gym.getNextEvent() != null) {
+                binding.tvEventDateDescription.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 binding.tvEventDateDescription.setText("Date: " + gym.getNextEvent().getStartTime() + " Details: " + gym.getNextEvent().getDetails());
             } else {
                 binding.tvEventDateDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));

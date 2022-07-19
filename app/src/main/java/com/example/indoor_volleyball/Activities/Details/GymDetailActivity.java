@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.EventsAtGymActivity;
 import com.example.indoor_volleyball.Models.Event;
@@ -87,7 +90,7 @@ public class GymDetailActivity extends AppCompatActivity {
             binding.btViewMoreEvents.setText(R.string.no_events);
         }
         if (gym.getImage() != null) {
-            Glide.with(this).load(gym.getImage().getUrl()).into(binding.ivGymPhotoDetail);
+            Glide.with(this).load(gym.getImage().getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhotoDetail);
         }
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
