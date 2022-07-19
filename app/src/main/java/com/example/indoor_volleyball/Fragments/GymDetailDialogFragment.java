@@ -23,6 +23,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Fragments.GymFragments.GymListFragment;
 import com.example.indoor_volleyball.MapsActivity;
@@ -31,6 +36,7 @@ import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.FragmentGymDetailDialogFraagmentBinding;
 import com.example.indoor_volleyball.databinding.FragmentGymFinderBinding;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 
 import org.parceler.Parcels;
 
@@ -62,11 +68,15 @@ public class GymDetailDialogFragment extends DialogFragment {
         gym = getArguments().getParcelable("gym");
         binding.itmEventItem.tvGymName.setText(gym.getName());
         binding.itmEventItem.rbGymRating.setRating(gym.getRating().floatValue());
-        try {
-            binding.itmEventItem.tvEventDateDescription.setText(gym.getNextEvent().getDetails().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
+        ParseFile image = gym.getImage();
+        if (image != null) {
+            Glide.with(getContext()).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.itmEventItem.ivGymPhoto);
         }
+//        try {
+//            binding.itmEventItem.tvEventDateDescription.setText(gym.getNextEvent().getDetails().toString());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         getDialog().getWindow().setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
         binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {

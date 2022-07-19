@@ -2,15 +2,21 @@ package com.example.indoor_volleyball.Activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Matrix;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
@@ -127,13 +133,10 @@ public class CreateGymActivity extends AppCompatActivity {
             final String attributions = metaDate.getAttributions();
             //Create a FetchPhotoRequest.
             final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(metaDate)
-                    .setMaxWidth(250) // Optional.
-                    .setMaxHeight(250) // Optional.
                     .build();
             placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
                 bitmap = fetchPhotoResponse.getBitmap();
-                binding.ivGymPhotoSearch.setImageBitmap(bitmap);
-
+                Glide.with(CreateGymActivity.this).load(bitmap).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhotoSearch);
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     final ApiException apiException = (ApiException) exception;

@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation "androidx.core:core:1.8.0"
     implementation 'org.parceler:parceler-api:1.1.12'
     implementation 'com.codepath.libraries:asynchttpclient:2.2.0'
     implementation 'junit:junit:4.12'
@@ -58,4 +59,16 @@ dependencies {
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
+    def work_version = "2.7.1"
+    // (Java only)
+    implementation "androidx.work:work-runtime:$work_version"
+
+    // optional - RxJava2 support
+    implementation "androidx.work:work-rxjava2:$work_version"
+    // optional - GCMNetworkManager support
+    implementation "androidx.work:work-gcm:$work_version"
+    // optional - Test helpers
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+    // optional - Multiprocess support
+    implementation "androidx.work:work-multiprocess:$work_version"
 }

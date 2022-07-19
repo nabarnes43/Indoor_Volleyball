@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +27,8 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Activities.LoginActivity;
@@ -188,6 +191,7 @@ public class ProfileFragment extends Fragment {
                 // Load the taken image into a preview
                 binding.ivProfilePhoto.setImageBitmap(takenImage);
                 Glide.with(requireContext()).load(takenImage).circleCrop().into(binding.ivProfilePhoto);
+                binding.ivProfilePhoto.setRotation(90);
                 user.put("profilePhoto", new ParseFile(photoFile));
                 user.saveInBackground();
             } else { // Result was a failure

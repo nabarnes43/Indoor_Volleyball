@@ -1,35 +1,21 @@
 package com.example.indoor_volleyball;//package com.example.indoor_volleyball;
 
 
-import android.Manifest;
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.indoor_volleyball.Fragments.GymDetailDialogFragment;
@@ -38,7 +24,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -91,8 +76,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        saveCurrentUserLocation();
-        showCurrentUserInMap(mMap);
+        showCurrentUserInMap(mMap, find_Location(MapsActivity.this) );
         if (!gymList.isEmpty()) {
             gymListToMarker(mMap);
         } else {
@@ -118,9 +102,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         GymDetailDialogFragment gymDetailDialogFragment = GymDetailDialogFragment.newInstance(gym);
         gymDetailDialogFragment.show(fm, "fragment_gym_detail_dialog_fragment");
     }
-
+//TODO add recenter button to action bar
     public void refreshQuery(GoogleMap googleMap, ParseUser user) {
-        saveCurrentUserLocation();
+        find_Location(MapsActivity.this);
         ParseQuery<Gym> gymQuery;
         if (position == 0) {
             gymQuery = getGymQuery(user);
@@ -143,19 +127,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public Marker gymMarkerColor(LatLng latLng, Float color, Gym gym) {
+    public void gymMarkerColor(LatLng latLng, Float color, Gym gym) {
         Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(gym.getName()).icon(BitmapDescriptorFactory.defaultMarker(color)));
         marker.setTag(gym);
-        return marker;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         switch (requestCode) {
             case REQUEST_LOCATION:
-                saveCurrentUserLocation();
+                find_Location(MapsActivity.this);
                 break;
         }
     }
@@ -177,46 +159,55 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 refreshQuery(mMap, ParseUser.getCurrentUser());
                 Toast.makeText(this, "refresh", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.btUserLocation:
+                showCurrentUserInMap(mMap, find_Location(MapsActivity.this));
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-//TODO fix this then add follow gym and event buttons in detailed views then fix signups
-    private Location saveCurrentUserLocation() {
-        // requesting permission to get user's location
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        } else {
-            // getting last know user's location
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            // checking if the location is null
+
+    //TODO get geo point from zip code for fall back make the places call when user makes or edits their zipcode.
+    @SuppressLint("MissingPermission")
+    public Location find_Location(Context con) {
+        Log.d("Find Location", "in find_location");
+        //this.con = con;
+        String location_context = Context.LOCATION_SERVICE;
+        locationManager = (LocationManager) con.getSystemService(location_context);
+        List<String> providers = locationManager.getProviders(true);
+        for (String provider : providers) {
+            locationManager.requestLocationUpdates(provider, 1000, 0,
+                    new LocationListener() {
+
+                        public void onLocationChanged(Location location) {}
+
+                        public void onProviderDisabled(String provider) {}
+
+                        public void onProviderEnabled(String provider) {}
+
+                        public void onStatusChanged(String provider, int status,
+                                                    Bundle extras) {}
+                    });
+            Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
-                // if it isn't, save it to Back4App Dashboard
-//                currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-//                ParseUser currentUser = ParseUser.getCurrentUser();
-//                currentUser.put("longLat", currentUserLocation);
-//                currentUser.saveInBackground();
-                showClosestGym(mMap);
-                Toast.makeText(this, "User current location: " + currentUserLocation, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "User current location: " + location, Toast.LENGTH_SHORT).show();
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
+//                addr = ConvertPointToLocation(latitude, longitude);
+//                String temp_c = SendToUrl(addr);
                 return location;
-            } else {
-                Toast.makeText(this, "Error with location check settings!", Toast.LENGTH_SHORT).show();
             }
         }
-        //TODO get geopoint from zip code for fall back make the places call when user makes or edits their zipcode.
         return null;
     }
 
-    private ParseGeoPoint getCurrentUserLocation() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        return currentUser.getParseGeoPoint("longLat");
+    private void getCurrentUserLocation(Location location) {
+        currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
     }
 
-    private void showCurrentUserInMap(final GoogleMap googleMap) {
-        // calling retrieve user's location method of Step 4
-        ParseGeoPoint currentUserLocation = getCurrentUserLocation();
+    private void showCurrentUserInMap(final GoogleMap googleMap, Location location) {
         // creating a marker in the map showing the current user location
-        LatLng currentUser = new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude());
+        LatLng currentUser = new LatLng(location.getLatitude(), location.getLongitude());
+        getCurrentUserLocation(location);
         googleMap.addMarker(new MarkerOptions().position(currentUser).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         // zoom the map to the currentUserLocation
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentUser, 11));
@@ -256,7 +247,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void showClosestGym(final GoogleMap googleMap) {
         ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
-        query.whereNear("location", getCurrentUserLocation());
+        query.whereNear("location", currentUserLocation);
         query.setLimit(1);
         query.findInBackground(new FindCallback<Gym>() {
             @Override

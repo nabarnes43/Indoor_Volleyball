@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
+import android.view.RoundedCorner;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
@@ -84,10 +88,11 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
                 }
             });
         }
-        //TODO Make Image be fitted.
+
+        //TODO date formatter to make the dates look better.
         public void bind(Gym gym) throws ParseException {
             if (gym.getNextEvent() != null) {
-                binding.tvEventDateDescription.setText("Date/Time: " + gym.getNextEvent().getStartTime() + "  " + gym.getNextEvent().getEndTime() + " Details: " + gym.getNextEvent().getDetails());
+                binding.tvEventDateDescription.setText("Date: " + gym.getNextEvent().getStartTime() + " Details: " + gym.getNextEvent().getDetails());
             } else {
                 binding.tvEventDateDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                 binding.tvEventDateDescription.setText(R.string.no_events_at_gym);
@@ -96,7 +101,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
             binding.rbGymRating.setRating(gym.getRating().floatValue());
             ParseFile image = gym.getImage();
             if (image != null) {
-                Glide.with(context).load(image.getUrl()).into(binding.ivGymPhoto);
+                Glide.with(context).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhoto);
             }
         }
     }

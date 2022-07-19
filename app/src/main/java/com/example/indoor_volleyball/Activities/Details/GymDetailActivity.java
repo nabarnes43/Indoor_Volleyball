@@ -109,6 +109,7 @@ public class GymDetailActivity extends AppCompatActivity {
                 goToEventsAtGym(gym);
             }
         });
+        //TODO ask codepath people how to fix the user side of the relation wednesday.
         binding.btFollowGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

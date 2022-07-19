@@ -30,6 +30,7 @@ import com.example.indoor_volleyball.databinding.ActivityMainBinding;
 import com.example.indoor_volleyball.databinding.FragmentEventsCreatedBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
@@ -45,6 +46,7 @@ public class EventsAtGymActivity extends AppCompatActivity {
     private List<Event> eventsCreated;
     private RecyclerView rvEvents;
     private EventAdapter adapterEvents;
+
     Gym gym;
     private static final String GYM_KEY = "gym";
     public static Intent newIntent(Context context, Gym gym) {

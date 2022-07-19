@@ -1,8 +1,12 @@
 package com.example.indoor_volleyball.Fragments.GymFragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.CreateGymActivity;
+import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Adapters.GymAdapter;
 import com.example.indoor_volleyball.MapsActivity;
 import com.example.indoor_volleyball.Models.Gym;
@@ -45,6 +50,10 @@ public abstract class GymListFragment extends Fragment {
     GymAdapter adapterUserGyms;
     RecyclerView rvGyms;
     int position;
+    public static ParseGeoPoint userGeoPointLocation;
+    LocationManager locationManager = MainActivity.locationManager;
+    ParseGeoPoint currentUserLocation;
+
     ActivityResultLauncher<Void> MapOpener = registerForActivityResult(new OpenMap(),
             new ActivityResultCallback<Boolean>() {
                 @Override
@@ -78,6 +87,8 @@ public abstract class GymListFragment extends Fragment {
         binding.tvGymEmpty.setVisibility(View.INVISIBLE);
         rvGyms = binding.rvGyms;
         gymsFollowed = new ArrayList<>();
+        getCurrentUserLocation(find_Location(getContext()));
+        userGeoPointLocation = currentUserLocation;
         adapterUserGyms = new GymAdapter(getContext(), gymsFollowed);
         rvGyms.setAdapter(adapterUserGyms);
         rvGyms.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -129,10 +140,41 @@ public abstract class GymListFragment extends Fragment {
                 android.R.color.holo_red_light);
     }
 
+    //TODO get geo point from zip code for fall back make the places call when user makes or edits their zipcode.
+    @SuppressLint("MissingPermission")
+    public Location find_Location(Context con) {
+        Log.d("Find Location", "in find_location");
+        //this.con = con;
+        String location_context = Context.LOCATION_SERVICE;
+        locationManager = (LocationManager) con.getSystemService(location_context);
+        List<String> providers = locationManager.getProviders(true);
+        for (String provider : providers) {
+            locationManager.requestLocationUpdates(provider, 1000, 0,
+                    new LocationListener() {
+
+                        public void onLocationChanged(Location location) {}
+
+                        public void onProviderDisabled(String provider) {}
+
+                        public void onProviderEnabled(String provider) {}
+
+                        public void onStatusChanged(String provider, int status,
+                                                    Bundle extras) {}
+                    });
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                return location;
+            }
+        }
+        return null;
+    }
+    private void getCurrentUserLocation(Location location) {
+        currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+    }
+
     protected ParseQuery<Gym> getGymQuery(ParseUser user) {
-        ParseGeoPoint userLocation = user.getParseGeoPoint("longLat");
         ParseQuery<Gym> query = new ParseQuery<>("Gym");
-        query.whereNear("location", userLocation);
+        query.whereNear("location", userGeoPointLocation);
         query.include("details");
         query.include("startTime");
         query.include("endTime");
