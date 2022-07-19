@@ -86,6 +86,17 @@ public class GymDetailActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
             }
+            Event finalEvent = event;
+            binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if( finalEvent.getCreator().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                        goToEventDetailsCreating(GymDetailActivity.this, finalEvent);
+                    } else {
+                        goToEventDetailsAttending(GymDetailActivity.this, finalEvent);
+                    }
+                }
+            });
         } else {
             binding.btViewMoreEvents.setText(R.string.no_events);
         }
@@ -135,35 +146,24 @@ public class GymDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void goToEventDetailsAttending(Context context, Event event) {
+        String eventId = event.getObjectId();
+        Intent i = EventAttendingActivity.newIntent(context, eventId);
+        context.startActivity(i);
+    }
+
+    public void goToEventDetailsCreating(Context context, Event event) {
+        String eventId = event.getObjectId();
+        Intent i = EventCreatorDetailActivity.newIntent(context, eventId);
+        context.startActivity(i);
     }
 
     private void queryGym(String gymId) throws ParseException {
         ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
         gymQuery.whereEqualTo("objectId", gymId);
         gym = gymQuery.getFirst();
-    }
-
-    public void updateUser() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            //Gets a list of all the gyms that the user follows.
-
-
-
-            currentUser.put("", "new_email@example.com");
-
-            // Saves the object.
-            currentUser.saveInBackground(e -> {
-                if(e==null){
-                    //Save successfull
-                    Toast.makeText(this, "Save Successful", Toast.LENGTH_SHORT).show();
-                }else{
-                    // Something went wrong while saving
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
     public ParseUser findUsers(ParseUser user) throws ParseException {

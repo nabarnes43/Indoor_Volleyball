@@ -8,4 +8,6 @@
     <dimen name="padding_text_gym_create">12dp</dimen>
     <dimen name="text_size_sign_up">25sp</dimen>
     <dimen name="margin_sign_up">8dp</dimen>
+    <dimen name="event_attending_text_size">16sp</dimen>
+    <dimen name="bottom_margin_event_attending">24dp</dimen>
 </resources>

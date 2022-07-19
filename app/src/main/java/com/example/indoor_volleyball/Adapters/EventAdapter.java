@@ -116,7 +116,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     public void goToEventDetailsAttending(Context context, Event event) {
-        Intent i = EventAttendingActivity.newIntent(context, event);
+        String eventId = event.getObjectId();
+        Intent i = EventAttendingActivity.newIntent(context, eventId);
         context.startActivity(i);
     }
 

@@ -13,13 +13,25 @@
         >
 
         <ImageView
-            android:id="@+id/ivCreatorProfileDetailAttend"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/ivGymPhotoEventAttending"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/bottom_margin_event_attending"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/ivCreatorProfileDetailAttend"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/bottom_margin_event_attending"
+            android:layout_marginBottom="@dimen/bottom_margin_event_attending"
+            app:layout_constraintBottom_toTopOf="@+id/tvStartTimeAttend"
+            app:layout_constraintEnd_toStartOf="@id/tvCreateEventAttend"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivGymPhotoEventAttending"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -28,20 +40,20 @@
             android:layout_height="wrap_content"
             android:text="Creator Name: "
             android:textAlignment="center"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvStartTimeAttend"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ivCreatorProfileDetailAttend"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivCreatorProfileDetailAttend"
-            />
+            app:layout_constraintTop_toTopOf="@id/ivCreatorProfileDetailAttend" />
 
         <TextView
             android:id="@+id/tvStartTimeAttend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textAlignment="center"
-
+            android:layout_marginBottom="@dimen/event_attending_text_size"
+            android:textSize="@dimen/event_attending_text_size"
+            android:textColor="@color/black"
             android:hint="@string/start_time"
             app:layout_constraintBottom_toTopOf="@id/tvEndTimeAttend"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,36 +64,38 @@
             android:id="@+id/tvEndTimeAttend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="@dimen/bottom_margin_event_attending"
             android:hint="@string/end_time"
+            android:textSize="@dimen/event_attending_text_size"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@id/tvMinPlayersAttend"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvMinPlayersAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="@dimen/bottom_margin_event_attending"
+            android:textSize="@dimen/event_attending_text_size"
+            android:textColor="@color/black"
             android:hint="@string/min_players"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@id/tvSkillLevelAttend"
+            android:textAlignment="center"
             app:layout_constraintEnd_toStartOf="@id/tvMaxPlayersAttend"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvAllowPlusOnesAttend"
+            tools:layout_editor_absoluteY="277dp" />
 
         <TextView
             android:id="@+id/tvMaxPlayersAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-
             android:hint="@string/max_players"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/event_attending_text_size"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@id/tvSkillLevelAttend"
             app:layout_constraintStart_toEndOf="@+id/tvMinPlayersAttend"
             app:layout_constraintTop_toTopOf="@+id/tvMinPlayersAttend" />
 
@@ -89,38 +103,42 @@
             android:id="@+id/tvSkillLevelAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-
             android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/event_attending_text_size"
             android:layout_marginBottom="40dp"
             android:text="Skill Level"
-            app:layout_constraintEnd_toStartOf="@id/tvAllowPlusOnesAttend"
-            app:layout_constraintBottom_toTopOf="@+id/tvDetailsAttend"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@id/tvMaxPlayersAttend"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvMaxPlayersAttend"/>
+
 
         <TextView
             android:id="@+id/tvAllowPlusOnesAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="@dimen/bottom_margin_event_attending"
             android:text="@string/allow_plus_ones"
-            app:layout_constraintStart_toEndOf="@id/tvSkillLevelAttend"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/event_attending_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/tvDetailsAttend"
             app:layout_constraintEnd_toStartOf="@id/tvAllowSpectatorsAttend"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevelAttend" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvAllowSpectatorsAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-
-            android:layout_marginEnd="8dp"
+            android:textSize="@dimen/event_attending_text_size"
+            android:textColor="@color/black"
             android:text="@string/allow_spectators"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvAllowPlusOnesAttend"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevelAttend" />
+            app:layout_constraintTop_toTopOf="@id/tvAllowPlusOnesAttend"/>
 
 
 
@@ -128,9 +146,9 @@
             android:id="@+id/tvDetailsAttend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textAlignment="center"
-
+            android:layout_marginBottom="@dimen/bottom_margin_event_attending"
+            android:textColor="@color/black"
+            android:textSize="@dimen/event_attending_text_size"
             android:hint="@string/details_about_event"
             app:layout_constraintBottom_toTopOf="@id/tvEventCodeAttend"
             app:layout_constraintEnd_toEndOf="parent"
@@ -138,28 +156,28 @@
 
         <TextView
             android:id="@+id/tvEventCodeAttend"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/bottom_margin_event_attending"
             android:hint="@string/event_code"
-            android:textAlignment="center"
-
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@id/tvTeamRotationAttend"/>
-
-
-
-
+            android:textColor="@color/black"
+            android:textSize="@dimen/event_attending_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvTeamRotationAttend"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <TextView
             android:id="@+id/tvTeamRotationAttend"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/rotation_rule"
-            android:textAlignment="center"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="36dp" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/event_attending_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvEventCodeAttend"
+            app:layout_constraintTop_toTopOf="@id/tvEventCodeAttend"
+            app:layout_constraintBottom_toBottomOf="@id/tvEventCodeAttend"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

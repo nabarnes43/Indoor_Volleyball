@@ -2,6 +2,8 @@ package com.example.indoor_volleyball;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -17,7 +19,10 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Event;
+import com.example.indoor_volleyball.Models.Gym;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -32,9 +37,11 @@ import java.util.concurrent.TimeUnit;
 
 public class EventTodayReminderWorker extends Worker {
     private static final String CHANNEL_ID = "Events";
+    private static final int NOTIFICATION_ID = 1;
     List<Event> allEvents;
     List<Event> eventsToday;
     Event eventToday;
+
 
     public EventTodayReminderWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -44,11 +51,18 @@ public class EventTodayReminderWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        //TODO query if there is an event today that the user is attending
         try {
             queryAllEvents();
             if (eventToday != null) {
-                //Data eventIdData = new Data.Builder().putString("eventId", eventToday.getObjectId()).build();
+                // Create an Intent for the activity you want to start
+                Intent resultIntent =  EventAttendingActivity.newIntent(getApplicationContext(), eventToday.getObjectId());
+                // Create the TaskStackBuilder and add the intent, which inflates the back stack
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                stackBuilder.addNextIntentWithParentStack(resultIntent);
+                // Get the PendingIntent containing the entire back stack
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(0,
+                                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
                 // notificationId is a unique int for each notification that you must define
@@ -59,7 +73,8 @@ public class EventTodayReminderWorker extends Worker {
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText("Event Start Time: " + eventToday.getStartTime() + " Event Details: " + eventToday.getDetails()))
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                notificationManager.notify(1, builder.build());
+                builder.setContentIntent(resultPendingIntent);
+                notificationManager.notify(NOTIFICATION_ID, builder.build());
                 return Result.success();
             }
         } catch (ParseException e) {
@@ -69,9 +84,12 @@ public class EventTodayReminderWorker extends Worker {
         return Result.failure();
     }
 
+    //TODO query if there is an event today that the user is attending
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void queryAllEvents() throws ParseException {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.include("gym");
+        query.include("creator");
         allEvents = new ArrayList<>();
         eventsToday = new ArrayList<>();
         allEvents.addAll(query.find());

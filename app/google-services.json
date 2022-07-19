@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "625555484244",
+    "project_id": "indoorvolleyball",
+    "storage_bucket": "indoorvolleyball.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625555484244:android:9b4e2269b14dc8d46207c1",
+        "android_client_info": {
+          "package_name": "com.example.indoor_volleyball"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625555484244-2thcjaprmth6q8jaoud5geenmeto64it.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-yJdNgyLt7qG6PCCQNBcLWTAwYBxKb9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625555484244-2thcjaprmth6q8jaoud5geenmeto64it.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,6 +18,7 @@ import androidx.work.WorkRequest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -28,6 +29,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
+import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Fragments.EventFragments.EventFinderFragment;
 import com.example.indoor_volleyball.Fragments.GymFragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAGW = "Event Today";
     private static final String CHANNEL_ID = "Events";
     private ActivityMainBinding binding;
-    private Event eventToday;
     public static LocationManager locationManager;
 
     @Override
@@ -60,12 +62,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final FragmentManager fragmentManager = getSupportFragmentManager();
+
         PeriodicWorkRequest uploadWorkRequest =
                 new PeriodicWorkRequest.Builder(EventTodayReminderWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
                         .addTag("Notify Event Today")
                         .build();
         createNotificationChannel();
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(TAGW, ExistingPeriodicWorkPolicy.KEEP, uploadWorkRequest);
+
         binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
