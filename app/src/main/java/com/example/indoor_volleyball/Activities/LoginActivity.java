@@ -15,36 +15,20 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
-
     private static final String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
-    //private EditText etUsername;
-    //private EditText etPassword;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
         //TODO add cut out all my excess code relating to the bindings in both login and sign up.
         // inflating our xml layout in our activity main binding
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
-
-        // getting our root layout in our view.
         View view = binding.getRoot();
-
-        // below line is to set
-        // Content view for our layout.
         setContentView(view);
-
-        //etPassword = binding.etPassword;
-        //etUsername = binding.etUsername;
-
-        // calling button and setting on click listener for our button.
-        // we have called our button with its id and set on click listener on it.
         binding.btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

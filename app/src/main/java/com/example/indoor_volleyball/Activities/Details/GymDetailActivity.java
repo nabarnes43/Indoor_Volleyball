@@ -123,14 +123,11 @@ public class GymDetailActivity extends AppCompatActivity {
                 goToEventsAtGym(gym);
             }
         });
-        //TODO ask codepath people how to fix the user side of the relation wednesday.
         binding.btFollowGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseUser user = ParseUser.getCurrentUser();
-                ParseRelation<ParseObject> gymRelation = user.getRelation("gymsFollowing");
-                gymRelation.add(gym);
-                user.put("gymsFollowing", gymRelation);
+                user.getRelation("gymsFollowing").add(gym);
                 try {
                     user.save();
                     Toast.makeText(GymDetailActivity.this, gym.getObjectId() + " Followed", Toast.LENGTH_SHORT).show();

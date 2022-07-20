@@ -28,6 +28,7 @@ import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 // Java Dependencies
@@ -36,6 +37,13 @@ import java.util.HashMap; // This includes the HasMap Object that the Cloud func
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+// Imports to the JSONObject object, necessary for the push message
+import org.json.JSONException;
+import org.json.JSONObject;
+// Parse Dependencies
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -85,37 +93,9 @@ public class MainActivity extends AppCompatActivity {
         });
         //Default
         binding.bottomNavigation.setSelectedItemId(R.id.find);
-
-        final HashMap<String, String> params = new HashMap<>();
-        // Calling the cloud code function
-        ParseCloud.callFunctionInBackground("pushsample", params, new FunctionCallback<Object>() {
-            @Override
-            public void done(Object response, ParseException exc) {
-                if(exc == null) {
-                    // The function was executed, but it's interesting to check its response
-                    alertDisplayer("Successful Push","Check on your phone the notifications to confirm!");
-                }
-                else {
-                    // Something went wrong
-                    Toast.makeText(MainActivity.this, exc.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-    }
-
-    private void alertDisplayer(String title,String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog ok = builder.create();
-        ok.show();
+        ParsePush.subscribeInBackground("Events");
+        List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+        Toast.makeText(this, "Subscribed to: " + subscribedChannels.get(0), Toast.LENGTH_SHORT).show();
     }
 
     private void createNotificationChannel() {

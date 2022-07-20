@@ -24,9 +24,13 @@ import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateEventBinding;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.DateFormatSymbols;
@@ -43,8 +47,6 @@ public class CreateEventActivity extends AppCompatActivity {
     private Date startTime;
     private Date endTime;
     private Gym thisGym;
-    private String thisGymId;
-    private Event nextEvent;
     private String skillLevel;
     private Boolean allowPlusOnes;
     private Boolean allowSpectators;
@@ -66,7 +68,7 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allGyms = new ArrayList<>();
-        thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
+        String thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -118,6 +120,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     event.save();
                     Log.i(TAG, getString(R.string.save_succeeded_text));
                     Toast.makeText(CreateEventActivity.this, getString(R.string.save_succeeded_text), Toast.LENGTH_SHORT).show();
+                    sendNotification(thisGym);
                     try {
                         queryNextEventAtGym(thisGym);
                     } catch (ParseException z) {
@@ -126,10 +129,30 @@ public class CreateEventActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                thisGym.setNextEvent(nextEvent);
-                thisGym.saveInBackground();
             }
         });
+    }
+
+    public void sendNotification(Gym gym) {
+        ParseQuery userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("gymsFollowing", gym);
+        // Find devices associated with these users
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereMatchesQuery("user", userQuery);
+        JSONObject data = new JSONObject();
+        // Put data in the JSON object
+        try {
+            data.put("alert", "New Event At: " + gym.getName());
+            data.put("title", "New Event!");
+        } catch ( JSONException e) {
+            // should not happen
+            throw new IllegalArgumentException("unexpected parsing error", e);
+        }
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery);
+        push.setChannel("Events");
+        push.setData(data);
+        push.sendInBackground();
     }
 
     @Override
@@ -158,11 +181,12 @@ public class CreateEventActivity extends AppCompatActivity {
     private void queryNextEventAtGym(Gym gym) throws ParseException {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
+        //Todo need to delete ond events and empty gyms
         eventQuery.orderByAscending("startTime");
+        Event nextEvent = eventQuery.getFirst();
         eventQuery.setLimit(1);
-        List<Event> nextEventList = new ArrayList<>();
-        nextEventList.addAll(eventQuery.find());
-        nextEvent = nextEventList.get(0);
+        thisGym.setNextEvent(nextEvent);
+        thisGym.save();
     }
 
     public void showDateTimePicker() {

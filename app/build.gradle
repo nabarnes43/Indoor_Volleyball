@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.google.gms.google-services'
-
 }
 
 android {
@@ -41,15 +40,14 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12'
     implementation 'com.codepath.libraries:asynchttpclient:2.2.0'
     implementation 'junit:junit:4.13.2'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
+
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
-
     implementation 'com.google.firebase:firebase-messaging'
-
 
     implementation "com.github.parse-community.Parse-SDK-Android:fcm:4.0.0"
     implementation 'com.parse.bolts:bolts-android:1.4.0'
-
     implementation "com.github.parse-community.Parse-SDK-Android:parse:4.0.0"
 
     annotationProcessor 'org.parceler:parceler:1.1.12'
