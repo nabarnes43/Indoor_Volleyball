@@ -73,4 +73,9 @@
     <string name="sign_up">SIGN UP</string>
     <string name="you_have_no_events_coming_up">You Have No Events Coming Up</string>
     <string name="you_are_not_currently_following_any_gyms">You Are Not Currently Following Any Gyms</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Paste BOTH strings as required -->
+    <string name="back4app_app_id">enjJd2FD8l9X9Pal17iw6ZUZ57HnhhXnuQsGjU1Q</string>
+    <string name="back4app_client_key">L6z6HK2qu1uZ2ePizF0ZaHV9L3dvR6Q6he8kt9PO</string>
 </resources>

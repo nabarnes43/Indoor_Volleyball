@@ -1,49 +1,41 @@
 package com.example.indoor_volleyball.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.work.Data;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
-
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
-import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import com.example.indoor_volleyball.EventTodayReminderWorker;
 import com.example.indoor_volleyball.Fragments.EventFragments.EventFinderFragment;
 import com.example.indoor_volleyball.Fragments.GymFragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
-import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
-import com.example.indoor_volleyball.EventTodayReminderWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+// Java Dependencies
+import java.util.HashMap; // This includes the HasMap Object that the Cloud function needs to call
+// Parse Dependencies
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -94,6 +86,36 @@ public class MainActivity extends AppCompatActivity {
         //Default
         binding.bottomNavigation.setSelectedItemId(R.id.find);
 
+        final HashMap<String, String> params = new HashMap<>();
+        // Calling the cloud code function
+        ParseCloud.callFunctionInBackground("pushsample", params, new FunctionCallback<Object>() {
+            @Override
+            public void done(Object response, ParseException exc) {
+                if(exc == null) {
+                    // The function was executed, but it's interesting to check its response
+                    alertDisplayer("Successful Push","Check on your phone the notifications to confirm!");
+                }
+                else {
+                    // Something went wrong
+                    Toast.makeText(MainActivity.this, exc.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+    private void alertDisplayer(String title,String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
     }
 
     private void createNotificationChannel() {
