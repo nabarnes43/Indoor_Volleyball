@@ -32,7 +32,10 @@ public class ParseApplication extends Application {
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         installation.put("GCMSenderId", "625555484244");
         installation.put("channels", channels);
-        installation.put("user", ParseUser.getCurrentUser());
+        //TODO right now you have to restart to get notifications after logging in change this.
+        if (ParseUser.getCurrentUser() != null) {
+            installation.put("user", ParseUser.getCurrentUser());
+        }
         installation.saveInBackground();
     }
 }

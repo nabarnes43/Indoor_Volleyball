@@ -190,10 +190,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
                 Toast.makeText(this, "User current location: " + location, Toast.LENGTH_SHORT).show();
-//                latitude = location.getLatitude();
-//                longitude = location.getLongitude();
-//                addr = ConvertPointToLocation(latitude, longitude);
-//                String temp_c = SendToUrl(addr);
                 return location;
             }
         }

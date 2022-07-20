@@ -1,5 +1,6 @@
 package com.example.indoor_volleyball.Activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,7 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,6 +49,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String TAGW = "Event Today";
@@ -62,40 +67,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final FragmentManager fragmentManager = getSupportFragmentManager();
+            PeriodicWorkRequest uploadWorkRequest =
+                    new PeriodicWorkRequest.Builder(EventTodayReminderWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                            .addTag("Notify Event Today")
+                            .build();
+            createNotificationChannel();
+            WorkManager.getInstance(this).enqueueUniquePeriodicWork(TAGW, ExistingPeriodicWorkPolicy.KEEP, uploadWorkRequest);
 
-        PeriodicWorkRequest uploadWorkRequest =
-                new PeriodicWorkRequest.Builder(EventTodayReminderWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-                        .addTag("Notify Event Today")
-                        .build();
-        createNotificationChannel();
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(TAGW, ExistingPeriodicWorkPolicy.KEEP, uploadWorkRequest);
-
-        binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
-                switch (item.getItemId()) {
-                    case R.id.events:
-                        fragment = new EventFinderFragment();
-                        break;
-                    case R.id.find:
-                        fragment = new GymFinderFragment();
-                        break;
-                    case R.id.profile:
-                        fragment = new ProfileFragment();
-                        break;
-                    default:
-                        return false;
+            binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment fragment;
+                    switch (item.getItemId()) {
+                        case R.id.events:
+                            fragment = new EventFinderFragment();
+                            break;
+                        case R.id.find:
+                            fragment = new GymFinderFragment();
+                            break;
+                        case R.id.profile:
+                            fragment = new ProfileFragment();
+                            break;
+                        default:
+                            return false;
+                    }
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    return true;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                return true;
-            }
-        });
-        //Default
-        binding.bottomNavigation.setSelectedItemId(R.id.find);
-        ParsePush.subscribeInBackground("Events");
-        List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
-        Toast.makeText(this, "Subscribed to: " + subscribedChannels.get(0), Toast.LENGTH_SHORT).show();
+            });
+            //Default
+            binding.bottomNavigation.setSelectedItemId(R.id.find);
+            ParsePush.subscribeInBackground("Events");
+            List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+            Toast.makeText(this, "Subscribed to: " + subscribedChannels.get(0), Toast.LENGTH_SHORT).show();
+
     }
 
     private void createNotificationChannel() {

@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
@@ -28,12 +27,12 @@ import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.boltsinternal.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -133,7 +132,7 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
-    public void sendNotification(Gym gym) {
+    public void sendNotification(Gym gym) throws ParseException {
         ParseQuery userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("gymsFollowing", gym);
         // Find devices associated with these users
@@ -142,7 +141,7 @@ public class CreateEventActivity extends AppCompatActivity {
         JSONObject data = new JSONObject();
         // Put data in the JSON object
         try {
-            data.put("alert", "New Event At: " + gym.getName());
+            data.put("alert", "New event created at " + gym.getName());
             data.put("title", "New Event!");
         } catch ( JSONException e) {
             // should not happen
