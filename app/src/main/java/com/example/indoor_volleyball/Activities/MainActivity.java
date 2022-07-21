@@ -1,68 +1,54 @@
 package com.example.indoor_volleyball.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.work.Data;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
-
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
-import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import com.example.indoor_volleyball.EventTodayReminderWorker;
 import com.example.indoor_volleyball.Fragments.EventFragments.EventFinderFragment;
 import com.example.indoor_volleyball.Fragments.GymFragments.GymFinderFragment;
 import com.example.indoor_volleyball.Fragments.ProfileFragment;
-import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityMainBinding;
-import com.example.indoor_volleyball.EventTodayReminderWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String TAGW = "Event Today";
     private static final String CHANNEL_ID = "Events";
-    private ActivityMainBinding binding;
     public static LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.indoor_volleyball.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         createNotificationChannel();
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final FragmentManager fragmentManager = getSupportFragmentManager();
-
         PeriodicWorkRequest uploadWorkRequest =
                 new PeriodicWorkRequest.Builder(EventTodayReminderWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
                         .addTag("Notify Event Today")
@@ -71,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(TAGW, ExistingPeriodicWorkPolicy.KEEP, uploadWorkRequest);
 
         binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
@@ -93,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
         });
         //Default
         binding.bottomNavigation.setSelectedItemId(R.id.find);
-
+        ParsePush.subscribeInBackground("Events");
+        List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+        Toast.makeText(this, "Subscribed to: " + subscribedChannels.get(0), Toast.LENGTH_SHORT).show();
     }
 
     private void createNotificationChannel() {

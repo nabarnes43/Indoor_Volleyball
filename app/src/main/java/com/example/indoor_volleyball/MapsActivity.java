@@ -44,11 +44,11 @@ import java.util.Objects;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    List<Gym> gymList;
+    private List<Gym> gymList;
     private int position;
     private static final int REQUEST_LOCATION = 1;
-    LocationManager locationManager;
-    ParseGeoPoint currentUserLocation;
+    private LocationManager locationManager;
+    private ParseGeoPoint currentUserLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        showCurrentUserInMap(mMap, find_Location(MapsActivity.this) );
+        showCurrentUserInMap(mMap, find_Location(MapsActivity.this));
         if (!gymList.isEmpty()) {
             gymListToMarker(mMap);
         } else {
@@ -102,7 +102,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         GymDetailDialogFragment gymDetailDialogFragment = GymDetailDialogFragment.newInstance(gym);
         gymDetailDialogFragment.show(fm, "fragment_gym_detail_dialog_fragment");
     }
-//TODO add recenter button to action bar
+
+    //TODO add recenter button to action bar
     public void refreshQuery(GoogleMap googleMap, ParseUser user) {
         find_Location(MapsActivity.this);
         ParseQuery<Gym> gymQuery;
@@ -178,22 +179,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             locationManager.requestLocationUpdates(provider, 1000, 0,
                     new LocationListener() {
 
-                        public void onLocationChanged(Location location) {}
+                        public void onLocationChanged(Location location) {
+                        }
 
-                        public void onProviderDisabled(String provider) {}
+                        public void onProviderDisabled(String provider) {
+                        }
 
-                        public void onProviderEnabled(String provider) {}
+                        public void onProviderEnabled(String provider) {
+                        }
 
                         public void onStatusChanged(String provider, int status,
-                                                    Bundle extras) {}
+                                                    Bundle extras) {
+                        }
                     });
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
                 Toast.makeText(this, "User current location: " + location, Toast.LENGTH_SHORT).show();
-//                latitude = location.getLatitude();
-//                longitude = location.getLongitude();
-//                addr = ConvertPointToLocation(latitude, longitude);
-//                String temp_c = SendToUrl(addr);
                 return location;
             }
         }

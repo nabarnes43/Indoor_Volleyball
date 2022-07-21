@@ -1,16 +1,15 @@
 package com.example.indoor_volleyball.Activities.Details;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
@@ -36,24 +35,24 @@ import java.util.List;
 import java.util.Objects;
 
 public class GymDetailActivity extends AppCompatActivity {
+    private static final String TAG = "GymDetailActivity";
     ActivityGymDetailBinding binding;
     List<Gym> gymsFollowed;
     String gymId;
+    private Gym gym;
     private static final String GYM_ID_KEY = "gymId";
+
     public static Intent newIntent(Context context, String gymId) {
         Intent i = new Intent(context, GymDetailActivity.class);
         i.putExtra(GYM_ID_KEY, Parcels.wrap(gymId));
         return i;
     }
-    public static final String TAG = "GymDetailActivity";
-    Gym gym;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityGymDetailBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         gymsFollowed = new ArrayList<>();
         gymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
         try {
@@ -90,7 +89,7 @@ public class GymDetailActivity extends AppCompatActivity {
             binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if( finalEvent.getCreator().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                    if (finalEvent.getCreator().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
                         goToEventDetailsCreating(GymDetailActivity.this, finalEvent);
                     } else {
                         goToEventDetailsAttending(GymDetailActivity.this, finalEvent);
@@ -102,6 +101,8 @@ public class GymDetailActivity extends AppCompatActivity {
         }
         if (gym.getImage() != null) {
             Glide.with(this).load(gym.getImage().getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhotoDetail);
+        } else {
+            Glide.with(this).load(R.drawable.icon_gym_black).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhotoDetail);
         }
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -123,21 +124,18 @@ public class GymDetailActivity extends AppCompatActivity {
                 goToEventsAtGym(gym);
             }
         });
-        //TODO ask codepath people how to fix the user side of the relation wednesday.
         binding.btFollowGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseUser user = ParseUser.getCurrentUser();
-                ParseRelation<ParseObject> gymRelation = user.getRelation("gymsFollowing");
-                gymRelation.add(gym);
-                user.put("gymsFollowing", gymRelation);
+                user.getRelation("gymsFollowing").add(gym);
                 try {
                     user.save();
                     Toast.makeText(GymDetailActivity.this, gym.getObjectId() + " Followed", Toast.LENGTH_SHORT).show();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                ParseRelation<ParseObject> usersFollowing =  gym.getRelation("usersFollowing");
+                ParseRelation<ParseObject> usersFollowing = gym.getRelation("usersFollowing");
                 usersFollowing.add(ParseUser.getCurrentUser());
                 try {
                     gym.save();

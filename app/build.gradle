@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -31,7 +31,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-
     }
 }
 
@@ -39,14 +38,18 @@ dependencies {
     implementation "androidx.core:core:1.8.0"
     implementation 'org.parceler:parceler-api:1.1.12'
     implementation 'com.codepath.libraries:asynchttpclient:2.2.0'
-    implementation 'junit:junit:4.12'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'junit:junit:4.13.2'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation "com.github.parse-community.Parse-SDK-Android:fcm:4.0.0"
+    implementation 'com.parse.bolts:bolts-android:1.4.0'
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:4.0.0"
     annotationProcessor 'org.parceler:parceler:1.1.12'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.google.android.libraries.places:places:2.6.0'
-    implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     implementation "com.google.android.material:material:${designSupportVersion}"
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -62,7 +65,6 @@ dependencies {
     def work_version = "2.7.1"
     // (Java only)
     implementation "androidx.work:work-runtime:$work_version"
-
     // optional - RxJava2 support
     implementation "androidx.work:work-rxjava2:$work_version"
     // optional - GCMNetworkManager support

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +20,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Adapters.GymAdapter;
@@ -39,17 +40,17 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public abstract class GymListFragment extends Fragment {
-    FragmentGymListBinding binding;
-    List<Gym> gymsFollowed;
-    GymAdapter adapterUserGyms;
-    RecyclerView rvGyms;
-    int position;
+    private FragmentGymListBinding binding;
+    private List<Gym> gymsFollowed;
+    private GymAdapter adapterUserGyms;
+    private RecyclerView rvGyms;
+    protected int position;
     public static ParseGeoPoint userGeoPointLocation;
     LocationManager locationManager = MainActivity.locationManager;
     ParseGeoPoint currentUserLocation;
@@ -72,13 +73,13 @@ public abstract class GymListFragment extends Fragment {
     public GymListFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentGymListBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -101,6 +102,7 @@ public abstract class GymListFragment extends Fragment {
                     binding.fabGoToMap.hide();
                 }
             }
+
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && recyclerView.canScrollVertically(1)) {
@@ -152,14 +154,18 @@ public abstract class GymListFragment extends Fragment {
             locationManager.requestLocationUpdates(provider, 1000, 0,
                     new LocationListener() {
 
-                        public void onLocationChanged(Location location) {}
+                        public void onLocationChanged(Location location) {
+                        }
 
-                        public void onProviderDisabled(String provider) {}
+                        public void onProviderDisabled(String provider) {
+                        }
 
-                        public void onProviderEnabled(String provider) {}
+                        public void onProviderEnabled(String provider) {
+                        }
 
                         public void onStatusChanged(String provider, int status,
-                                                    Bundle extras) {}
+                                                    Bundle extras) {
+                        }
                     });
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
@@ -168,6 +174,7 @@ public abstract class GymListFragment extends Fragment {
         }
         return null;
     }
+
     private void getCurrentUserLocation(Location location) {
         currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
     }
@@ -214,6 +221,7 @@ public abstract class GymListFragment extends Fragment {
             Intent i = new Intent(context, CreateGymActivity.class);
             return i;
         }
+
         @Override
         public Boolean parseResult(int resultCode, @Nullable Intent result) {
             return resultCode == Activity.RESULT_OK;
@@ -229,6 +237,7 @@ public abstract class GymListFragment extends Fragment {
             i.putExtra("fragmentPosition", Parcels.wrap(position));
             return i;
         }
+
         @Override
         public Boolean parseResult(int resultCode, @Nullable Intent result) {
             return resultCode == Activity.RESULT_OK;

@@ -1,54 +1,41 @@
 package com.example.indoor_volleyball.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.indoor_volleyball.Adapters.EventAdapter;
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityEventsAtGymBinding;
-import com.example.indoor_volleyball.databinding.ActivityMainBinding;
-import com.example.indoor_volleyball.databinding.FragmentEventsCreatedBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 public class EventsAtGymActivity extends AppCompatActivity {
-    ActivityEventsAtGymBinding binding;
+    private ActivityEventsAtGymBinding binding;
     private List<Event> eventsCreated;
     private RecyclerView rvEvents;
     private EventAdapter adapterEvents;
-
-    Gym gym;
+    private Gym gym;
     private static final String GYM_KEY = "gym";
+
     public static Intent newIntent(Context context, Gym gym) {
         Intent i = new Intent(context, EventsAtGymActivity.class);
         i.putExtra(GYM_KEY, Parcels.wrap(gym));
@@ -59,8 +46,7 @@ public class EventsAtGymActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEventsAtGymBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         gym = Parcels.unwrap(getIntent().getParcelableExtra(GYM_KEY));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));

@@ -1,14 +1,14 @@
 package com.example.indoor_volleyball.Activities;
 
-import static org.junit.Assert.assertEquals;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
@@ -29,17 +29,15 @@ public class QueryActivity extends AppCompatActivity {
 
     private static final String TAG = "QueryActivity";
     private ActivityQueryBinding binding;
-    List<Gym> allGyms;
-    Event nextEvent;
-    List<Gym> allGymsByDistance;
-    List<Gym> allGymsWithinDistance;
-    List<Gym> gymsFollowed;
-    List<Event> allEvents;
-    List<Event> userAttending;
-    List<Event> userManaging;
-    List<Event> eventsAtGymSortedByDateDescending;
-    List<ParseUser> allUsersAttendingEvent;
-
+    private List<Gym> allGyms;
+    private List<Gym> allGymsByDistance;
+    private List<Gym> allGymsWithinDistance;
+    private List<Gym> gymsFollowed;
+    private List<Event> allEvents;
+    private List<Event> userAttending;
+    private List<Event> userManaging;
+    private List<Event> eventsAtGymSortedByDateDescending;
+    private List<ParseUser> allUsersAttendingEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +53,7 @@ public class QueryActivity extends AppCompatActivity {
         eventsAtGymSortedByDateDescending = new ArrayList<>();
 
         binding = ActivityQueryBinding.inflate(getLayoutInflater());
-
-        View view = binding.getRoot();
-
-        setContentView(view);
-
+        setContentView(binding.getRoot());
         try {
             queryAllEvents();
         } catch (ParseException e) {
@@ -83,10 +77,7 @@ public class QueryActivity extends AppCompatActivity {
         queryUsersGymsByDistance(ParseUser.getCurrentUser());
         allGymsByDistance(ParseUser.getCurrentUser().getParseGeoPoint("longLat"));
         allGymsWithinDistanceOfUser(ParseUser.getCurrentUser().getParseGeoPoint("longLat"), 10.0);
-
-
         binding.btLogOut.setOnClickListener(v -> ParseUser.logOutInBackground(e -> {
-
             if (e != null) {
                 Log.e(TAG, "Error signing out", e);
                 Toast.makeText(QueryActivity.this, "Error signing out", Toast.LENGTH_SHORT).show();
@@ -97,7 +88,6 @@ public class QueryActivity extends AppCompatActivity {
             goToLoginActivity();
             Toast.makeText(QueryActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
         }));
-
         binding.btGymsFollowed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +101,6 @@ public class QueryActivity extends AppCompatActivity {
                 }
             }
         });
-
         binding.btAllGymsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +114,6 @@ public class QueryActivity extends AppCompatActivity {
                 }
             }
         });
-
         binding.btAllGymsByDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +127,6 @@ public class QueryActivity extends AppCompatActivity {
                 }
             }
         });
-
         binding.btAllGymsWithinDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -307,29 +294,6 @@ public class QueryActivity extends AppCompatActivity {
         });
     }
 
-//    //Get the most the next event scheduled at given gym.
-//    private void queryNextEventAtGym(Gym gym) {
-//        ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
-//        eventQuery.whereEqualTo("gym", gym);
-//        eventQuery.findInBackground(new FindCallback<Event>() {
-//            @Override
-//            public void done(List<Event> eventList, ParseException e) {
-//                if (e == null) {
-//
-//                    Collections.sort(eventList, new Comparator<Event>() {
-//                        public int compare(Event o1, Event o2) {
-//                            return o1.getStartTime().compareTo(o2.getStartTime());
-//                        }
-//                    });
-//                    nextEvent = eventList.get(0);
-//                    Toast.makeText(QueryActivity.this, nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Log.d("item", "Error: " + e.getMessage());
-//                }
-//            }
-//        });
-//    }
-
     private void queryNextEventAtGym(Gym gym) throws ParseException {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
@@ -339,27 +303,7 @@ public class QueryActivity extends AppCompatActivity {
         nextEventList.addAll(eventQuery.find());
         //nextEvent = nextEventList.get(0);
         gym.setNextEvent(nextEventList.get(0));
-        //
-        // Toast.makeText(this, gym.getNextEvent().getDetails() + "Start time " + gym.getNextEvent().getStartTime(), Toast.LENGTH_SHORT).show();
     }
-
-
-//    @Test
-//    public void givenEventList_SortEventList_thenCheckSortedListDescV1() {
-//
-//        Collections.sort(eventsAtGym, new Comparator<Event>() {
-//            public int compare(Event event1, Event event2) {
-//                return event2.getStartTime().compareTo(event1.getStartTime());
-//            }
-//        });
-//
-//        assertEquals(eventsAtGym, eventsAtGymSortedByDateDecending);
-//        for (Event event: eventsAtGymSortedByDateDecending) {
-//            Toast.makeText(this, event.getGym().getName()+ " Event details " + event.getDetails(), Toast.LENGTH_SHORT).show();
-//
-//        }
-//    }
-
 
     //Gets a list of all the gyms that the user follows.
     private void queryUserGyms() {
@@ -432,12 +376,10 @@ public class QueryActivity extends AppCompatActivity {
     }
 
     //Logout User
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void goToLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
-    //Gets a list of all the events at a gym.
-
-
 }

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -23,6 +24,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -48,9 +50,9 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
     private ParseUser user;
     private FragmentProfileBinding binding;
-    public File photoFile;
-    public String photoFileName = "photo.jpg";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    private File photoFile;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    //Todo clean up result launchers most are unnecessary.
     ActivityResultLauncher<Void> EventCreator = registerForActivityResult(new CreateEvent(),
             new ActivityResultCallback<Boolean>() {
                 @Override
@@ -91,10 +93,10 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -141,7 +143,7 @@ public class ProfileFragment extends Fragment {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        File mediaStorageDir = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
@@ -154,11 +156,12 @@ public class ProfileFragment extends Fragment {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
+        String photoFileName = "photo.jpg";
         photoFile = getPhotoFileUri(photoFileName);
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(requireContext(), "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -174,12 +177,13 @@ public class ProfileFragment extends Fragment {
         binding.tvUsername.setText(user.getUsername());
         ParseFile profilePhoto = user.getParseFile("profilePhoto");
         if (profilePhoto != null) {
-            Glide.with(requireContext()).load(user.getParseFile("profilePhoto").getUrl()).circleCrop().into(binding.ivProfilePhoto);
+            Glide.with(requireContext()).load(Objects.requireNonNull(user.getParseFile("profilePhoto")).getUrl()).circleCrop().into(binding.ivProfilePhoto);
         } else {
             Toast.makeText(getContext(), "this Profile photo does not exist for user " + user.getUsername(), Toast.LENGTH_SHORT).show();
         }
     }
 
+    //I could not find a non depreciated version.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -200,7 +204,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class CreateEvent extends ActivityResultContract<Void, Boolean> {
+    public static class CreateEvent extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -214,7 +218,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class CreateGym extends ActivityResultContract<Void, Boolean> {
+    public static class CreateGym extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -228,7 +232,8 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class Logout extends ActivityResultContract<Void, Boolean> {
+    public static class Logout extends ActivityResultContract<Void, Boolean> {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {
@@ -242,7 +247,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public class Query extends ActivityResultContract<Void, Boolean> {
+    public static class Query extends ActivityResultContract<Void, Boolean> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void input) {

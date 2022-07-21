@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = "SignInActivity";
     private ActivitySigninBinding binding;
-    TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -60,13 +60,11 @@ public class SignUpActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySigninBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         setupFloatingLabelErrorLength(binding.usernameTextInputLayout);
         setupFloatingLabelErrorLength(binding.phoneTextInputLayout);
         setupFloatingLabelErrorLength(binding.zipCodeTextInputLayout);
