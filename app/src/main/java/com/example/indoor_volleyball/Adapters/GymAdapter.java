@@ -50,8 +50,6 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(context).inflate(R.layout.item_gym, parent, false);
-
         LayoutInflater inflater = LayoutInflater.from(context);
         return new ViewHolder(ItemGymBinding.inflate(inflater, parent, false));
     }
@@ -103,6 +101,8 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
             ParseFile image = gym.getImage();
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhoto);
+            } else {
+                Glide.with(context).load(R.drawable.icon_gym_black).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhoto);
             }
         }
     }

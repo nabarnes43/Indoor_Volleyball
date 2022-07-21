@@ -69,6 +69,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ItemEventBinding binding;
+
         public ViewHolder(ItemEventBinding b) {
             super(b.getRoot());
             binding = b;
@@ -126,7 +127,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         Intent i = EventCreatorDetailActivity.newIntent(context, eventId);
         context.startActivity(i);
     }
-
 
 
 }

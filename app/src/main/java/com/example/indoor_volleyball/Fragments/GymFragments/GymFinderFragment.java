@@ -38,6 +38,7 @@ import java.util.List;
 public class GymFinderFragment extends Fragment {
     public static final String TAG = "GymFinderFragment";
     private FragmentGymFinderBinding binding;
+
     public GymFinderFragment() {
         // Required empty public constructor
     }
@@ -46,9 +47,7 @@ public class GymFinderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGymFinderBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        return view;
-
+        return binding.getRoot();
     }
 
     @Override

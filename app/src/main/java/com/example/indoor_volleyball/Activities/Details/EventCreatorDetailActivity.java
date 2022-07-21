@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Event;
-import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
-import com.example.indoor_volleyball.databinding.ActivityCreateGymBinding;
 import com.example.indoor_volleyball.databinding.ActivityEventCreatorDetailBinding;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -40,11 +36,7 @@ public class EventCreatorDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityEventCreatorDetailBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-
-        //TODO go to my location button to go to users location
-
+        setContentView(binding.getRoot());
         eventId = Parcels.unwrap(getIntent().getParcelableExtra(EVENT_ID_KEY));
         try {
             queryEvent(eventId);

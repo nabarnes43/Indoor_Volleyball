@@ -32,12 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
-        //TODO add cut out all my excess code relating to the bindings in both login and sign up.
-        // inflating our xml layout in our activity main binding
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-        locationPermissionRequest.launch(new String[] {
+        setContentView(binding.getRoot());
+        locationPermissionRequest.launch(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
@@ -50,12 +47,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please enter something", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(havePermission) {
+                    if (havePermission) {
                         loginUser(username, password);
                     } else {
                         //TODO prompt the user again if they deny location
                         Toast.makeText(LoginActivity.this, "Indoor Volleyball cannot run without user location try again!", Toast.LENGTH_SHORT).show();
-                        locationPermissionRequest.launch(new String[] {
+                        locationPermissionRequest.launch(new String[]{
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION
                         });
@@ -97,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                         Boolean fineLocationGranted = result.getOrDefault(
                                 Manifest.permission.ACCESS_FINE_LOCATION, false);
                         Boolean coarseLocationGranted = result.getOrDefault(
-                                Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                                Manifest.permission.ACCESS_COARSE_LOCATION, false);
                         if (fineLocationGranted != null && fineLocationGranted) {
                             // Precise location access granted.
                             havePermission = true;

@@ -40,17 +40,15 @@ public class EventAttendingActivity extends AppCompatActivity {
         i.putExtra(EVENT_ID_KEY, Parcels.wrap(eventId));
         return i;
     }
-    Event event;
-    String eventId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAttendingEventBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-        eventId = Parcels.unwrap(getIntent().getParcelableExtra(EVENT_ID_KEY));
+        setContentView(binding.getRoot());
+        String eventId = Parcels.unwrap(getIntent().getParcelableExtra(EVENT_ID_KEY));
         try {
-            event = queryEvent(eventId);
+            Event event = queryEvent(eventId);
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
             getSupportActionBar().setBackgroundDrawable(colorDrawable);

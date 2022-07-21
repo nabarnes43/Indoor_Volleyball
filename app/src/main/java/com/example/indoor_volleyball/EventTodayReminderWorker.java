@@ -38,9 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class EventTodayReminderWorker extends Worker {
     private static final String CHANNEL_ID = "Events";
     private static final int NOTIFICATION_ID = 1;
-    List<Event> allEvents;
-    List<Event> eventsToday;
-    Event eventToday;
+    private Event eventToday;
 
 
     public EventTodayReminderWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -55,7 +53,7 @@ public class EventTodayReminderWorker extends Worker {
             queryAllEvents();
             if (eventToday != null) {
                 // Create an Intent for the activity you want to start
-                Intent resultIntent =  EventAttendingActivity.newIntent(getApplicationContext(), eventToday.getObjectId());
+                Intent resultIntent = EventAttendingActivity.newIntent(getApplicationContext(), eventToday.getObjectId());
                 // Create the TaskStackBuilder and add the intent, which inflates the back stack
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
                 stackBuilder.addNextIntentWithParentStack(resultIntent);
@@ -90,9 +88,8 @@ public class EventTodayReminderWorker extends Worker {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include("gym");
         query.include("creator");
-        allEvents = new ArrayList<>();
-        eventsToday = new ArrayList<>();
-        allEvents.addAll(query.find());
+        List<Event> eventsToday = new ArrayList<>();
+        List<Event> allEvents = new ArrayList<>(query.find());
         for (Event event : allEvents) {
             int today = LocalDate.now().getDayOfYear();
             LocalDate eventDate = event.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

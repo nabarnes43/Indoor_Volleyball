@@ -48,15 +48,14 @@ import java.util.Objects;
 
 public class CreateGymActivity extends AppCompatActivity {
     ActivityCreateGymBinding binding;
-    public static final String TAG = "CreateGymActivity";
-    Bitmap bitmap;
+    private static final String TAG = "CreateGymActivity";
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCreateGymBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         Places.initialize(getApplicationContext(), getString(R.string.google_maps_api_key));
         binding.etGymAddress.setFocusable(false);
         binding.etGymAddress.setOnClickListener(new View.OnClickListener() {

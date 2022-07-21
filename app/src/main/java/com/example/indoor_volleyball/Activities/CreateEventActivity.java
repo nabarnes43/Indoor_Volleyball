@@ -1,7 +1,5 @@
 package com.example.indoor_volleyball.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -9,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
@@ -27,22 +28,19 @@ import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.boltsinternal.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 public class CreateEventActivity extends AppCompatActivity {
-    public static final String TAG = "CreateEventActivity";
+    private static final String TAG = "CreateEventActivity";
     private Date startTime;
     private Date endTime;
     private Gym thisGym;
@@ -51,33 +49,30 @@ public class CreateEventActivity extends AppCompatActivity {
     private Boolean allowSpectators;
     private Calendar date;
     private static final String GYM_ID_KEY = "gymId";
+
     public static Intent newIntent(Context context, String gymId) {
         Intent i = new Intent(context, CreateEventActivity.class);
         i.putExtra(GYM_ID_KEY, Parcels.wrap(gymId));
         return i;
     }
-    //TODO if it is user visible put it in the strings resource file.
+
     //Todo check boxes and spinner formatting.
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(("M-dd-yyyy hh:mm:ss a"), Locale.US);
-    Boolean startTimeTrue;
-    List<Gym> allGyms;
-    ActivityCreateEventBinding binding;
+    private Boolean startTimeTrue;
+    private ActivityCreateEventBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        allGyms = new ArrayList<>();
         String thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         queryGym(thisGymId);
         skillLevel();
-        allowPlusOnes();
-        allowSpectators();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
+        binding.tvStartTime.setInputType(InputType.TYPE_NULL);
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +80,16 @@ public class CreateEventActivity extends AppCompatActivity {
                 showDateTimePicker();
             }
         });
-        //TODO create error detection.
+        binding.tvStartTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    startTimeTrue = true;
+                    showDateTimePicker();
+                }
+            }
+        });
+        binding.tvEndTime.setInputType(InputType.TYPE_NULL);
         binding.tvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,9 +97,20 @@ public class CreateEventActivity extends AppCompatActivity {
                 showDateTimePicker();
             }
         });
+        binding.tvEndTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    startTimeTrue = false;
+                    showDateTimePicker();
+                }
+            }
+        });
+        //TODO create error detection.
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setAllowPlusOnesSpectators();
                 int minPlayers = Integer.parseInt(binding.etMinPlayers.getText().toString());
                 int maxPlayers = Integer.parseInt(binding.etMaxPlayers.getText().toString());
                 String details = binding.etDetails.getText().toString();
@@ -132,18 +147,28 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+    public void setAllowPlusOnesSpectators() {
+        if (binding.cbAllowSpectators.isChecked()) {
+            allowSpectators = true;
+        }
+        if (binding.cbAllowPlusOnes.isChecked()) {
+            allowPlusOnes = true;
+        }
+    }
+
+    //TODO buggy sends to both accounts I think due to login history.
     public void sendNotification(Gym gym) throws ParseException {
-        ParseQuery userQuery = ParseUser.getQuery();
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("gymsFollowing", gym);
         // Find devices associated with these users
-        ParseQuery pushQuery = ParseInstallation.getQuery();
+        ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
         pushQuery.whereMatchesQuery("user", userQuery);
         JSONObject data = new JSONObject();
         // Put data in the JSON object
         try {
             data.put("alert", "New event created at " + gym.getName());
             data.put("title", "New Event!");
-        } catch ( JSONException e) {
+        } catch (JSONException e) {
             // should not happen
             throw new IllegalArgumentException("unexpected parsing error", e);
         }
@@ -180,7 +205,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private void queryNextEventAtGym(Gym gym) throws ParseException {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
-        //Todo need to delete ond events and empty gyms
+        //Todo need to delete old events and empty gyms
         eventQuery.orderByAscending("startTime");
         Event nextEvent = eventQuery.getFirst();
         eventQuery.setLimit(1);
@@ -216,8 +241,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void skillLevel() {
         //create a list of items for the spinner.
-        String[] items = new String[]{getString(R.string.aa_skill_level_text), getString(R.string.a_skill_level_text), getString(R.string.bb_skill_level_text), getString(R.string.b_skill_level_text), getString(R.string.c_skill_level_text)};
-        final String[] selected = {""};
+        String[] items = getResources().getStringArray(R.array.skill_choices);
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -227,49 +251,9 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 skillLevel = parent.getItemAtPosition(position).toString();
+                binding.tvSkillChangedText.setText(skillLevel);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
-    }
 
-    private void allowPlusOnes() {
-        //create a list of items for the spinner.
-        Boolean[] items = new Boolean[]{true, false};
-        final Boolean[] selected = {true};
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<Boolean> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        binding.spAllowPlusOnes.setAdapter(adapter);
-        binding.spAllowPlusOnes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                allowPlusOnes = (Boolean) parent.getItemAtPosition(position);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
-    }
-
-    private void allowSpectators() {
-        //create a list of items for the spinner.
-        Boolean[] items = new Boolean[]{true, false};
-        final Boolean[] selected = {true};
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<Boolean> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        binding.spAllowSpectators.setAdapter(adapter);
-        binding.spAllowSpectators.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                allowSpectators = (Boolean) parent.getItemAtPosition(position);
-            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub

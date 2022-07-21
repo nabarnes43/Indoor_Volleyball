@@ -1,47 +1,32 @@
 package com.example.indoor_volleyball.Fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
-import com.example.indoor_volleyball.Fragments.GymFragments.GymListFragment;
-import com.example.indoor_volleyball.MapsActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.FragmentGymDetailDialogFraagmentBinding;
-import com.example.indoor_volleyball.databinding.FragmentGymFinderBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
-import org.parceler.Parcels;
-
 public class GymDetailDialogFragment extends DialogFragment {
-    FragmentGymDetailDialogFraagmentBinding binding;
+    private static final String TAG = "GymDetailDialogFragment";
+    private FragmentGymDetailDialogFraagmentBinding binding;
+
     public GymDetailDialogFragment() {
     }
 
@@ -54,29 +39,35 @@ public class GymDetailDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGymDetailDialogFraagmentBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Gym gym;
+        assert getArguments() != null;
         gym = getArguments().getParcelable("gym");
         binding.itmEventItem.tvGymName.setText(gym.getName());
         binding.itmEventItem.rbGymRating.setRating(gym.getRating().floatValue());
         ParseFile image = gym.getImage();
         if (image != null) {
-            Glide.with(getContext()).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.itmEventItem.ivGymPhoto);
+            Glide.with(requireContext()).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.itmEventItem.ivGymPhoto);
+        } else {
+            Glide.with(requireContext()).load(R.drawable.icon_gym_black).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.itmEventItem.ivGymPhoto);
         }
-//        try {
-//            binding.itmEventItem.tvEventDateDescription.setText(gym.getNextEvent().getDetails().toString());
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            if (gym.getNextEvent() != null) {
+                binding.itmEventItem.tvEventDateDescription.setText(gym.getNextEvent().getDetails());
+            } else {
+                binding.itmEventItem.tvEventDateDescription.setText(getString(R.string.no_events_at_gym));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         getDialog().getWindow().setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
         binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {

@@ -30,10 +30,6 @@ import java.util.List;
 
 
 public class EventsCreatedFragment extends EventListFragment {
-    private FragmentEventsCreatedBinding binding;
-    private List<Event> eventsCreated;
-    private RecyclerView rvEvents;
-    private EventAdapter adapterEvents;
 
     public EventsCreatedFragment() {
         // Required empty public constructor

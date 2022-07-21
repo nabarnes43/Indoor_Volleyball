@@ -67,6 +67,8 @@ public class Gym extends ParseObject {
         put(KEY_PLACEID, placeId);
     }
 
+
+    //TODO use to make sure gyms are unique
     public String getPlaceId() {
         return getString(KEY_PLACEID);
     }
@@ -115,5 +117,5 @@ public class Gym extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-
+    //TODO add relations getters and setters for move code over.
 }

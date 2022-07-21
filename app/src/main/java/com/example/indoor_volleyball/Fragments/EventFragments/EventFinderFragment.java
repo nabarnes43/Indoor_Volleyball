@@ -29,8 +29,7 @@ public class EventFinderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentEventFinderBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
     @Override

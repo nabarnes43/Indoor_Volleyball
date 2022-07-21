@@ -9,23 +9,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
-        <TextView
+        <EditText
             android:id="@+id/tvStartTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:clickable="true"
             android:focusable="true"
             android:hint="@string/start_time"
             app:layout_constraintBottom_toTopOf="@id/tvEndTime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/tvEndTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,23 +33,22 @@
             android:hint="@string/end_time"
             app:layout_constraintBottom_toTopOf="@id/etMinPlayers"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/etMinPlayers"
-            android:layout_width="165dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:hint="@string/min_players"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@id/tvSkillLevel"
+            app:layout_constraintBottom_toTopOf="@id/spSkillLevel"
             app:layout_constraintEnd_toStartOf="@id/etMaxPlayers"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/etMaxPlayers"
-            android:layout_width="165dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/max_players"
             android:inputType="number"
@@ -61,36 +58,16 @@
 
         <Spinner
             android:id="@+id/spSkillLevel"
-            android:layout_width="@dimen/spinnerDim"
-            android:layout_height="@dimen/spinnerDim"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="40dp"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toStartOf="@id/tvAllowPlusOnes"
-            app:layout_constraintStart_toEndOf="@+id/tvSkillLevel"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevel" />
-
-
-        <Spinner
-            android:id="@+id/spAllowPlusOnes"
-            android:layout_width="@dimen/spinnerDim"
-            android:layout_height="@dimen/spinnerDim"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toStartOf="@id/tvAllowSpectators"
-            app:layout_constraintStart_toEndOf="@+id/tvAllowPlusOnes"
-            app:layout_constraintTop_toTopOf="@+id/tvAllowPlusOnes" />
-
-        <Spinner
-            android:id="@+id/spAllowSpectators"
-            android:layout_width="@dimen/spinnerDim"
-            android:layout_height="@dimen/spinnerDim"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-
+            app:layout_constraintEnd_toStartOf="@id/tvSkillLevel"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvAllowSpectators"
-            app:layout_constraintTop_toTopOf="@+id/tvAllowSpectators" />
+            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"
+ />
 
 
         <EditText
@@ -129,52 +106,74 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Create An Event"
-android:layout_marginBottom="32dp"
+            android:textSize="25sp"
+            android:text="@string/create_an_event"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toTopOf="@+id/tvStartTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.357" />
+            />
 
+
+        <TextView
+            android:id="@+id/tvSkillChangedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aa_skill_level_text"
+            android:textSize="25sp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintStart_toEndOf="@+id/tvSkillLevel"
+            app:layout_constraintTop_toTopOf="@+id/tvSkillLevel"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+<!--        TODO how to do that bunch up thing you told me about-->
         <TextView
             android:id="@+id/tvSkillLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginBottom="40dp"
-
-            android:text="Skill Level"
-            app:layout_constraintBottom_toTopOf="@+id/etDetails"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvAllowPlusOnes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/allow_plus_ones"
+            android:textSize="25sp"
+            android:text="@string/select_skill_level"
+            app:layout_constraintTop_toTopOf="@id/spSkillLevel"
+            app:layout_constraintBottom_toTopOf="@+id/cbAllowPlusOnes"
             app:layout_constraintStart_toEndOf="@id/spSkillLevel"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevel" />
-
-        <TextView
-            android:id="@+id/tvAllowSpectators"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="@string/allow_spectators"
-            app:layout_constraintStart_toEndOf="@id/spAllowPlusOnes"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevel" />
+            app:layout_constraintEnd_toStartOf="@id/tvSkillChangedText"/>
 
         <Button
             android:id="@+id/btCreateEvent"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:text="Create Event"
+            android:text="@string/create_event"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:id="@+id/cbAllowPlusOnes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/quantum_grey"
+            android:text="@string/allow_plus_ones"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cbAllowSpectators"
+            app:layout_constraintBottom_toTopOf="@id/etDetails" />
+
+        <CheckBox
+            android:id="@+id/cbAllowSpectators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/quantum_grey"
+            android:textSize="20sp"
+            android:text="@string/allow_spectators"
+            app:layout_constraintStart_toEndOf="@id/cbAllowPlusOnes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cbAllowPlusOnes"
+            tools:layout_editor_absoluteX="273dp"
+            tools:layout_editor_absoluteY="198dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

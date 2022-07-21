@@ -1,12 +1,10 @@
 package com.example.indoor_volleyball.Models;
 
-import android.content.Intent;
 import android.util.Log;
 
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
