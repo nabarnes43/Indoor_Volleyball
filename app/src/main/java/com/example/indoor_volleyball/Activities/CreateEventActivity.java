@@ -56,6 +56,8 @@ public class CreateEventActivity extends AppCompatActivity {
         return i;
     }
 
+    //TODO make this page Multi purpose for edit.
+
     //Todo check boxes and spinner formatting.
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(("M-dd-yyyy hh:mm:ss a"), Locale.US);
     private Boolean startTimeTrue;
@@ -138,7 +140,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     try {
                         queryNextEventAtGym(thisGym);
                     } catch (ParseException z) {
-                        z.printStackTrace();
+                        Toast.makeText(CreateEventActivity.this, z.toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -206,9 +208,11 @@ public class CreateEventActivity extends AppCompatActivity {
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
         //Todo need to delete old events and empty gyms
+        eventQuery.whereLessThan("startTime", Calendar.getInstance().getTime());
+        eventQuery.whereGreaterThanOrEqualTo("startTime", startTime);
         eventQuery.orderByAscending("startTime");
         Event nextEvent = eventQuery.getFirst();
-        eventQuery.setLimit(1);
+        Toast.makeText(this, "next event details " + nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
         thisGym.setNextEvent(nextEvent);
         thisGym.save();
     }
@@ -256,7 +260,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
             }
         });
     }

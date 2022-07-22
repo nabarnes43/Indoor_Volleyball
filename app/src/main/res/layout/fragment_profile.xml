@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.EventFragments.EventFinderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <ImageView
         android:id="@+id/ivProfilePhoto"
         android:layout_width="250dp"
@@ -23,7 +21,7 @@
         android:id="@+id/btCreateGym"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Gym"
+        android:text="@string/create_gym"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -31,7 +29,7 @@
         android:id="@+id/btTakePhotoProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Take Profile Photo"
+        android:text="@string/take_profile_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btCreateGym"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -40,7 +38,7 @@
         android:id="@+id/btQueryActivity"
         android:layout_width="99dp"
         android:layout_height="36dp"
-        android:text="Query"
+        android:text="@string/query"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +46,7 @@
         android:id="@+id/btLogOut"
         android:layout_width="95dp"
         android:layout_height="37dp"
-        android:text="Logout"
+        android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -61,11 +59,9 @@
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
         android:layout_marginTop="25dp"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

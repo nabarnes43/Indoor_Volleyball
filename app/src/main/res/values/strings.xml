@@ -79,6 +79,14 @@
     <string name="back4app_client_key">L6z6HK2qu1uZ2ePizF0ZaHV9L3dvR6Q6he8kt9PO</string>
     <string name="select_skill_level">Select Skill Level:</string>
     <string name="create_event">Create Event</string>
+    <string name="query">Query</string>
+    <string name="logout">Logout</string>
+    <string name="take_profile_photo">Take Profile Photo</string>
+    <string name="create_gym">Create Gym</string>
+    <string name="nearby_gyms">Nearby Gyms</string>
+    <string name="your_gyms">Your Gyms</string>
+    <string name="method_only_supports_pager">Method only supports 0 and 1</string>
+    <string name="next_event">Next Event:</string>
     <string-array name="skill_choices">
         <item>@string/aa_skill_level_text</item>
         <item>@string/a_skill_level_text</item>

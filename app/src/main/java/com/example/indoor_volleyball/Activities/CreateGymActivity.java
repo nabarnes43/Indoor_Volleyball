@@ -2,13 +2,11 @@ package com.example.indoor_volleyball.Activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.Matrix;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +15,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
+import com.example.indoor_volleyball.Utils;
 import com.example.indoor_volleyball.databinding.ActivityCreateGymBinding;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
@@ -37,7 +35,6 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 
 import org.json.JSONArray;
-import org.parceler.Parcels;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,6 +46,7 @@ import java.util.Objects;
 public class CreateGymActivity extends AppCompatActivity {
     ActivityCreateGymBinding binding;
     private static final String TAG = "CreateGymActivity";
+    private static final int RESULT_CODE = 100;
     private Bitmap bitmap;
 
     @Override
@@ -66,7 +64,7 @@ public class CreateGymActivity extends AppCompatActivity {
                 //Create Intent
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).setTypeFilter(TypeFilter.ESTABLISHMENT).build(CreateGymActivity.this);
                 //Start activity result I could not find the non depreciated.
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, RESULT_CODE);
             }
         });
     }
@@ -74,15 +72,20 @@ public class CreateGymActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK) {
+        if (requestCode == RESULT_CODE && resultCode == RESULT_OK) {
             //When success Initialize Place
             assert data != null;
             Place place = Autocomplete.getPlaceFromIntent(data);
             getGymPhoto(place);
             binding.etGymAddress.setText(place.getAddress());
             setTextOrHide(place.getName(), binding.tvName, R.string.name_status);
-            binding.tvLocation.setText(String.valueOf(place.getLatLng()));
             setTextOrHide(place.getId(), binding.tvPlaceId, R.string.place_id_status);
+            if (place.getLatLng() != null) {
+                binding.tvLocation.setVisibility(View.VISIBLE);
+                binding.tvLocation.setText(place.getLatLng().toString());
+            } else {
+                binding.tvLocation.setVisibility(View.GONE);
+            }
             if (place.getOpeningHours() != null) {
                 binding.tvOpeningHours.setVisibility(View.VISIBLE);
                 setTextOrHide(place.getOpeningHours().getWeekdayText(), binding.tvOpeningHours, R.string.opening_hours_status);
@@ -91,7 +94,9 @@ public class CreateGymActivity extends AppCompatActivity {
             }
             setTextOrHide(place.getWebsiteUri(), binding.tvWebsiteUrI, R.string.website_status);
             setTextOrHide(place.getBusinessStatus(), binding.tvBusinessStatus, R.string.business_status);
-            setTextOrHide(place.getPhoneNumber(), binding.tvPhoneNumber, R.string.phone_number_status);
+            //TODO switch all code over to set text or hit from utils make other important format strings as needed maybe the date formatter too.
+            Utils.setTextOrHide(this, place.getPhoneNumber(), binding.tvPhoneNumber, R.string.phone_number_status);
+            //setTextOrHide(place.getPhoneNumber(), binding.tvPhoneNumber, R.string.phone_number_status);
             setTextOrHide(place.getRating(), binding.tvRating, R.string.rating_status);
             setTextOrHide(place.isOpen(), binding.tvIsOpen, R.string.is_open_status);
             binding.btCreateGym.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +122,7 @@ public class CreateGymActivity extends AppCompatActivity {
     private void setTextOrHide(Object text, TextView view, int formatId) {
         if (text != null) {
             view.setVisibility(View.VISIBLE);
+            //Todo get use formatted string in other places like this.
             String formattedString = getString(formatId, text.toString());
             view.setText(formattedString);
         } else {
