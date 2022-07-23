@@ -6,33 +6,19 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
-import com.example.indoor_volleyball.Activities.Details.EventCreatorDetailActivity;
-import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
-import com.example.indoor_volleyball.Models.Gym;
-
-
-import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ItemEventBinding;
-import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
-import java.util.Date;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
@@ -124,7 +110,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public void goToEventDetailsCreating(Context context, Event event) {
         String eventId = event.getObjectId();
-        Intent i = EventCreatorDetailActivity.newIntent(context, eventId);
+        Intent i = CreateEventActivity.newIntentEvent(context, eventId);
         context.startActivity(i);
     }
 

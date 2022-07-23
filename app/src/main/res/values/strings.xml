@@ -87,6 +87,7 @@
     <string name="your_gyms">Your Gyms</string>
     <string name="method_only_supports_pager">Method only supports 0 and 1</string>
     <string name="next_event">Next Event:</string>
+    <string name="save_changes_buttom">Save Changes</string>
     <string-array name="skill_choices">
         <item>@string/aa_skill_level_text</item>
         <item>@string/a_skill_level_text</item>

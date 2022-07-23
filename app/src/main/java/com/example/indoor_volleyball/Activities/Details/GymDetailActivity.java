@@ -154,7 +154,7 @@ public class GymDetailActivity extends AppCompatActivity {
 
     public void goToEventDetailsCreating(Context context, Event event) {
         String eventId = event.getObjectId();
-        Intent i = EventCreatorDetailActivity.newIntent(context, eventId);
+        Intent i = CreateEventActivity.newIntentEvent(context, eventId);
         context.startActivity(i);
     }
 

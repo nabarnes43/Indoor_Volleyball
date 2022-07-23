@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -23,6 +23,8 @@ import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateEventBinding;
+import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -48,7 +50,41 @@ public class CreateEventActivity extends AppCompatActivity {
     private Boolean allowPlusOnes;
     private Boolean allowSpectators;
     private Calendar date;
+    private Event thisEvent;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(("M-dd-yyyy hh:mm:ss a"), Locale.US);
+    private Boolean startTimeTrue;
+    String thisGymId;
+    private ActivityCreateEventBinding binding;
     private static final String GYM_ID_KEY = "gymId";
+    private static final String EVENT_ID_KEY = "eventId";
+
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // get the content of both the edit text
+            String startTime = binding.tvStartTime.getText().toString();
+            String endTime = binding.tvEndTime.getText().toString();
+            String minPlayers = binding.etMinPlayers.getText().toString();
+            String maxPlayers = binding.etMaxPlayers.getText().toString();
+            String details = binding.etDetails.getText().toString();
+            String eventCode = binding.etEventCode.getText().toString();
+            String rotationRule = binding.etTeamRotation.getText().toString();
+
+            // check whether both the fields are empty or not
+            binding.btCreateEvent.setEnabled(!startTime.isEmpty() && !endTime.isEmpty() && !minPlayers.isEmpty()
+                    && !maxPlayers.isEmpty() && !details.isEmpty() && !eventCode.isEmpty() && !rotationRule.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     public static Intent newIntent(Context context, String gymId) {
         Intent i = new Intent(context, CreateEventActivity.class);
@@ -56,24 +92,38 @@ public class CreateEventActivity extends AppCompatActivity {
         return i;
     }
 
-    //TODO make this page Multi purpose for edit.
+    public static Intent newIntentEvent(Context context, String eventId) {
+        Intent i = new Intent(context, CreateEventActivity.class);
+        i.putExtra(EVENT_ID_KEY, Parcels.wrap(eventId));
+        return i;
+    }
 
     //Todo check boxes and spinner formatting.
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat(("M-dd-yyyy hh:mm:ss a"), Locale.US);
-    private Boolean startTimeTrue;
-    private ActivityCreateEventBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String thisGymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
+        String thisEventId = Parcels.unwrap(getIntent().getParcelableExtra(EVENT_ID_KEY));
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        queryGym(thisGymId);
-        skillLevel();
+        if (thisGymId != null) {
+            queryGym(thisGymId);
+        } else {
+            queryEvent(thisEventId);
+        }
+        //skillLevel();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
+        if (thisGymId != null) {
+            binding.tvStartTime.addTextChangedListener(textWatcher);
+            binding.tvEndTime.addTextChangedListener(textWatcher);
+            binding.etMaxPlayers.addTextChangedListener(textWatcher);
+            binding.etMinPlayers.addTextChangedListener(textWatcher);
+            binding.etDetails.addTextChangedListener(textWatcher);
+            binding.etEventCode.addTextChangedListener(textWatcher);
+            binding.etTeamRotation.addTextChangedListener(textWatcher);
+        }
         binding.tvStartTime.setInputType(InputType.TYPE_NULL);
         binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,17 +158,51 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             }
         });
-        //TODO create error detection.
         binding.btCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setAllowPlusOnesSpectators();
-                int minPlayers = Integer.parseInt(binding.etMinPlayers.getText().toString());
-                int maxPlayers = Integer.parseInt(binding.etMaxPlayers.getText().toString());
-                String details = binding.etDetails.getText().toString();
-                String teamRotation = binding.etTeamRotation.getText().toString();
-                String eventCode = binding.etEventCode.getText().toString();
+                int minPlayers;
+                int maxPlayers;
+                String details;
+                String teamRotation;
+                String eventCode;
                 Event event = new Event();
+                if (thisGymId == null) {
+                    event = thisEvent;
+                    thisGym = thisEvent.getGym();
+                }
+                if (binding.tvStartTime.getText().toString().isEmpty()) {
+                        startTime = thisEvent.getStartTime();
+                }
+                if (binding.tvEndTime.getText().toString().isEmpty()) {
+                    endTime = thisEvent.getEndTime();
+                }
+                if (binding.etMinPlayers.getText().toString().isEmpty()) {
+                    minPlayers = (int) thisEvent.getMinCount();
+                } else {
+                    minPlayers = Integer.parseInt(binding.etMinPlayers.getText().toString());
+                }
+                if (binding.etMinPlayers.getText().toString().isEmpty()) {
+                    maxPlayers = (int) thisEvent.getMaxCount();
+                } else {
+                    maxPlayers = Integer.parseInt(binding.etMaxPlayers.getText().toString());
+                }
+                if (binding.etDetails.getText().toString().isEmpty()) {
+                    details = thisEvent.getDetails();
+                } else {
+                    details = binding.etDetails.getText().toString();
+                }
+                if (binding.etTeamRotation.getText().toString().isEmpty()) {
+                    teamRotation = thisEvent.getTeamRotation();
+                } else {
+                    teamRotation = binding.etTeamRotation.getText().toString();
+                }
+                if (binding.etEventCode.getText().toString().isEmpty()) {
+                    eventCode = thisEvent.getEventCode();
+                } else {
+                    eventCode = binding.etEventCode.getText().toString();
+                }
                 event.setStartTime(startTime);
                 event.setEndTime(endTime);
                 event.setMinCount(minPlayers);
@@ -147,6 +231,39 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             }
         });
+
+        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner);
+        spinner.setTextSize(20);
+        spinner.setItems(getResources().getStringArray(R.array.skill_choices));
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setEventData() {
+        String startTimeText = getString(R.string.event_get_start_time_text) + thisEvent.getStartTime().toString();
+        String endTimeText = getString(R.string.event_get_end_time_text) + thisEvent.getEndTime().toString();
+        String minPlayersText = getString(R.string.event_min_players_text) + thisEvent.getMinCount().toString();
+        String maxPlayersText = getString(R.string.event_get_max_players_text) + thisEvent.getMaxCount().toString();
+        String skillLevelText = getString(R.string.event_get_skill_level_text) + thisEvent.getSkillLevel();
+        String detailsText = getString(R.string.event_get_details_text) + thisEvent.getDetails();
+        String eventCodeText = getString(R.string.event_get_event_code_text) + thisEvent.getEventCode();
+        String rotationText = getString(R.string.event_get_rotation_text) + thisEvent.getTeamRotation();
+        binding.tvCreateEvent.setText(R.string.event_creator_manage_event_text);
+        binding.tvStartTime.setHint(startTimeText);
+        binding.tvEndTime.setHint(endTimeText);
+        binding.etMinPlayers.setHint(minPlayersText);
+        binding.etMaxPlayers.setHint(maxPlayersText);
+        binding.etDetails.setHint(skillLevelText);
+        binding.cbAllowPlusOnes.setChecked(thisEvent.getAllowPlusOnes());
+        binding.cbAllowSpectators.setChecked(thisEvent.getAllowPlusOnes());
+        binding.etDetails.setHint(detailsText);
+        binding.etEventCode.setHint(eventCodeText);
+        binding.etTeamRotation.setHint(rotationText);
+        binding.btCreateEvent.setText(R.string.save_changes_buttom);
     }
 
     public void setAllowPlusOnesSpectators() {
@@ -158,7 +275,6 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-    //TODO buggy sends to both accounts I think due to login history.
     public void sendNotification(Gym gym) throws ParseException {
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("gymsFollowing", gym);
@@ -167,13 +283,24 @@ public class CreateEventActivity extends AppCompatActivity {
         pushQuery.whereMatchesQuery("user", userQuery);
         JSONObject data = new JSONObject();
         // Put data in the JSON object
-        try {
-            data.put("alert", "New event created at " + gym.getName());
-            data.put("title", "New Event!");
-        } catch (JSONException e) {
-            // should not happen
-            throw new IllegalArgumentException("unexpected parsing error", e);
+        if (thisGymId == null) {
+            try {
+                data.put("alert", "Event updated at " + gym.getName());
+                data.put("title", "Event Update!");
+            } catch (JSONException e) {
+                // should not happen
+                throw new IllegalArgumentException("unexpected parsing error", e);
+            }
+        } else {
+            try {
+                data.put("alert", "New event created at " + gym.getName());
+                data.put("title", "New Event!");
+            } catch (JSONException e) {
+                // should not happen
+                throw new IllegalArgumentException("unexpected parsing error", e);
+            }
         }
+
         ParsePush push = new ParsePush();
         push.setQuery(pushQuery);
         push.setChannel("Events");
@@ -193,11 +320,24 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void queryGym(String gymId) {
-        ParseQuery<Gym> gymQuery = ParseQuery.getQuery(getString(R.string.query_gym_text));
+        ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
         gymQuery.getInBackground(gymId, (gym, e) -> {
             if (e == null) {
                 thisGym = gym;
                 Objects.requireNonNull(getSupportActionBar()).setTitle(thisGym.getName());
+            } else {
+                Log.e(TAG, e.getMessage());
+            }
+        });
+    }
+
+    private void queryEvent(String eventId) {
+        ParseQuery<Event> eventParseQuery = ParseQuery.getQuery("Event");
+        eventParseQuery.getInBackground(eventId, (event, e) -> {
+            if (e == null) {
+                thisEvent = event;
+                setEventData();
+                Objects.requireNonNull(getSupportActionBar()).setTitle(thisEvent.getGym().getName());
             } else {
                 Log.e(TAG, e.getMessage());
             }
@@ -243,24 +383,26 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
-    private void skillLevel() {
-        //create a list of items for the spinner.
-        String[] items = getResources().getStringArray(R.array.skill_choices);
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        binding.spSkillLevel.setAdapter(adapter);
-        binding.spSkillLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                skillLevel = parent.getItemAtPosition(position).toString();
-                binding.tvSkillChangedText.setText(skillLevel);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
+//    private void skillLevel() {
+//        //create a list of items for the spinner.
+//        String[] items = getResources().getStringArray(R.array.skill_choices);
+//        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+//        //There are multiple variations of this, but this is the basic variant.
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+//        //set the spinners adapter to the previously created one.
+//        binding.spSkillLevel.setAdapter(adapter);
+//        binding.spSkillLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                skillLevel = parent.getItemAtPosition(position).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//    }
 }
+
+
+

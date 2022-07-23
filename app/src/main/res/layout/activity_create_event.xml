@@ -42,7 +42,7 @@
             android:layout_marginBottom="32dp"
             android:hint="@string/min_players"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@id/spSkillLevel"
+            app:layout_constraintBottom_toTopOf="@id/spinner"
             app:layout_constraintEnd_toStartOf="@id/etMaxPlayers"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -56,19 +56,17 @@
             app:layout_constraintStart_toEndOf="@+id/etMinPlayers"
             app:layout_constraintTop_toTopOf="@+id/etMinPlayers" />
 
-        <Spinner
-            android:id="@+id/spSkillLevel"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="40dp"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toStartOf="@id/tvSkillLevel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"
- />
 
+<!--        <Spinner-->
+<!--            android:id="@+id/spSkillLevel"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginBottom="32dp"-->
+<!--            android:background="@android:drawable/btn_dropdown"-->
+<!--            android:spinnerMode="dropdown"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvSkillLevel" />-->
 
         <EditText
             android:id="@+id/etTeamRotation"
@@ -115,39 +113,36 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-
-        <TextView
-            android:id="@+id/tvSkillChangedText"
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/aa_skill_level_text"
-            android:textSize="25sp"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintStart_toEndOf="@+id/tvSkillLevel"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevel"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSkillLevel"
             />
+
 <!--        TODO how to do that bunch up thing you told me about-->
         <TextView
             android:id="@+id/tvSkillLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:text="@string/select_skill_level"
-            app:layout_constraintTop_toTopOf="@id/spSkillLevel"
             app:layout_constraintBottom_toTopOf="@+id/cbAllowPlusOnes"
-            app:layout_constraintStart_toEndOf="@id/spSkillLevel"
-            app:layout_constraintEnd_toStartOf="@id/tvSkillChangedText"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/spinner"/>
 
         <Button
             android:id="@+id/btCreateEvent"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:text="@string/create_event"
+            app:cornerRadius="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <CheckBox

@@ -68,10 +68,6 @@
             android:name=".Activities.EventsAtGymActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Details.EventCreatorDetailActivity"
-            android:exported="false"
-            android:parentActivityName=".Activities.MainActivity"/>
-        <activity
             android:name=".Activities.Details.EventAttendingActivity"
             android:exported="false"
             android:parentActivityName=".Activities.MainActivity"/>
