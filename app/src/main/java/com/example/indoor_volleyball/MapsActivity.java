@@ -50,6 +50,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager locationManager;
     private ParseGeoPoint currentUserLocation;
 
+    //TODO bottom sheet dialog fragment.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
 import com.example.indoor_volleyball.Models.Event;
@@ -19,11 +22,13 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private Context context;
     private List<Event> events;
+    private SimpleDateFormat dateFormat = CreateEventActivity.dateFormat;
 
     public EventAdapter(Context context, List<Event> events) {
         this.context = context;
@@ -79,13 +84,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         //TODO string resource and date formatter.
         //TODO why no gyms for other users: Need location to get gyms get it using zip
         public void bind(Event event) throws ParseException {
-            binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
+            binding.tvDate.setText("Start: " + dateFormat.format(event.getStartTime()) + " End: " + dateFormat.format(event.getEndTime()));
             binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
             binding.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
+            binding.tvCreatorName.setText(event.getCreator().getUsername());
             ParseUser creator = event.getCreator();
             ParseFile image = creator.getParseFile("profilePhoto");
             if (image != null) {
-                Glide.with(context).load(image.getUrl()).circleCrop().into(binding.ivEventCreatorProfile);
+                Glide.with(context).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop()), new RoundedCorners(30)).into(binding.ivEventCreatorProfile);
             }
         }
     }

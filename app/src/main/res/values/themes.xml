@@ -12,10 +12,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-    </style>
+        <item name="android:fontFamily">@font/nexa_book</item>
+=    </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/quantum_grey</item>
         <item name="colorControlActivated">@color/gold</item>
     </style>
+
 </resources>

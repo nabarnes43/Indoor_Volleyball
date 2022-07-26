@@ -1,60 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_margin="5dp"
+    app:cardElevation="20dp"
+    app:cardCornerRadius="10dp"
+    >
 
-    <ImageView
-        android:id="@+id/ivEventCreatorProfile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="@dimen/event_item_padding"
-        app:layout_constraintEnd_toStartOf="@id/tvSkillLevelEvent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvSkillLevelEvent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Skill Level: "
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@id/tvDate"
-        app:layout_constraintEnd_toStartOf="@id/tvMinMaxCount"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/ivEventCreatorProfile"
-        android:padding="@dimen/event_item_padding"
-        app:layout_constraintTop_toTopOf="parent"
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guidelineStart"
+            app:layout_constraintGuide_begin="10dp"
+            android:orientation="vertical"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guidelineEnd"
+            app:layout_constraintGuide_end="10dp"
+            android:orientation="vertical"/>
+
+
+        <ImageView
+            android:id="@+id/ivEventCreatorProfile"
+            android:layout_width="175dp"
+            android:layout_height="115dp"
+            android:padding="@dimen/event_item_padding"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvSkillLevelEvent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvCreatorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="TextView"
+            app:layout_constraintBottom_toTopOf="@id/tvSkillLevelEvent"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvSkillLevelEvent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            tools:text="Skill Level: "
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@id/ivEventCreatorProfile"
+            app:layout_constraintEnd_toStartOf="@id/tvMinMaxCount"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            android:padding="@dimen/event_item_padding"
+            app:layout_constraintTop_toBottomOf="@id/tvCreatorName"
         />
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="0dp"
-        android:textSize="16dp"
+        android:textSize="14sp"
         android:layout_height="wrap_content"
-        android:text="Start Time: End Time:"
+        tools:text="Start Time: End Time:"
         android:padding="@dimen/event_item_padding"
-        app:layout_constraintStart_toEndOf="@id/ivEventCreatorProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSkillLevelEvent"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toBottomOf="@id/ivEventCreatorProfile"
         />
 
-    <TextView
-        android:id="@+id/tvMinMaxCount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="Min: Max: "
-        android:padding="@dimen/event_item_padding"
-        app:layout_constraintBottom_toBottomOf="@id/tvSkillLevelEvent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/tvSkillLevelEvent"
-        app:layout_constraintTop_toTopOf="parent"
- />
+        <TextView
+            android:id="@+id/tvMinMaxCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/event_item_padding"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvSkillLevelEvent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toEndOf="@id/tvSkillLevelEvent"
+            app:layout_constraintTop_toTopOf="@id/tvSkillLevelEvent"
+            tools:text="Min: Max: " />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

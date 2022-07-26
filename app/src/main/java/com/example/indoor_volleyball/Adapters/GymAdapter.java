@@ -3,7 +3,6 @@ package com.example.indoor_volleyball.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.Details.GymDetailActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
@@ -22,11 +22,13 @@ import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
     private Context context;
     private List<Gym> gyms;
+    private SimpleDateFormat dateAdapter = CreateEventActivity.dateFormat;
 
 
     public GymAdapter(Context context, List<Gym> gyms) {
@@ -77,10 +79,8 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
         //TODO date formatter to make the dates look better.
         public void bind(Gym gym) throws ParseException {
             if (gym.getNextEvent() != null) {
-                binding.tvEventDateDescription.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                binding.tvEventDateDescription.setText("Date: " + gym.getNextEvent().getStartTime() + " Details: " + gym.getNextEvent().getDetails());
+                binding.tvEventDateDescription.setText("Next Event Date: " + dateAdapter.format(gym.getNextEvent().getStartTime()) + "\nDetails: " + gym.getNextEvent().getDetails());
             } else {
-                binding.tvEventDateDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                 binding.tvEventDateDescription.setText(R.string.no_events_at_gym);
             }
             binding.tvGymName.setText(gym.getName());

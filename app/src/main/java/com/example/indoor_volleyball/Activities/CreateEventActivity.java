@@ -51,7 +51,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private Boolean allowSpectators;
     private Calendar date;
     private Event thisEvent;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat(("M-dd-yyyy hh:mm:ss a"), Locale.US);
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(("MMMM dd hh:mm a"), Locale.US);
     private Boolean startTimeTrue;
     String thisGymId;
     private ActivityCreateEventBinding binding;
@@ -74,7 +74,6 @@ public class CreateEventActivity extends AppCompatActivity {
             String details = binding.etDetails.getText().toString();
             String eventCode = binding.etEventCode.getText().toString();
             String rotationRule = binding.etTeamRotation.getText().toString();
-
             // check whether both the fields are empty or not
             binding.btCreateEvent.setEnabled(!startTime.isEmpty() && !endTime.isEmpty() && !minPlayers.isEmpty()
                     && !maxPlayers.isEmpty() && !details.isEmpty() && !eventCode.isEmpty() && !rotationRule.isEmpty());
@@ -98,7 +97,6 @@ public class CreateEventActivity extends AppCompatActivity {
         return i;
     }
 
-    //Todo check boxes and spinner formatting.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -382,6 +380,8 @@ public class CreateEventActivity extends AppCompatActivity {
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
 
     }
+//TODO make sure this new one works correctly
+
 
 //    private void skillLevel() {
 //        //create a list of items for the spinner.

@@ -18,17 +18,17 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="action_bar_primary">#FF866500</string>
     <string name="event_parcel_tag">event</string>
-    <string name="event_get_creator_text">\ Creator:\ </string>
+    <string name="event_get_creator_text">\creator:\ </string>
     <string name="event_get_start_time_text">Start Time:  \</string>
     <string name="event_get_end_time_text">\End Time: \</string>
     <string name="event_min_players_text">\Min Players: \</string>
     <string name="event_get_max_players_text">\Max Players: \</string>
     <string name="event_get_skill_level_text">\Skill Level: \</string>
-    <string name="event_get_allow_plus_ones_text">\ Allow Plus Ones: \</string>
-    <string name="event_get_allow_spectators_text">\ Allow Spectators \</string>
-    <string name="event_get_details_text">\ Details: \</string>
+    <string name="event_get_allow_plus_ones_text">\Allow Plus Ones: \</string>
+    <string name="event_get_allow_spectators_text">\Allow Spectators \</string>
+    <string name="event_get_details_text">\Details: \</string>
     <string name="event_get_event_code_text">\Event Code: \</string>
-    <string name="event_get_rotation_text">\ Rotation rule: \</string>
+    <string name="event_get_rotation_text">\Rotation rule: \</string>
     <string name="event_creator_manage_event_text">Manage Event</string>
     <string name="event_query_class_name">Event</string>
     <string name="gym_parcel_tag">gym</string>
@@ -88,6 +88,8 @@
     <string name="method_only_supports_pager">Method only supports 0 and 1</string>
     <string name="next_event">Next Event:</string>
     <string name="save_changes_buttom">Save Changes</string>
+    <string name="unfollow_event">Unfollow Event</string>
+    <string name="follow_event">Follow Event</string>
     <string-array name="skill_choices">
         <item>@string/aa_skill_level_text</item>
         <item>@string/a_skill_level_text</item>

@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2525" />
+        <entry key="app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/ic_baseline_do_not_disturb_24.xml" value="0.4255" />
         <entry key="app/src/main/res/drawable/ic_baseline_event_24.xml" value="0.2525" />
         <entry key="app/src/main/res/layout/activity_attending_event.xml" value="0.44536652835408025" />
         <entry key="app/src/main/res/layout/activity_create_event.xml" value="0.3187022900763359" />
@@ -11,12 +13,13 @@
         <entry key="app/src/main/res/layout/activity_event_creator_detail.xml" value="0.8213256484149856" />
         <entry key="app/src/main/res/layout/activity_event_detail.xml" value="0.9651041666666667" />
         <entry key="app/src/main/res/layout/activity_events_at_gym.xml" value="0.8579654510556622" />
-        <entry key="app/src/main/res/layout/activity_gym_detail.xml" value="0.41893830703012913" />
+        <entry key="app/src/main/res/layout/activity_gym_detail.xml" value="0.271523178807947" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.46051381429036453" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26042632066728455" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.9661458333333334" />
         <entry key="app/src/main/res/layout/activity_query.xml" value="0.75" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.20216827392578127" />
+        <entry key="app/src/main/res/layout/border.xml" value="0.9512820512820512" />
         <entry key="app/src/main/res/layout/fileprovider.xml" value="0.4864583333333333" />
         <entry key="app/src/main/res/layout/fragment_all_gyms.xml" value="0.5630208333333333" />
         <entry key="app/src/main/res/layout/fragment_create_event.xml" value="0.646875" />
@@ -29,8 +32,8 @@
         <entry key="app/src/main/res/layout/fragment_gym_list.xml" value="0.24357604980468753" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5786948176583493" />
         <entry key="app/src/main/res/layout/fragment_your_gyms.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_event.xml" value="0.9651041666666667" />
-        <entry key="app/src/main/res/layout/item_gym.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_event.xml" value="0.4823008849557522" />
+        <entry key="app/src/main/res/layout/item_gym.xml" value="0.28283996582031246" />
         <entry key="app/src/main/res/layout/marker_gym_item.xml" value="0.579250720461095" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.9" />
         <entry key="app/src/main/res/menu/refresh.xml" value="0.9651041666666667" />
@@ -51,7 +54,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.6698943661971831" />
+        <option name="scale" value="0.28283996582031246" />
       </ProjectState>
     </option>
   </component>

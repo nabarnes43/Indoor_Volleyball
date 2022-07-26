@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -49,7 +49,8 @@ public abstract class EventListFragment extends Fragment {
         rvEvents = binding.rvEvents;
         eventsCreated = new ArrayList<>();
         adapterEvents = new EventAdapter(getContext(), eventsCreated);
-        rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
+        //TODO make this a grid layout and redo event item
+        rvEvents.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvEvents.setAdapter(adapterEvents);
         fetchUserEventsAsync(0);
         // Setup refresh listener which triggers new data loading
