@@ -80,7 +80,7 @@ public class GymDetailActivity extends AppCompatActivity {
                 creator = findUsers(event.getCreator());
                 ParseFile image = creator.getParseFile("profilePhoto");
                 if (image != null) {
-                    Glide.with(this).load(image.getUrl()).circleCrop().into(binding.itmEventItem.ivEventCreatorProfile);
+                    Glide.with(this).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.itmEventItem.ivEventCreatorProfile);
                 }
             } catch (ParseException e) {
                 Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();

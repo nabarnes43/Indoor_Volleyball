@@ -12,8 +12,8 @@
         <entry key="app/src/main/res/layout/activity_create_gym.xml" value="0.6848609680741503" />
         <entry key="app/src/main/res/layout/activity_event_creator_detail.xml" value="0.8213256484149856" />
         <entry key="app/src/main/res/layout/activity_event_detail.xml" value="0.9651041666666667" />
-        <entry key="app/src/main/res/layout/activity_events_at_gym.xml" value="0.8579654510556622" />
-        <entry key="app/src/main/res/layout/activity_gym_detail.xml" value="0.271523178807947" />
+        <entry key="app/src/main/res/layout/activity_events_at_gym.xml" value="0.367170626349892" />
+        <entry key="app/src/main/res/layout/activity_gym_detail.xml" value="0.37839050292968757" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.46051381429036453" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26042632066728455" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.9661458333333334" />

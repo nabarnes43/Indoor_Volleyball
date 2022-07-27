@@ -59,7 +59,7 @@
     <string name="create_an_event">Create An Event</string>
     <string name="view_more">View More</string>
     <string name="gym_photo">Gym Photo</string>
-    <string name="follow_gym">Follow Gym</string>
+    <string name="follow_gym">follow gym</string>
     <string name="name_sign_up">Name:</string>
     <string name="email_sign_up">Email:</string>
     <string name="phone_sign_up">Phone:</string>
@@ -80,16 +80,19 @@
     <string name="select_skill_level">Select Skill Level:</string>
     <string name="create_event">Create Event</string>
     <string name="query">Query</string>
-    <string name="logout">Logout</string>
-    <string name="take_profile_photo">Take Profile Photo</string>
+    <string name="logout">logout</string>
+    <string name="take_profile_photo">take profile photo</string>
     <string name="create_gym">Create Gym</string>
     <string name="nearby_gyms">Nearby Gyms</string>
     <string name="your_gyms">Your Gyms</string>
     <string name="method_only_supports_pager">Method only supports 0 and 1</string>
-    <string name="next_event">Next Event:</string>
+    <string name="next_event">next event:</string>
     <string name="save_changes_buttom">Save Changes</string>
     <string name="unfollow_event">Unfollow Event</string>
     <string name="follow_event">Follow Event</string>
+    <string name="aa">AA</string>
+    <string name="skill_level">Skill Level</string>
+    <string name="edit_profile">edit</string>
     <string-array name="skill_choices">
         <item>@string/aa_skill_level_text</item>
         <item>@string/a_skill_level_text</item>

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,7 +31,6 @@ import com.example.indoor_volleyball.Adapters.GymAdapter;
 import com.example.indoor_volleyball.MapsActivity;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.databinding.FragmentGymListBinding;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
@@ -191,27 +189,33 @@ public abstract class GymListFragment extends Fragment {
 
     private void fetchUserGymsAsync() {
         adapterUserGyms.clear();
-        queryUsersGymsByDistance(ParseUser.getCurrentUser());
+        try {
+            queryUsersGymsByDistance(ParseUser.getCurrentUser());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     //Get a list of gyms that the user follows.
-    private void queryUsersGymsByDistance(ParseUser user) {
+    private void queryUsersGymsByDistance(ParseUser user) throws ParseException {
         ParseQuery<Gym> query = getGymQuery(user);
-        query.findInBackground(new FindCallback<Gym>() {
-            @Override
-            public void done(List<Gym> gymList, ParseException e) {
-                if (e == null) {
-                    gymsFollowed.addAll(gymList);
-                    if (gymList.isEmpty()) {
-                        binding.tvGymEmpty.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                    Toast.makeText(getContext(), "Error " + e, Toast.LENGTH_SHORT).show();
-                }
-                adapterUserGyms.notifyDataSetChanged();
-            }
-        });
+        gymsFollowed.addAll(query.find());
+//        query.findInBackground(new FindCallback<Gym>() {
+//            @Override
+//            public void done(List<Gym> gymList, ParseException e) {
+//                if (e == null) {
+//                    gymsFollowed.addAll(gymList);
+//                    if (gymList.isEmpty()) {
+//                        binding.tvGymEmpty.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    Log.d("item", "Error: " + e.getMessage());
+//                    Toast.makeText(getContext(), "Error " + e, Toast.LENGTH_SHORT).show();
+//                }
+//                adapterUserGyms.notifyDataSetChanged();
+//            }
+//        });
+        adapterUserGyms.notifyDataSetChanged();
     }
 
     public class CreateGym extends ActivityResultContract<Void, Boolean> {

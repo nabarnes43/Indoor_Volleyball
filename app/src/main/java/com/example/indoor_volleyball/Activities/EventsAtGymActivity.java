@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.indoor_volleyball.Adapters.EventAdapter;
@@ -55,7 +55,7 @@ public class EventsAtGymActivity extends AppCompatActivity {
         rvEvents = binding.rvEventsAtGym;
         eventsCreated = new ArrayList<>();
         adapterEvents = new EventAdapter(this, eventsCreated);
-        rvEvents.setLayoutManager(new LinearLayoutManager(this));
+        rvEvents.setLayoutManager(new GridLayoutManager(this, 2));
         rvEvents.setAdapter(adapterEvents);
         fetchUserGymsAsync(0);
         binding.fabCreateEventAtGym.setOnClickListener(new View.OnClickListener() {

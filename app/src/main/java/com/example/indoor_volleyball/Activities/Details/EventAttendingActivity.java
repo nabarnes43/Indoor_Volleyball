@@ -90,27 +90,33 @@ public class EventAttendingActivity extends AppCompatActivity {
                 Glide.with(this).load(R.drawable.icon_gym_black).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivGymPhotoEventAttending);
             }
             ParseUser user = ParseUser.getCurrentUser();
-            boolean containsEvent;
+            final boolean[] containsEvent = new boolean[1];
 
             if (eventIds.contains(eventId)) {
-                containsEvent = true;
+                containsEvent[0] = true;
                 binding.btFollowEvent.setText(R.string.unfollow_event);
                 binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24, 0, 0, 0);
             } else {
-                containsEvent = false;
+                containsEvent[0] = false;
                 binding.btFollowEvent.setText(R.string.follow_event);
                 binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24, 0, 0, 0);
             }
             binding.btFollowEvent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (containsEvent) {
+                    if (containsEvent[0]) {
+                        containsEvent[0] = false;
                         user.getRelation("eventsAttending").remove(event);
                         event.getRelation("userRelation").remove(user);
+                        binding.btFollowEvent.setText(R.string.follow_event);
+                        binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24, 0, 0, 0);
                     } else {
                         user.getRelation("eventsAttending").add(event);
                         ParseRelation<ParseObject> usersFollowing = event.getRelation("userRelation");
                         usersFollowing.add(ParseUser.getCurrentUser());
+                        binding.btFollowEvent.setText(R.string.unfollow_event);
+                        binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24, 0, 0, 0);
+                        containsEvent[0] = true;
                     }
                     try {
                         user.save();
@@ -142,8 +148,6 @@ public class EventAttendingActivity extends AppCompatActivity {
         }
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="spinnerDim">40</dimen>
     <dimen name="gymDetailsPadding">8dp</dimen>
     <dimen name="event_item_padding">4dp</dimen>
@@ -10,4 +10,6 @@
     <dimen name="margin_sign_up">8dp</dimen>
     <dimen name="event_attending_text_size">20sp</dimen>
     <dimen name="bottom_margin_event_attending">24dp</dimen>
+    <dimen name="event_creating_text_size" tools:ignore="MissingDefaultResource">25sp</dimen>
+    <dimen name="button_text_size">20sp</dimen>
 </resources>

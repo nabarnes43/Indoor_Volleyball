@@ -46,9 +46,9 @@ public class CreateEventActivity extends AppCompatActivity {
     private Date startTime;
     private Date endTime;
     private Gym thisGym;
-    private String skillLevel;
-    private Boolean allowPlusOnes;
-    private Boolean allowSpectators;
+    private String skillLevel = "C";
+    private Boolean allowPlusOnes = false;
+    private Boolean allowSpectators = false;
     private Calendar date;
     private Event thisEvent;
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat(("MMMM dd hh:mm a"), Locale.US);
@@ -109,7 +109,6 @@ public class CreateEventActivity extends AppCompatActivity {
         } else {
             queryEvent(thisEventId);
         }
-        //skillLevel();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
@@ -168,6 +167,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 Event event = new Event();
                 if (thisGymId == null) {
                     event = thisEvent;
+                    skillLevel = thisEvent.getSkillLevel();
                     thisGym = thisEvent.getGym();
                 }
                 if (binding.tvStartTime.getText().toString().isEmpty()) {
@@ -181,7 +181,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 } else {
                     minPlayers = Integer.parseInt(binding.etMinPlayers.getText().toString());
                 }
-                if (binding.etMinPlayers.getText().toString().isEmpty()) {
+                if (binding.etMaxPlayers.getText().toString().isEmpty()) {
                     maxPlayers = (int) thisEvent.getMaxCount();
                 } else {
                     maxPlayers = Integer.parseInt(binding.etMaxPlayers.getText().toString());
@@ -262,6 +262,7 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.etEventCode.setHint(eventCodeText);
         binding.etTeamRotation.setHint(rotationText);
         binding.btCreateEvent.setText(R.string.save_changes_buttom);
+        binding.spinner.setText(thisEvent.getSkillLevel());
     }
 
     public void setAllowPlusOnesSpectators() {
