@@ -79,11 +79,11 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
         //TODO date formatter to make the dates look better.
         public void bind(Gym gym) throws ParseException {
             if (gym.getNextEvent() != null) {
-                binding.tvEventDateDescription.setText("Next Event Date: " + dateAdapter.format(gym.getNextEvent().getStartTime()) + "\nDetails: " + gym.getNextEvent().getDetails());
+                binding.tvEventDateDescription.setText("next event date: " + dateAdapter.format(gym.getNextEvent().getStartTime()) + "\ndetails: " + gym.getNextEvent().getDetails().toLowerCase());
             } else {
                 binding.tvEventDateDescription.setText(R.string.no_events_at_gym);
             }
-            binding.tvGymName.setText(gym.getName());
+            binding.tvGymName.setText(gym.getName().toLowerCase());
             binding.rbGymRating.setRating(gym.getRating().floatValue());
             ParseFile image = gym.getImage();
             if (image != null) {

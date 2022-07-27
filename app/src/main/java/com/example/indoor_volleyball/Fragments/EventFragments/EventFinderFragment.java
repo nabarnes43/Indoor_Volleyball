@@ -40,6 +40,6 @@ public class EventFinderFragment extends Fragment {
         binding.vpEventList.setAdapter(eventsPagerAdapter);
         TabLayout tlGymsList = binding.tlEventList;
         new TabLayoutMediator(tlGymsList, binding.vpEventList,
-                (tab, position) -> tab.setText(eventsPagerAdapter.getTitle(position))).attach();
+                (tab, position) -> tab.setText(eventsPagerAdapter.getTitle(getContext(), position))).attach();
     }
 }

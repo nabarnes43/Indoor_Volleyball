@@ -51,7 +51,7 @@ public class EventsAtGymActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
-        getSupportActionBar().setTitle(gym.getName());
+        getSupportActionBar().setTitle(gym.getName().toLowerCase());
         rvEvents = binding.rvEventsAtGym;
         eventsCreated = new ArrayList<>();
         adapterEvents = new EventAdapter(this, eventsCreated);

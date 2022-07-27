@@ -31,6 +31,7 @@
             app:layout_constraintTop_toBottomOf="@id/ivSignUp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
+
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
@@ -38,6 +39,7 @@
             android:textSize="@dimen/text_size_sign_up"
             android:hint="@string/name_sign_up"
             android:inputType="text"
+            android:layout_marginTop="16dp"
             android:layout_margin="@dimen/margin_sign_up" />
         </com.google.android.material.textfield.TextInputLayout>
 

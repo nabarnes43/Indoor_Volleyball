@@ -84,10 +84,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         //TODO string resource and date formatter.
         //TODO why no gyms for other users: Need location to get gyms get it using zip
         public void bind(Event event) throws ParseException {
-            binding.tvDate.setText("Start: " + dateFormat.format(event.getStartTime()) + " End: " + dateFormat.format(event.getEndTime()));
-            binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
-            binding.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
-            binding.tvCreatorName.setText(event.getCreator().getUsername());
+            binding.tvDate.setText("start: " + dateFormat.format(event.getStartTime()) + " end: " + dateFormat.format(event.getEndTime()));
+            binding.tvMinMaxCount.setText("min: " + event.getMinCount() + " max: " + event.getMaxCount());
+            binding.tvSkillLevelEvent.setText("skill level: " + event.getSkillLevel());
+            binding.tvCreatorName.setText(event.getCreator().getUsername().toLowerCase());
             ParseUser creator = event.getCreator();
             ParseFile image = creator.getParseFile("profilePhoto");
             if (image != null) {

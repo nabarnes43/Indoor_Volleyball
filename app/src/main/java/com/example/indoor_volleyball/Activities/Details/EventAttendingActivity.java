@@ -57,7 +57,7 @@ public class EventAttendingActivity extends AppCompatActivity {
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
             getSupportActionBar().setBackgroundDrawable(colorDrawable);
-            getSupportActionBar().setTitle(event.getGym().getName());
+            getSupportActionBar().setTitle(event.getGym().getName().toLowerCase());
             //TODO can get here but may not be logged in.
             ParseUser creator = event.getCreator();
             String creatorName = creator.getUsername();
@@ -132,7 +132,7 @@ public class EventAttendingActivity extends AppCompatActivity {
     }
 
     private Event queryEvent(String eventId) throws ParseException {
-        ParseQuery<Event> eventQuery = ParseQuery.getQuery(getString(R.string.event_query_class_name));
+        ParseQuery<Event> eventQuery = ParseQuery.getQuery("Event");
         eventQuery.include("creator");
         eventQuery.include("gym");
         return eventQuery.get(eventId);

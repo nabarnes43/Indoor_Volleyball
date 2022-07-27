@@ -168,18 +168,24 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
+    //TODO ADD A WAY TO ADD A SKILL LEVEL just add to login
     public void displayUserInfo() {
         binding.tvUsername.setText(user.getUsername());
+        if (user.getString("skillLevel") == null) {
+            binding.ivSkillLevel.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvSkillLevelProfile.setText(user.getString("skillLevel"));
+        }
         ParseFile profilePhoto = user.getParseFile("profilePhoto");
         if (profilePhoto != null) {
             Glide.with(requireContext()).load(Objects.requireNonNull(user.getParseFile("profilePhoto")).getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(50))).into(binding.ivProfilePhoto);
         } else {
             Toast.makeText(getContext(), "this Profile photo does not exist for user " + user.getUsername(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
-    //I could not find a non depreciated version.
+    //TODO edit button activity to edit user info
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

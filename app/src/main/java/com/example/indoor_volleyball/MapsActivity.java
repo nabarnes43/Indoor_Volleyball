@@ -68,13 +68,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
         if (position == 0) {
-            getSupportActionBar().setTitle("All Gyms");
+            getSupportActionBar().setTitle(getString(R.string.nearby_gyms));
         } else {
-            getSupportActionBar().setTitle("Your Gyms");
+            getSupportActionBar().setTitle(getString(R.string.your_gyms));
         }
     }
 
-    //TODO each fragment a floating action button. Add coordinator layout.
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -122,9 +121,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng gymLocation = new LatLng(gym.getParseGeoPoint("location").getLatitude(), gym.getParseGeoPoint("location").getLongitude());
             Float color;
             if (position == 0) {
-                color = BitmapDescriptorFactory.HUE_AZURE;
+                color = BitmapDescriptorFactory.HUE_ROSE;
             } else {
-                color = BitmapDescriptorFactory.HUE_GREEN;
+                color = BitmapDescriptorFactory.HUE_MAGENTA;
             }
             gymMarkerColor(gymLocation, color, gym);
         }
