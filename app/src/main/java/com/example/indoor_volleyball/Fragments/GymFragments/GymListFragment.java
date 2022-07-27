@@ -194,6 +194,7 @@ public abstract class GymListFragment extends Fragment {
         queryUsersGymsByDistance(ParseUser.getCurrentUser());
 
     }
+    //TODO make it retry
 
     //Get a list of gyms that the user follows.
     private void queryUsersGymsByDistance(ParseUser user) {

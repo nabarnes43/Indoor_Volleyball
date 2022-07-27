@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -36,9 +37,10 @@ import java.util.Objects;
 
 public class GymDetailActivity extends AppCompatActivity {
     private static final String TAG = "GymDetailActivity";
-    ActivityGymDetailBinding binding;
-    List<Gym> gymsFollowed;
-    String gymId;
+    private ActivityGymDetailBinding binding;
+    private List<Gym> gymsFollowed;
+    private String gymId;
+    private List<String> gymsFollowingIds;
     private Gym gym;
     private static final String GYM_ID_KEY = "gymId";
 
@@ -54,14 +56,15 @@ public class GymDetailActivity extends AppCompatActivity {
         binding = ActivityGymDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         gymsFollowed = new ArrayList<>();
+        gymsFollowingIds = new ArrayList<>();
         gymId = Parcels.unwrap(getIntent().getParcelableExtra(GYM_ID_KEY));
         try {
+            queryGymsFollowing();
             queryGym(gymId);
         } catch (ParseException e) {
             Toast.makeText(this, "Gym Error", Toast.LENGTH_SHORT).show();
         }
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
-        //TODO resource strings
         Event event = null;
         try {
             event = gym.getNextEvent();
@@ -124,27 +127,54 @@ public class GymDetailActivity extends AppCompatActivity {
                 goToEventsAtGym(gym);
             }
         });
+        ParseUser user = ParseUser.getCurrentUser();
+        final boolean[] containsEvent = new boolean[1];
+
+        if (gymsFollowingIds.contains(gymId)) {
+            containsEvent[0] = true;
+            binding.btFollowGym.setText(R.string.unfollow_event);
+            binding.btFollowGym.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24_white, 0, 0, 0);
+        } else {
+            containsEvent[0] = false;
+            binding.btFollowGym.setText(R.string.follow_event);
+            binding.btFollowGym.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24_white, 0, 0, 0);
+        }
         binding.btFollowGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser user = ParseUser.getCurrentUser();
-                user.getRelation("gymsFollowing").add(gym);
+                if (containsEvent[0]) {
+                    containsEvent[0] = false;
+                    user.getRelation("gymsFollowing").remove(gym);
+                    gym.getRelation("usersFollowing").remove(user);
+                    binding.btFollowGym.setText(R.string.follow_gym);
+                    binding.btFollowGym.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24_white, 0, 0, 0);
+                } else {
+                    user.getRelation("gymsFollowing").add(gym);
+                    ParseRelation<ParseObject> usersFollowing = gym.getRelation("usersFollowing");
+                    usersFollowing.add(ParseUser.getCurrentUser());
+                    binding.btFollowGym.setText(R.string.unfollow_gym);
+                    binding.btFollowGym.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24_white, 0, 0, 0);
+                    containsEvent[0] = true;
+                }
                 try {
                     user.save();
-                    Toast.makeText(GymDetailActivity.this, gym.getObjectId() + " Followed", Toast.LENGTH_SHORT).show();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                ParseRelation<ParseObject> usersFollowing = gym.getRelation("usersFollowing");
-                usersFollowing.add(ParseUser.getCurrentUser());
-                try {
                     gym.save();
-                    Toast.makeText(GymDetailActivity.this, ParseUser.getCurrentUser().get("name") + " Added", Toast.LENGTH_SHORT).show();
                 } catch (ParseException e) {
+                    Log.e(TAG, e.toString());
                 }
             }
         });
     }
+
+    private void queryGymsFollowing() throws ParseException {
+                ParseQuery<Gym> gymQuery = ParseQuery.getQuery(Gym.class);
+                gymQuery.whereEqualTo("usersFollowing", ParseUser.getCurrentUser());
+                List<Gym> userFollowingGyms = new ArrayList<>();
+                userFollowingGyms = gymQuery.find();
+                for (Gym gym : userFollowingGyms) {
+                    gymsFollowingIds.add(gym.getObjectId());
+                }
+            }
 
     public void goToEventDetailsAttending(Context context, Event event) {
         String eventId = event.getObjectId();

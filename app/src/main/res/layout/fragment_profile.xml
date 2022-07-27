@@ -227,6 +227,7 @@
         android:text="@string/edit_profile"
         android:textAllCaps="false"
         android:textSize="@dimen/button_text_size"
+        app:cornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintTop_toTopOf="parent" />
 

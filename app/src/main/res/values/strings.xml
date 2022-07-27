@@ -83,13 +83,14 @@
     <string name="method_only_supports_pager">Method only supports 0 and 1</string>
     <string name="next_event">next event:</string>
     <string name="save_changes_buttom">save changes</string>
-    <string name="unfollow_event">unfollow event</string>
-    <string name="follow_event">follow event</string>
+    <string name="unfollow_event">remove event</string>
+    <string name="follow_event">add event</string>
     <string name="aa">AA</string>
     <string name="skill_level">skill level</string>
     <string name="edit_profile">edit</string>
     <string name="evnets_created">events created</string>
     <string name="events_attending">events attending</string>
+    <string name="unfollow_gym">unfollow gym</string>
     <string-array name="skill_choices">
         <item>@string/aa_skill_level_text</item>
         <item>@string/a_skill_level_text</item>

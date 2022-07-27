@@ -95,11 +95,11 @@ public class EventAttendingActivity extends AppCompatActivity {
             if (eventIds.contains(eventId)) {
                 containsEvent[0] = true;
                 binding.btFollowEvent.setText(R.string.unfollow_event);
-                binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24, 0, 0, 0);
+                binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24_white, 0, 0, 0);
             } else {
                 containsEvent[0] = false;
                 binding.btFollowEvent.setText(R.string.follow_event);
-                binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24, 0, 0, 0);
+                binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24_white, 0, 0, 0);
             }
             binding.btFollowEvent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,13 +109,13 @@ public class EventAttendingActivity extends AppCompatActivity {
                         user.getRelation("eventsAttending").remove(event);
                         event.getRelation("userRelation").remove(user);
                         binding.btFollowEvent.setText(R.string.follow_event);
-                        binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24, 0, 0, 0);
+                        binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24_white, 0, 0, 0);
                     } else {
                         user.getRelation("eventsAttending").add(event);
                         ParseRelation<ParseObject> usersFollowing = event.getRelation("userRelation");
                         usersFollowing.add(ParseUser.getCurrentUser());
                         binding.btFollowEvent.setText(R.string.unfollow_event);
-                        binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24, 0, 0, 0);
+                        binding.btFollowEvent.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24_white, 0, 0, 0);
                         containsEvent[0] = true;
                     }
                     try {
@@ -146,7 +146,6 @@ public class EventAttendingActivity extends AppCompatActivity {
         for (Event event : userAttendingEvents) {
             eventIds.add(event.getObjectId());
         }
-
     }
 
     @Override

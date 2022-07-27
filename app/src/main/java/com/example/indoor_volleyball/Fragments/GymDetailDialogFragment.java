@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
@@ -51,7 +52,7 @@ public class GymDetailDialogFragment extends DialogFragment {
         Gym gym;
         assert getArguments() != null;
         gym = getArguments().getParcelable("gym");
-        binding.itmEventItem.tvGymName.setText(gym.getName());
+        binding.itmEventItem.tvGymName.setText(gym.getName().toLowerCase());
         binding.itmEventItem.rbGymRating.setRating(gym.getRating().floatValue());
         ParseFile image = gym.getImage();
         if (image != null) {
@@ -61,14 +62,17 @@ public class GymDetailDialogFragment extends DialogFragment {
         }
         try {
             if (gym.getNextEvent() != null) {
-                binding.itmEventItem.tvEventDateDescription.setText(gym.getNextEvent().getDetails());
+                binding.itmEventItem.tvEventDateDescription.setText(gym.getNextEvent().getDetails().toLowerCase());
             } else {
                 binding.itmEventItem.tvEventDateDescription.setText(getString(R.string.no_events_at_gym));
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        //Todo add code for when parse doesn't load the gyms
+
         getDialog().getWindow().setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        getDialog().getWindow().setBackgroundDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.dialog_rounded_bg));
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
         binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override

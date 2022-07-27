@@ -25,7 +25,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -104,7 +103,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         gymDetailDialogFragment.show(fm, "fragment_gym_detail_dialog_fragment");
     }
 
-    //TODO add recenter button to action bar
     public void refreshQuery(GoogleMap googleMap, ParseUser user) {
         find_Location(MapsActivity.this);
         ParseQuery<Gym> gymQuery;
@@ -130,7 +128,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void gymMarkerColor(LatLng latLng, Float color, Gym gym) {
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(gym.getName()).icon(BitmapDescriptorFactory.defaultMarker(color)));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(gym.getName().toLowerCase()).icon(BitmapDescriptorFactory.defaultMarker(color)));
         marker.setTag(gym);
     }
 
@@ -246,31 +244,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-
-    private void showClosestGym(final GoogleMap googleMap) {
-        ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
-        query.whereNear("location", currentUserLocation);
-        query.setLimit(1);
-        query.findInBackground(new FindCallback<Gym>() {
-            @Override
-            public void done(List<Gym> gymList, ParseException e) {
-                if (e == null) {
-                    Gym gym = gymList.get(0);
-                    LatLng closestStoreLocation = new LatLng(gym.getParseGeoPoint("location").getLatitude(), gym.getParseGeoPoint("location").getLongitude());
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(closestStoreLocation)
-                            .zoom(11)                   // Sets the zoom
-                            .tilt(30)                   // Sets the tilt of the camera to 30 degrees
-                            .build();                   // Creates a CameraPosition from the builder
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                } else {
-                    Log.d("gym", "Error: " + e.getMessage());
-                }
-            }
-        });
-        ParseQuery.clearAllCachedResults();
-    }
-
 }
 
 

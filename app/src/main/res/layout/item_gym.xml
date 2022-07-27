@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
+                android:progressTint="@color/quantum_grey"
                 android:rating="3"
                 android:stepSize=".5"
                 android:layout_marginStart="30dp"

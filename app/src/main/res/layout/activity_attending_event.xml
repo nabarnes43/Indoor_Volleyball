@@ -171,7 +171,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:drawableLeft="@drawable/ic_baseline_add_24"
+            android:drawableLeft="@drawable/ic_baseline_add_24_white"
             app:cornerRadius="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
