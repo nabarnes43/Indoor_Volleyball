@@ -2,20 +2,30 @@
     <!-- Base application theme. -->
     <style name="Theme.Indoor_Volleyball" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/gold</item>
-        <item name="colorPrimaryVariant">@color/gold</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/black</item>
-        <item name="colorSecondaryVariant">@color/black</item>
+        <item name="colorSecondary">#9E9E9E</item>
+        <item name="colorSecondaryVariant">#9E9E9E</item>
         <item name="colorOnSecondary">#FFFFFF</item>
+
+        <item name="colorAccent">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-    </style>
+        <item name="android:fontFamily">@font/nexa_book</item>
+=    </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/quantum_grey</item>
-        <item name="colorControlActivated">@color/gold</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">#9E9E9E</item>
     </style>
+
+    <style name="tabBarTextAperance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

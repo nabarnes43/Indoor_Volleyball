@@ -1,60 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp">
 
-    <TextView
-        android:id="@+id/tvGymName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="YMCA"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/rbGymRating"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivGymPhoto"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/rbGymRating"
-        style="@style/Widget.MaterialRatingBar.RatingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/gold"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:rating="3"
-        app:mrb_fillBackgroundStars="true"
-        android:stepSize=".5"
-        app:layout_constraintBottom_toTopOf="@id/tvEventDateDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivGymPhoto"
-        app:layout_constraintTop_toBottomOf="@id/tvGymName" />
-
-    <TextView
-        android:id="@+id/tvEventDateDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Next Event - Tue June 7th 8:00pm - 10:00pm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivGymPhoto"
-        app:layout_constraintTop_toBottomOf="@id/rbGymRating" />
-
-    <ImageView
-        android:id="@+id/ivGymPhoto"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:padding="8dp"
-        android:scaleType="centerCrop"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card_view"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="20dp"
+        app:cardElevation="20dp"
+        app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guidelineStart"
+            app:layout_constraintGuide_begin="10dp"
+            android:orientation="vertical"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guidelineEnd"
+            app:layout_constraintGuide_end="10dp"
+            android:orientation="vertical"/>
+
+            <TextView
+            android:id="@+id/tvGymName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="YMCA"
+                android:layout_marginTop="10dp"
+            android:textSize="30sp"
+            android:fontFamily="@font/nexa_extra_bold"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/rbGymRating"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="parent" />
+
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/rbGymRating"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressTint="@color/quantum_grey"
+                android:rating="3"
+                android:stepSize=".5"
+                android:layout_marginStart="30dp"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvGymName"
+                app:layout_constraintBottom_toTopOf="@id/ivGymPhoto"
+                app:mrb_fillBackgroundStars="true" />
+
+            <TextView
+                android:id="@+id/tvEventDateDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/ivGymPhoto"
+                tools:text="Next Event - Tue June 7th 8:00pm - 10:00pm" />
+
+            <ImageView
+                android:id="@+id/ivGymPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_margin="8dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/rbGymRating"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+

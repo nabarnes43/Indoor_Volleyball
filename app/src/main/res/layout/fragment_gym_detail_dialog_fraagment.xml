@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:background="@drawable/dialog_rounded_bg"
     android:layout_alignParentBottom="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 

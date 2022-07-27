@@ -2,12 +2,10 @@ package com.example.indoor_volleyball.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,17 +27,15 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.CreateGymActivity;
 import com.example.indoor_volleyball.Activities.LoginActivity;
 import com.example.indoor_volleyball.Activities.QueryActivity;
 import com.example.indoor_volleyball.databinding.FragmentProfileBinding;
-import com.parse.GetCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.File;
@@ -172,18 +168,24 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
+    //TODO ADD A WAY TO ADD A SKILL LEVEL just add to login
     public void displayUserInfo() {
         binding.tvUsername.setText(user.getUsername());
+        if (user.getString("skillLevel") == null) {
+            binding.ivSkillLevel.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvSkillLevelProfile.setText(user.getString("skillLevel"));
+        }
         ParseFile profilePhoto = user.getParseFile("profilePhoto");
         if (profilePhoto != null) {
-            Glide.with(requireContext()).load(Objects.requireNonNull(user.getParseFile("profilePhoto")).getUrl()).circleCrop().into(binding.ivProfilePhoto);
+            Glide.with(requireContext()).load(Objects.requireNonNull(user.getParseFile("profilePhoto")).getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(50))).into(binding.ivProfilePhoto);
         } else {
             Toast.makeText(getContext(), "this Profile photo does not exist for user " + user.getUsername(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
-    //I could not find a non depreciated version.
+    //TODO edit button activity to edit user info
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,7 +196,7 @@ public class ProfileFragment extends Fragment {
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 binding.ivProfilePhoto.setImageBitmap(takenImage);
-                Glide.with(requireContext()).load(takenImage).circleCrop().into(binding.ivProfilePhoto);
+                Glide.with(requireContext()).load(takenImage).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.ivProfilePhoto);
                 binding.ivProfilePhoto.setRotation(90);
                 user.put("profilePhoto", new ParseFile(photoFile));
                 user.saveInBackground();

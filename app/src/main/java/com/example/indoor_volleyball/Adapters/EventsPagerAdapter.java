@@ -1,11 +1,14 @@
 package com.example.indoor_volleyball.Adapters;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.indoor_volleyball.Fragments.EventFragments.EventsAttendingFragment;
 import com.example.indoor_volleyball.Fragments.EventFragments.EventsCreatedFragment;
+import com.example.indoor_volleyball.R;
 
 public class EventsPagerAdapter extends FragmentStateAdapter {
 
@@ -34,12 +37,12 @@ public class EventsPagerAdapter extends FragmentStateAdapter {
     }
 
     //TODO use string resources before I commit.
-    public String getTitle(int position) {
+    public String getTitle(Context context, int position) {
         switch (position) {
             case 0:
-                return "Events Attending";
+                return context.getString(R.string.events_attending);
             case 1:
-                return "Events Created";
+                return context.getString(R.string.evnets_created);
             default:
                 throw new IllegalArgumentException("Method only supports 0 and 1");
         }

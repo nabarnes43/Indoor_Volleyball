@@ -1,11 +1,16 @@
 package com.example.indoor_volleyball.Adapters;
 
+import android.content.Context;
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.indoor_volleyball.Fragments.GymFragments.AllGymsFragment;
 import com.example.indoor_volleyball.Fragments.GymFragments.YourGymsFragment;
+import com.example.indoor_volleyball.R;
 
 public class GymsPagerAdapter extends FragmentStateAdapter {
 
@@ -15,6 +20,7 @@ public class GymsPagerAdapter extends FragmentStateAdapter {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -34,14 +40,14 @@ public class GymsPagerAdapter extends FragmentStateAdapter {
     }
 
     //TODO use string resources before I commit.
-    public String getTitle(int position) {
+    public String getTitle(Context context, int position) {
         switch (position) {
             case 0:
-                return "All Gyms";
+                return context.getString(R.string.nearby_gyms);
             case 1:
-                return "Your Gyms";
+                return context.getString(R.string.your_gyms);
             default:
-                throw new IllegalArgumentException("Method only supports 0 and 1");
+                throw new IllegalArgumentException(context.getString(R.string.method_only_supports_pager));
         }
     }
 }

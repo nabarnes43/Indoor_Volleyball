@@ -19,6 +19,7 @@
             android:layout_marginBottom="16dp"
             android:focusable="true"
             android:hint="@string/start_time"
+            android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@id/tvEndTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -31,6 +32,7 @@
             android:clickable="true"
             android:focusable="true"
             android:hint="@string/end_time"
+            android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@id/etMinPlayers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -42,7 +44,8 @@
             android:layout_marginBottom="32dp"
             android:hint="@string/min_players"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@id/spSkillLevel"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@id/spinner"
             app:layout_constraintEnd_toStartOf="@id/etMaxPlayers"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -52,23 +55,22 @@
             android:layout_height="wrap_content"
             android:hint="@string/max_players"
             android:inputType="number"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/etMinPlayers"
             app:layout_constraintTop_toTopOf="@+id/etMinPlayers" />
 
-        <Spinner
-            android:id="@+id/spSkillLevel"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="40dp"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toStartOf="@id/tvSkillLevel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"
- />
 
+<!--        <Spinner-->
+<!--            android:id="@+id/spSkillLevel"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginBottom="32dp"-->
+<!--            android:background="@android:drawable/btn_dropdown"-->
+<!--            android:spinnerMode="dropdown"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvSkillLevel" />-->
 
         <EditText
             android:id="@+id/etTeamRotation"
@@ -77,6 +79,7 @@
             android:hint="@string/rotation_rule"
             android:inputType="textMultiLine"
             android:layout_marginBottom="16dp"
+            android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/btCreateEvent"
             tools:layout_editor_absoluteX="36dp" />
 
@@ -86,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="@string/details_about_event"
+            android:textSize="25sp"
             android:inputType="textMultiLine"
             app:layout_constraintBottom_toTopOf="@id/etEventCode"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,6 +101,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/event_code"
             android:inputType="number"
+            android:textSize="25sp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@id/etTeamRotation"/>
 
@@ -106,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:text="@string/create_an_event"
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toTopOf="@+id/tvStartTime"
@@ -115,18 +120,16 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-
-        <TextView
-            android:id="@+id/tvSkillChangedText"
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/aa_skill_level_text"
-            android:textSize="25sp"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintStart_toEndOf="@+id/tvSkillLevel"
-            app:layout_constraintTop_toTopOf="@+id/tvSkillLevel"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toTopOf="@id/cbAllowPlusOnes"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSkillLevel"
             />
+
 <!--        TODO how to do that bunch up thing you told me about-->
         <TextView
             android:id="@+id/tvSkillLevel"
@@ -135,19 +138,18 @@
             android:layout_marginBottom="40dp"
             android:textSize="25sp"
             android:text="@string/select_skill_level"
-            app:layout_constraintTop_toTopOf="@id/spSkillLevel"
             app:layout_constraintBottom_toTopOf="@+id/cbAllowPlusOnes"
-            app:layout_constraintStart_toEndOf="@id/spSkillLevel"
-            app:layout_constraintEnd_toStartOf="@id/tvSkillChangedText"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/spinner"/>
 
         <Button
             android:id="@+id/btCreateEvent"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:text="@string/create_event"
+            app:cornerRadius="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <CheckBox
@@ -156,7 +158,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/quantum_grey"
             android:text="@string/allow_plus_ones"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:layout_marginBottom="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/cbAllowSpectators"
@@ -167,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/quantum_grey"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:text="@string/allow_spectators"
             app:layout_constraintStart_toEndOf="@id/cbAllowPlusOnes"
             app:layout_constraintEnd_toEndOf="parent"

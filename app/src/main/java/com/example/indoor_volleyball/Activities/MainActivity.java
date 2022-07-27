@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAGW = "Event Today";
     private static final String CHANNEL_ID = "Events";
     public static LocationManager locationManager;
+    //TODO Add a developer option for toast and query button.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

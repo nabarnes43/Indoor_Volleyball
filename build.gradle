@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'
+
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -14,7 +15,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    appCompatVersion = '1.0.0'
-    designSupportVersion = '1.0.0'
+    appCompatVersion = '1.4.2'
+    designSupportVersion = '1.6.1'
     recyclerViewVersion = '1.0.0'
 }

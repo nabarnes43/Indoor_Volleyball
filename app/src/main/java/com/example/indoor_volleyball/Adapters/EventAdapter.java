@@ -6,38 +6,29 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.indoor_volleyball.Activities.CreateEventActivity;
 import com.example.indoor_volleyball.Activities.Details.EventAttendingActivity;
-import com.example.indoor_volleyball.Activities.Details.EventCreatorDetailActivity;
-import com.example.indoor_volleyball.Activities.MainActivity;
 import com.example.indoor_volleyball.Models.Event;
-import com.example.indoor_volleyball.Models.Gym;
-
-
-import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ItemEventBinding;
-import com.example.indoor_volleyball.databinding.ItemGymBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private Context context;
     private List<Event> events;
+    private SimpleDateFormat dateFormat = CreateEventActivity.dateFormat;
 
     public EventAdapter(Context context, List<Event> events) {
         this.context = context;
@@ -93,13 +84,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         //TODO string resource and date formatter.
         //TODO why no gyms for other users: Need location to get gyms get it using zip
         public void bind(Event event) throws ParseException {
-            binding.tvDate.setText("Start time: " + event.getStartTime() + " End Time: " + event.getEndTime());
-            binding.tvMinMaxCount.setText(" Min: " + event.getMinCount() + " Max: " + event.getMaxCount());
-            binding.tvSkillLevelEvent.setText("Skill Level: " + event.getSkillLevel());
+            binding.tvDate.setText("start: " + dateFormat.format(event.getStartTime()) + " end: " + dateFormat.format(event.getEndTime()));
+            binding.tvMinMaxCount.setText("min: " + event.getMinCount() + " max: " + event.getMaxCount());
+            binding.tvSkillLevelEvent.setText("skill level: " + event.getSkillLevel());
+            binding.tvCreatorName.setText(event.getCreator().getUsername().toLowerCase());
             ParseUser creator = event.getCreator();
             ParseFile image = creator.getParseFile("profilePhoto");
             if (image != null) {
-                Glide.with(context).load(image.getUrl()).circleCrop().into(binding.ivEventCreatorProfile);
+                Glide.with(context).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop()), new RoundedCorners(30)).into(binding.ivEventCreatorProfile);
             }
         }
     }
@@ -124,7 +116,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public void goToEventDetailsCreating(Context context, Event event) {
         String eventId = event.getObjectId();
-        Intent i = EventCreatorDetailActivity.newIntent(context, eventId);
+        Intent i = CreateEventActivity.newIntentEvent(context, eventId);
         context.startActivity(i);
     }
 
