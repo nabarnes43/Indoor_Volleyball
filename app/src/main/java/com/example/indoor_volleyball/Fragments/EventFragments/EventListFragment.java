@@ -22,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -82,8 +83,10 @@ public abstract class EventListFragment extends Fragment {
     }
 
     private void queryUserEventsManaging() {
+        Date date = new Date();
         ParseQuery<Event> eventQuery = getEventQuery();
         eventQuery.orderByAscending("startTime");
+        eventQuery.whereGreaterThanOrEqualTo("startTime", date);
         eventQuery.include("creator");
         eventQuery.findInBackground(new FindCallback<Event>() {
             @Override

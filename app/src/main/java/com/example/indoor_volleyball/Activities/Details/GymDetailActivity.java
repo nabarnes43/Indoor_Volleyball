@@ -43,6 +43,7 @@ public class GymDetailActivity extends AppCompatActivity {
     private List<String> gymsFollowingIds;
     private Gym gym;
     private static final String GYM_ID_KEY = "gymId";
+    private Event nextEvent;
 
     public static Intent newIntent(Context context, String gymId) {
         Intent i = new Intent(context, GymDetailActivity.class);
@@ -65,22 +66,21 @@ public class GymDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "Gym Error", Toast.LENGTH_SHORT).show();
         }
         binding.rbGymRatingDetail.setRating(gym.getRating().floatValue());
-        Event event = null;
         try {
-            event = gym.getNextEvent();
+            nextEvent = gym.getNextEvent();
         } catch (ParseException e) {
             e.printStackTrace();
         }
         String eventDateText = "";
         String eventMinMaxCountText = "";
         String eventSkillLevel = "";
-        if (event != null) {
-            eventDateText = getString(R.string.event_get_start_time_text) + event.getStartTime() + " " + getString(R.string.event_get_end_time_text) + event.getEndTime();
-            eventMinMaxCountText = getString(R.string.event_item_min_text) + event.getMinCount() + getString(R.string.event_item_max_text) + event.getMaxCount();
-            eventSkillLevel = getString(R.string.event_get_skill_level_text) + event.getSkillLevel();
+        if (nextEvent != null) {
+            eventDateText = getString(R.string.event_get_start_time_text) + nextEvent.getStartTime() + " " + getString(R.string.event_get_end_time_text) + nextEvent.getEndTime();
+            eventMinMaxCountText = getString(R.string.event_item_min_text) + nextEvent.getMinCount() + getString(R.string.event_item_max_text) + nextEvent.getMaxCount();
+            eventSkillLevel = getString(R.string.event_get_skill_level_text) + nextEvent.getSkillLevel();
             ParseUser creator;
             try {
-                creator = findUsers(event.getCreator());
+                creator = findUsers(nextEvent.getCreator());
                 ParseFile image = creator.getParseFile("profilePhoto");
                 if (image != null) {
                     Glide.with(this).load(image.getUrl()).transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(30))).into(binding.itmEventItem.ivEventCreatorProfile);
@@ -88,7 +88,7 @@ public class GymDetailActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
             }
-            Event finalEvent = event;
+            Event finalEvent = nextEvent;
             binding.itmEventItem.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,7 +111,7 @@ public class GymDetailActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor(getString(R.string.action_bar_primary)));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
-        getSupportActionBar().setTitle(gym.getName());
+        getSupportActionBar().setTitle(gym.getName().toLowerCase());
         binding.itmEventItem.tvDate.setText(eventDateText);
         binding.itmEventItem.tvMinMaxCount.setText(eventMinMaxCountText);
         binding.itmEventItem.tvSkillLevelEvent.setText(eventSkillLevel);
@@ -132,11 +132,11 @@ public class GymDetailActivity extends AppCompatActivity {
 
         if (gymsFollowingIds.contains(gymId)) {
             containsEvent[0] = true;
-            binding.btFollowGym.setText(R.string.unfollow_event);
+            binding.btFollowGym.setText(R.string.unfollow_gym);
             binding.btFollowGym.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_do_not_disturb_24_white, 0, 0, 0);
         } else {
             containsEvent[0] = false;
-            binding.btFollowGym.setText(R.string.follow_event);
+            binding.btFollowGym.setText(R.string.follow_gym);
             binding.btFollowGym.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_add_24_white, 0, 0, 0);
         }
         binding.btFollowGym.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +190,10 @@ public class GymDetailActivity extends AppCompatActivity {
 
     private void queryGym(String gymId) throws ParseException {
         ParseQuery<Gym> gymQuery = ParseQuery.getQuery("Gym");
+        gymQuery.include("nextEvent");
         gymQuery.whereEqualTo("objectId", gymId);
         gym = gymQuery.getFirst();
+        nextEvent = gym.getNextEvent();
     }
 
     public ParseUser findUsers(ParseUser user) throws ParseException {

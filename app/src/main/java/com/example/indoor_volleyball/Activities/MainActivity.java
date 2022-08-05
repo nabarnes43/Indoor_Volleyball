@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setSelectedItemId(R.id.find);
         ParsePush.subscribeInBackground("Events");
         List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
-        Toast.makeText(this, "Subscribed to: " + subscribedChannels.get(0), Toast.LENGTH_SHORT).show();
     }
 
     private void createNotificationChannel() {

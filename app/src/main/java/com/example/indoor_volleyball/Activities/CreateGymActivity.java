@@ -68,7 +68,7 @@ public class CreateGymActivity extends AppCompatActivity {
             }
         });
     }
-    //TODO if they try to create the same gym take them to the create event of that gym page.
+    //TODO if they try to create the same gym take them to the create event of that gym page. Use google place Id to check
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,9 +168,13 @@ public class CreateGymActivity extends AppCompatActivity {
         //Converting LatLng to Geo Point.
         ParseGeoPoint gp = new ParseGeoPoint(((Objects.requireNonNull(place.getLatLng())).latitude), (place.getLatLng().longitude));
         gym.setLocation(gp);
-        gym.setPhoneNumber(place.getPhoneNumber());
+        if (place.getPhoneNumber() != null) {
+            gym.setPhoneNumber(place.getPhoneNumber());
+        }
         gym.setRating(place.getRating());
-        gym.setWebsiteUrl(Objects.requireNonNull(place.getWebsiteUri()).toString());
+        if (place.getWebsiteUri() != null) {
+            gym.setWebsiteUrl(Objects.requireNonNull(place.getWebsiteUri()).toString());
+        }
         //Converts Bitmap to file.
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);

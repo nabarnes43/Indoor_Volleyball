@@ -193,7 +193,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     });
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
-                Toast.makeText(this, "User current location: " + location, Toast.LENGTH_SHORT).show();
                 return location;
             }
         }

@@ -4,15 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.indoor_volleyball.databinding.ActivityLoginBinding;
 import com.parse.LogInCallback;
@@ -82,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login Failed.\n Try Again!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
                 goMainActivity();
             }
         });

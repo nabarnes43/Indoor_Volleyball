@@ -23,7 +23,6 @@ import com.example.indoor_volleyball.Models.Event;
 import com.example.indoor_volleyball.Models.Gym;
 import com.example.indoor_volleyball.R;
 import com.example.indoor_volleyball.databinding.ActivityCreateEventBinding;
-import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -46,7 +45,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private Date startTime;
     private Date endTime;
     private Gym thisGym;
-    private String skillLevel = "C";
+    private String skillLevel;
     private Boolean allowPlusOnes = false;
     private Boolean allowSpectators = false;
     private Calendar date;
@@ -167,7 +166,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 Event event = new Event();
                 if (thisGymId == null) {
                     event = thisEvent;
-                    skillLevel = thisEvent.getSkillLevel();
                     thisGym = thisEvent.getGym();
                 }
                 if (binding.tvStartTime.getText().toString().isEmpty()) {
@@ -205,11 +203,11 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setEndTime(endTime);
                 event.setMinCount(minPlayers);
                 event.setMaxCount(maxPlayers);
-                event.setSkillLevel(skillLevel);
                 event.setAllowPlusOnes(allowPlusOnes);
                 event.setAllowSpectators(allowSpectators);
                 event.setDetails(details);
                 event.setEventCode(eventCode);
+                event.setSkillLevel(skillLevel);
                 event.setWaitList(0);
                 event.setGym(thisGym);
                 event.setCreator(ParseUser.getCurrentUser());
@@ -229,14 +227,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             }
         });
-
         MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner);
-        spinner.setTextSize(20);
+        spinner.setTextSize(25);
         spinner.setItems(getResources().getStringArray(R.array.skill_choices));
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+                skillLevel = item;
             }
         });
     }
@@ -263,6 +260,7 @@ public class CreateEventActivity extends AppCompatActivity {
         binding.etTeamRotation.setHint(rotationText);
         binding.btCreateEvent.setText(R.string.save_changes_buttom);
         binding.spinner.setText(thisEvent.getSkillLevel());
+
     }
 
     public void setAllowPlusOnesSpectators() {
@@ -335,6 +333,7 @@ public class CreateEventActivity extends AppCompatActivity {
         eventParseQuery.getInBackground(eventId, (event, e) -> {
             if (e == null) {
                 thisEvent = event;
+                skillLevel = event.getSkillLevel();
                 setEventData();
                 Objects.requireNonNull(getSupportActionBar()).setTitle(thisEvent.getGym().getName());
             } else {
@@ -344,14 +343,14 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void queryNextEventAtGym(Gym gym) throws ParseException {
+        Date date = new Date();
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
-        //Todo need to delete old events and empty gyms
-        eventQuery.whereLessThan("startTime", Calendar.getInstance().getTime());
-        eventQuery.whereGreaterThanOrEqualTo("startTime", startTime);
         eventQuery.orderByAscending("startTime");
+        eventQuery.whereGreaterThanOrEqualTo("startTime", date);
         Event nextEvent = eventQuery.getFirst();
-        Toast.makeText(this, "next event details " + nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
+        //TODO bugg testing.
+        //Toast.makeText(this, "next event details " + nextEvent.getDetails(), Toast.LENGTH_SHORT).show();
         thisGym.setNextEvent(nextEvent);
         thisGym.save();
     }

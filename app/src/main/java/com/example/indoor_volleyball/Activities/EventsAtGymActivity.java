@@ -25,6 +25,7 @@ import com.parse.ParseQuery;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,8 +85,10 @@ public class EventsAtGymActivity extends AppCompatActivity {
 
     //Get a list of all the events at the given gym sorted by Date Descending.
     private void queryEventsAtGym(Gym gym) {
+        Date date = new Date();
         ParseQuery<Event> eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("gym", gym);
+        eventQuery.whereGreaterThanOrEqualTo("startTime", date);
         eventQuery.orderByAscending("startTime");
         eventQuery.include("creator");
         eventQuery.findInBackground(new FindCallback<Event>() {
